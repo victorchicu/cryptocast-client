@@ -72,7 +72,8 @@
         "serve": {
           "options": {
             "host": "0.0.0.0",
-            "port": 8080
+            "port": 8080,
+            "disableHostCheck": true
           },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
