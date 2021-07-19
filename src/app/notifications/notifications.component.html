@@ -1,0 +1,7 @@
+<div id="notifications">
+  <button class="btn btn-primary" (click)="onClick()">Send notification</button>
+  <h2>Notification list</h2>
+  <ol>
+    <li class="notification" *ngFor="let notification of notifications"></li>
+  </ol>
+</div>
