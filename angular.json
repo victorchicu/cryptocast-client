@@ -34,6 +34,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.scss"
             ],
             "scripts": [],
@@ -74,9 +75,7 @@
         },
         "serve": {
           "options": {
-            "host": "0.0.0.0",
-            "port": 8080,
-            "disableHostCheck": true
+            "proxyConfig": "proxy.json"
           },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
@@ -108,6 +107,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.scss"
             ],
             "scripts": []

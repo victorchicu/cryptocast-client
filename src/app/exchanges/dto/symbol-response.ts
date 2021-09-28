@@ -1,3 +1,6 @@
 export interface SymbolResponse {
-  name: string
+  idx: number,
+  name: string,
+  alias: string
+  price: bigint
 }

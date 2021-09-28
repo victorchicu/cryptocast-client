@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+}
+
+.mat-column-idx {
+  width: 10% !important;
+}
+
+.mat-column-name {
+  width: 20% !important;
+}
+
+.mat-column-price {
+  width: 70% !important;
+}
+
+.idx-logo {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.unselectable {
+  user-drag: none;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+}
