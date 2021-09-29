@@ -1,18 +1,18 @@
-export class Symbol {
-  private readonly _idx;
+export class Coin {
+  private readonly _icon;
   private readonly _name;
   private readonly _alias;
   private readonly _price;
 
-  constructor(idx: number, name: string, alias: string, price: bigint) {
-    this._idx = idx;
+  constructor(icon: number, name: string, alias: string, price: bigint) {
+    this._icon = icon;
     this._name = name;
     this._alias = alias;
     this._price = price;
   }
 
-  get idx() {
-    return this._idx;
+  get icon() {
+    return this._icon;
   }
 
   get name() {

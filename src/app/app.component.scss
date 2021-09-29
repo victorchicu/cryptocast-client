@@ -2,19 +2,32 @@ table {
   width: 100%;
 }
 
-.mat-column-idx {
-  width: 10% !important;
+.mr_px-12 {
+  margin-right: 12px
 }
 
-.mat-column-name {
-  width: 20% !important;
+.mat-column-watchlist {
+  width: 5% !important;
+}
+
+.mat-column-fullName {
+  width: 30% !important;
 }
 
 .mat-column-price {
-  width: 70% !important;
+  width: 65% !important;
 }
 
-.idx-logo {
+.mat-icon-24px {
+  width: 24px;
+  height: 24px;
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.coin-icon {
   width: 24px;
   height: 24px;
   border-radius: 12px;

@@ -2,28 +2,28 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
-import {SymbolResponse} from "./dto/symbol-response";
+import {CoinDto} from "./dto/coin-dto";
 import {Page} from "../utils/page";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ExchangeService {
-  readonly API_STOCK_EXCHANGES_PATH: string = "/api/exchanges"
+export class CoinMarketService {
+  readonly API_MARKETS_PATH: string = "/api/markets"
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
   constructor(private httpClient: HttpClient) {
-    httpClient.options(this.API_STOCK_EXCHANGES_PATH, this.httpOptions)
+    httpClient.options(this.API_MARKETS_PATH, this.httpOptions)
   }
 
-  public listSupportedSymbols(params: HttpParams): Observable<Page<SymbolResponse[]>> {
+  public listSupportedCoins(params: HttpParams): Observable<Page<CoinDto[]>> {
     const options = {params: params};
-    return this.httpClient.get<Page<SymbolResponse[]>>(this.API_STOCK_EXCHANGES_PATH, options)
+    return this.httpClient.get<Page<CoinDto[]>>(this.API_MARKETS_PATH, options)
       .pipe(
-        catchError(this.handleError<Page<SymbolResponse[]>>('listSupportedSymbols'))
+        catchError(this.handleError<Page<CoinDto[]>>('listSupportedCoins'))
       )
   }
 
@@ -33,4 +33,5 @@ export class ExchangeService {
       return of(result as T);
     };
   }
+
 }

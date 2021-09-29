@@ -1,36 +1,36 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {SubscriptionResponse} from "./dto/subscription-response";
+import {WatchlistDto} from "./dto/watchlist-dto";
 import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
-export class SubscriptionService {
-  readonly API_SUBSCRIPTION_PATH: string = "/api/subscriptions"
+export class WatchlistService {
+  readonly API_WATCHLIST_PATH: string = "/api/watchlist"
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
   constructor(private httpClient: HttpClient) {
-    httpClient.options(this.API_SUBSCRIPTION_PATH, this.httpOptions)
+    httpClient.options(this.API_WATCHLIST_PATH, this.httpOptions)
   }
 
-  public subscribe(symbolName: string): Observable<SubscriptionResponse> {
-    const url: string = `${this.API_SUBSCRIPTION_PATH}/${symbolName}/subscribe`;
-    return this.httpClient.post<SubscriptionResponse>(url, {}, this.httpOptions)
+  public addToWatchlist(coinName: string): Observable<WatchlistDto> {
+    const url: string = `${this.API_WATCHLIST_PATH}/${coinName}/add`;
+    return this.httpClient.put<WatchlistDto>(url, {}, this.httpOptions)
       .pipe(
-        catchError(this.handleError<SubscriptionResponse>('subscribe'))
+        catchError(this.handleError<WatchlistDto>('add'))
       )
   }
 
-  public unsubscribe(symbolName: string): Observable<SubscriptionResponse> {
-    const url: string = `${this.API_SUBSCRIPTION_PATH}/${symbolName}/unsubscribe`;
-    return this.httpClient.delete<SubscriptionResponse>(url, this.httpOptions)
+  public removeFromWatchlist(symbolName: string): Observable<WatchlistDto> {
+    const url: string = `${this.API_WATCHLIST_PATH}/${symbolName}/remove`;
+    return this.httpClient.delete<WatchlistDto>(url, this.httpOptions)
       .pipe(
-        catchError(this.handleError<SubscriptionResponse>('unsubscribe'))
+        catchError(this.handleError<WatchlistDto>('remove'))
       )
   }
 
