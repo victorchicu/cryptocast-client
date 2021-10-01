@@ -15,6 +15,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCardModule} from "@angular/material/card";
+import { NumberFormatPipe } from './pipes/numbers/number-format.pipe';
 
 const routes: Routes = [
   // {path: 'home', component: FeedComponent},
@@ -23,7 +26,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    NumberFormatPipe
   ],
   imports: [
     FormsModule,
@@ -37,7 +41,9 @@ const routes: Routes = [
     MatTableModule,
     MatButtonModule,
     MatPaginatorModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatGridListModule,
+    MatCardModule
   ],
   providers: [
     {

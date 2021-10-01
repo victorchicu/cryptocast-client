@@ -8,20 +8,20 @@ import {Page} from "../utils/page";
 @Injectable({
   providedIn: 'root'
 })
-export class CoinMarketService {
-  readonly API_MARKETS_PATH: string = "/api/markets"
+export class CoinAggregatorService {
+  readonly API_AGGREGATOR_PATH: string = "/api/aggregator"
 
   httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})
   };
 
   constructor(private httpClient: HttpClient) {
-    httpClient.options(this.API_MARKETS_PATH, this.httpOptions)
+    httpClient.options(this.API_AGGREGATOR_PATH, this.httpOptions)
   }
 
   public listSupportedCoins(params: HttpParams): Observable<Page<CoinDto[]>> {
     const options = {params: params};
-    return this.httpClient.get<Page<CoinDto[]>>(this.API_MARKETS_PATH, options)
+    return this.httpClient.get<Page<CoinDto[]>>(this.API_AGGREGATOR_PATH, options)
       .pipe(
         catchError(this.handleError<Page<CoinDto[]>>('listSupportedCoins'))
       )

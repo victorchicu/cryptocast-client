@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {CoinMarketService} from "./markets/coin-market.service";
+import {CoinAggregatorService} from "./aggregators/coin-aggregator.service";
 import {Page} from "./utils/page";
-import {CoinDto} from "./markets/dto/coin-dto";
-import {Coin} from "./markets/models/coin";
+import {CoinDto} from "./aggregators/dto/coin-dto";
+import {Coin} from "./aggregators/models/coin";
 import {PageEvent} from "@angular/material/paginator";
 import {HttpParams} from "@angular/common/http";
 import {DomSanitizer} from "@angular/platform-browser";
@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
     private readonly domSanitizer: DomSanitizer,
     private readonly iconRegistry: MatIconRegistry,
     private readonly watchlistService: WatchlistService,
-    private readonly coinMarketService: CoinMarketService
+    private readonly coinMarketService: CoinAggregatorService
   ) {
     const icons = [
       ["star_outline", "/assets/star_outline_black_24dp.svg"],
@@ -79,5 +79,9 @@ export class AppComponent implements OnInit {
   toggleWatchlist(coinName: string) {
     console.log(coinName)
     // this.watchlistService.addToWatchlist(symbolName);
+  }
+
+  pageChanged($event: any) {
+
   }
 }
