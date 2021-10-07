@@ -1,4 +1,4 @@
-export class Coin {
+export class Symbol {
   private readonly _icon;
   private readonly _name;
   private readonly _alias;

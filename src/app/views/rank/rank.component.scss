@@ -1,0 +1,45 @@
+table {
+  width: 100%;
+}
+
+.mr_px-12 {
+  margin-right: 12px
+}
+
+.my-card {
+  width: 100%;
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-bottom: 0px;
+}
+
+.mat-column-watchlist {
+  width: 5% !important;
+}
+
+.mat-column-fullName {
+  width: 30% !important;
+}
+
+.mat-column-price {
+  width: 65% !important;
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 0px;
+}
+
+.coin-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.unselectable {
+  user-drag: none;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+}

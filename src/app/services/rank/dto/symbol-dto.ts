@@ -1,4 +1,4 @@
-export interface CoinDto {
+export interface SymbolDto {
   icon: number;
   name: string;
   alias: string;
