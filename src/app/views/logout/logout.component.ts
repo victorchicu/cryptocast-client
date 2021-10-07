@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../../services/auth/auth.service";
 import {Router} from "@angular/router";
+import {LogoutService} from "../../services/logout/logout-service";
+import {GlobalEnv} from "../../utils/global-env";
 
 @Component({
   selector: 'app-logout',
@@ -9,10 +10,11 @@ import {Router} from "@angular/router";
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private readonly router: Router, private readonly authService: AuthService) { }
+  constructor(private readonly router: Router, private readonly logoutService: LogoutService) { }
 
   ngOnInit(): void {
-    this.authService.logout();
+    this.logoutService.logout();
+    localStorage.removeItem(GlobalEnv.ACCESS_TOKEN);
     this.router.navigateByUrl("/");
   }
 
