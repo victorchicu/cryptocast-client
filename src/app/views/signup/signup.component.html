@@ -4,7 +4,7 @@
     <h3>Gain access to additional features such as tracking, predictions.</h3>
   </mat-card-header>
   <mat-card-content class="mat-typography">
-    <form [formGroup]="signupFormGroup" (ngSubmit)="signup()" fxLayout="column">
+    <form [formGroup]="signupForm" (ngSubmit)="signup()" fxLayout="column">
       <mat-form-field appearance="standard">
         <mat-label>Enter your email</mat-label>
         <input matInput
@@ -12,8 +12,7 @@
                placeholder="email@example.com"
                formControlName="email"
                required>
-        <mat-error *ngIf="signupFormGroup.hasError('required')">
-          Email field is empty
+        <mat-error *ngIf="form.email.errors?.required" style="font-size: small">
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="standard">
@@ -23,19 +22,19 @@
                autocomplete="new-password"
                formControlName="password"
                required>
-        <button matSuffix
+        <button type="button"
+                matSuffix
                 mat-icon-button
                 (click)="hidden = !hidden"
                 [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hidden">
           <mat-icon>{{hidden ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error *ngIf="signupFormGroup.hasError('required')">
-          Password field is empty
+        <mat-error *ngIf="form.password.errors?.required" style="font-size: small">
         </mat-error>
-        <mat-error *ngIf="signupFormGroup.hasError('minLength')">
+        <mat-error *ngIf="form.password.errors?.minlength" style="font-size: small">
           Password should be more than 8 characters
-        </mat-error>
+        </mat-error>`
       </mat-form-field>
       <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
         <button type="submit"

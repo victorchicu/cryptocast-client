@@ -1,7 +1,9 @@
-import {catchError} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 import {Injectable} from "@angular/core";
 import {BaseService} from "../base-service";
 import {HttpClient} from "@angular/common/http";
+import {AccessTokenResponseDto} from "../login/dto/access-token-response-dto";
+import {Globals} from "../../shared/globals";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,9 @@ export class LogoutService extends BaseService {
   public logout() {
     return this.httpClient.get<any>(LogoutService.API_PATH, this.httpOptions)
       .pipe(
+        tap(() => {
+          localStorage.removeItem(Globals.ACCESS_TOKEN);
+        }),
         catchError(super.handleError<any>('logout'))
       )
   }

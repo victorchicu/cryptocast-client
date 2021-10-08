@@ -3,33 +3,34 @@
     <a [routerLink]="['/']">
       <button mat-flat-button aria-label="Home">
         <mat-icon style="margin-right: 4px">smart_toy_black</mat-icon>
-        <span style="position: relative; top: 0.1rem">TRADING BOT</span>
+        <span style="position: relative; top: 0.1rem">HOME</span>
       </button>
     </a>
     <span style="flex: 1 1 auto"></span>
-    <ng-template [ngIf]="!isLoggedIn" [ngIfElse]="loggedOut">
+    <ng-template [ngIf]="!isLoggedIn()" [ngIfElse]="loggedOut">
       <div style="margin-left: 8px">
-        <button [routerLink]="['/auth']"
-                mat-button class="example-icon favorite-icon"
-                aria-label="Log in">
+        <button class="example-icon favorite-icon"
+                aria-label="Log in"
+                mat-button
+                [routerLink]="['/login']">
           Log In
         </button>
       </div>
       <div style="margin-left: 8px">
-        <button [routerLink]="['/signup']"
-                mat-raised-button
-                color="primary"
+        <button color="primary"
                 class="example-icon"
-                aria-label="Create an account">
+                aria-label="Create an account"
+                [routerLink]="['/signup']"
+                mat-raised-button>
           Sign Up
         </button>
       </div>
     </ng-template>
     <ng-template #loggedOut>
       <div style="margin-left: 8px">
-        <button [routerLink]="['/logout']"
-                mat-button class="example-icon favorite-icon"
-                aria-label="Log Out">
+        <button aria-label="Log Out"
+                [routerLink]="['/logout']"
+                mat-button class="example-icon favorite-icon">
           Log Out
         </button>
       </div>

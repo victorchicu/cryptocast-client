@@ -3,36 +3,36 @@
     <h2 mat-dialog-title><b>Log In</b></h2>
   </mat-card-header>
   <mat-card-content class="mat-typography">
-    <form [formGroup]="authFormGroup" (ngSubmit)="auth()" fxLayout="column">
+    <form [formGroup]="loginForm" (ngSubmit)="login()" fxLayout="column" appAutocomplete>
       <mat-form-field appearance="standard">
         <mat-label>Enter your email</mat-label>
-        <input matInput
-               autocomplete="off"
+        <input type="text"
+               matInput
                placeholder="email@example.com"
                formControlName="email"
                required>
-        <mat-error *ngIf="authFormGroup.hasError('required')">
-          Email field is empty
+        <mat-error *ngIf="form.email.errors?.required" style="font-size: small">
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-label>Enter your password</mat-label>
         <input [type]="hidden ? 'password' : 'text'"
                matInput
-               autocomplete="new-password"
+               minlength=8
+               maxlength=128
                formControlName="password"
                required>
-        <button matSuffix
+        <button type="button"
+                matSuffix
                 mat-icon-button
-                (click)="hidden = !hidden"
+                (click)="hide($event)"
                 [attr.aria-label]="'Hide password'"
                 [attr.aria-pressed]="hidden">
           <mat-icon>{{hidden ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-error *ngIf="authFormGroup.hasError('required')">
-          Password field is empty
+        <mat-error *ngIf="form.password.errors?.required" style="font-size: small">
         </mat-error>
-        <mat-error *ngIf="authFormGroup.hasError('minLength')">
+        <mat-error *ngIf="form.password.errors?.minlength" style="font-size: small">
           Password should be more than 8 characters
         </mat-error>
       </mat-form-field>

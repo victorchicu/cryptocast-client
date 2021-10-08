@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {SymbolDto} from "./dto/symbol-dto";
-import {Page} from "../../utils/paging/page";
+import {Page} from "../../shared/paging/page";
 import {BaseService} from "../base-service";
 
 @Injectable({

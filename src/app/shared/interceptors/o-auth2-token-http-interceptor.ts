@@ -1,22 +1,25 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {GlobalEnv} from "../utils/global-env";
+import {Globals} from "../globals";
+import {Injectable} from "@angular/core";
 
+@Injectable()
 export class OAuth2TokenHttpInterceptor implements HttpInterceptor {
-  private readonly accessToken: string | null;
 
   constructor() {
-    this.accessToken = localStorage.getItem(GlobalEnv.ACCESS_TOKEN);
+    //
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.accessToken) {
+    const accessToken = localStorage.getItem(Globals.ACCESS_TOKEN);
+    if (accessToken) {
       req = req.clone({
         setHeaders: {
-          Authorization: `Bearer ${this.accessToken}`
+          Authorization: `Bearer ${accessToken}`
         }
       });
     }
     return next.handle(req);
   }
+
 }

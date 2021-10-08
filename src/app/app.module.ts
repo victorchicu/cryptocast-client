@@ -17,33 +17,54 @@ import {MatButtonModule} from "@angular/material/button";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
-import { NumberFormatPipe } from './utils/pipes/numbers/number-format.pipe';
+import { NumberFormatPipe } from './shared/pipes/number-format.pipe';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import { RankComponent } from './views/rank/rank.component';
-import { AuthComponent } from './views/auth/auth.component';
+import { LoginComponent } from './views/login/login.component';
 import { SignupComponent } from './views/signup/signup.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {OAuth2TokenHttpInterceptor} from "./interceptors/o-auth2-token-http-interceptor";
+import {OAuth2TokenHttpInterceptor} from "./shared/interceptors/o-auth2-token-http-interceptor";
 import { LogoutComponent } from './views/logout/logout.component';
+import { NotFoundComponent } from './views/not-found/not-found.component';
+import { AutocompleteDirective } from './shared/directives/autocomplete.directive';
 
 const routes: Routes = [
-  {path: '', component: RankComponent},
-  {path: 'auth', component: AuthComponent},
-  {path: 'signup', component: SignupComponent},
-  {path: 'logout', component: LogoutComponent}
+  {
+    path: '',
+    component: RankComponent,
+    // canActivate: [AuthGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
+  },
+  {
+    path: 'logout',
+    component: LogoutComponent
+  },
+  {
+    path: '**',
+    component: NotFoundComponent
+  },
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    AuthComponent,
+    LoginComponent,
     SignupComponent,
     NumberFormatPipe,
     RankComponent,
     NotificationsComponent,
     LogoutComponent,
+    NotFoundComponent,
+    AutocompleteDirective,
   ],
   imports: [
     FormsModule,
