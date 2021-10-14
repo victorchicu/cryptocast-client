@@ -47,13 +47,9 @@ export class LoginComponent implements OnInit {
     )
     this.loginService.login(authRequestDto)
       .subscribe((accessTokenResponseDto) => {
-        console.log("On subscribe");
-        console.log(accessTokenResponseDto)
-        // this.router.navigateByUrl("/");
+        this.router.navigateByUrl("/");
         this.loading = false;
       }, (error) => {
-        console.log("On error");
-        console.log(error);
         this.loading = false;
       });
   }

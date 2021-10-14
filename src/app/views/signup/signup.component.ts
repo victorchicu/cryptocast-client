@@ -20,12 +20,18 @@ export class SignupComponent implements OnInit {
     private readonly formBuilder: FormBuilder,
     private readonly signupService: SignupService
   ) {
-    this.signupForm =  this.formBuilder.group({
+    this.signupForm = this.formBuilder.group({
       email: new FormControl(
         null, [Validators.required, Validators.email]
       ),
       password: new FormControl(
         null, [Validators.minLength(8), Validators.maxLength(128)]
+      ),
+      apiKey: new FormControl(
+        null, [Validators.required]
+      ),
+      secretKey: new FormControl(
+        null, [Validators.required]
       )
     })
   }
@@ -38,7 +44,9 @@ export class SignupComponent implements OnInit {
     this.loading = true;
     let signupRequestDto: SignupRequestDto = new SignupRequestDto(
       this.signupForm.value.email,
-      this.signupForm.value.password
+      this.signupForm.value.password,
+      this.signupForm.value.apiKey,
+      this.signupForm.value.secretKey
     )
     this.signupService.signup(signupRequestDto)
       .subscribe((dto) => {
