@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {WatchlistDto} from "./dto/watchlist-dto";
+import {SubscriptionDto} from "./dto/subscription-dto";
 import {catchError} from "rxjs/operators";
 import {BaseService} from "../base-service";
 
@@ -15,19 +15,20 @@ export class WatchlistService extends BaseService {
     super(WatchlistService.API_WATCHLIST_PATH, httpClient);
   }
 
-  public addToWatchlist(symbolName: string): Observable<WatchlistDto> {
-    const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${symbolName}/add`;
-    return this.httpClient.put<WatchlistDto>(url, {}, this.httpOptions)
+  public addSubscription(assetName: string): Observable<SubscriptionDto> {
+    const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${assetName}/add`;
+    console.log(url)
+    return this.httpClient.post<SubscriptionDto>(url, {}, this.httpOptions)
       .pipe(
-        catchError(this.handleError<WatchlistDto>('addToWatchlist'))
+        catchError(this.handleError<SubscriptionDto>('addSubscription'))
       )
   }
 
-  public removeFromWatchlist(symbolName: string): Observable<WatchlistDto> {
-    const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${symbolName}/remove`;
-    return this.httpClient.delete<WatchlistDto>(url, this.httpOptions)
+  public removeSubscription(assetName: string): Observable<SubscriptionDto> {
+    const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${assetName}/remove`;
+    return this.httpClient.delete<SubscriptionDto>(url, this.httpOptions)
       .pipe(
-        catchError(super.handleError<WatchlistDto>('removeFromWatchlist'))
+        catchError(super.handleError<SubscriptionDto>('removeSubscription'))
       )
   }
 }

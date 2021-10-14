@@ -52,8 +52,9 @@ export class WalletComponent implements OnInit {
     window.scroll(0, 0)
   }
 
-  addToWatchlist(coin: string) {
-    this.watchlistService.addToWatchlist(coin);
+  addSubscription(assetName: string) {
+    console.log(assetName);
+    this.watchlistService.addSubscription(assetName);
   }
 
   private toAsset(response: AssetDto): Asset {
