@@ -3,4 +3,5 @@ export interface AssetDto {
   coin: string;
   name: string;
   balance: bigint;
+  flagged: boolean;
 }

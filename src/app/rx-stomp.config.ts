@@ -13,7 +13,7 @@ export const rxStompConfig: InjectableRxStompConfig = {
   },
 
   webSocketFactory: function () {
-    return new SockJS("http://localhost:8081/websocket");
+    return new SockJS("http://localhost:8080/websocket");
   },
 
   // How often to heartbeat?

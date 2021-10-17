@@ -109,8 +109,9 @@ const routes: Routes = [
 export class AppModule {
   constructor(private readonly domSanitizer: DomSanitizer, private readonly iconRegistry: MatIconRegistry,) {
     const icons = [
+      ["star", "/assets/star_black_24dp.svg"],
       ["star_outline", "/assets/star_outline_black_24dp.svg"],
-      ["smart_toy_black", "/assets/smart_toy_black_24dp.svg"]
+      ["icons8-bitcoin", "/assets/icons8-bitcoin.svg"],
     ];
     icons.forEach((entry: string[]) => {
       this.iconRegistry.addSvgIcon(

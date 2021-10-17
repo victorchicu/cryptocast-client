@@ -17,7 +17,6 @@ export class WatchlistService extends BaseService {
 
   public addSubscription(assetName: string): Observable<SubscriptionDto> {
     const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${assetName}/add`;
-    console.log(url)
     return this.httpClient.post<SubscriptionDto>(url, {}, this.httpOptions)
       .pipe(
         catchError(this.handleError<SubscriptionDto>('addSubscription'))

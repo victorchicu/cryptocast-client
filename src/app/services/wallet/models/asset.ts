@@ -1,29 +1,47 @@
 export class Asset {
-  private readonly _icon;
-  private readonly _coin;
-  private readonly _name;
-  private readonly _balance;
+  private _icon: number;
+  private _coin: string;
+  private _name: string;
+  private _balance: bigint;
+  private _flagged: boolean;
 
-  constructor(icon: number, coin: string, name: string, balance: bigint) {
-    this._icon = icon;
-    this._coin = coin;
-    this._name = name;
-    this._balance = balance;
-  }
-
-  get icon() {
+  get icon(): number {
     return this._icon;
   }
 
-  get coin() {
+  set icon(value: number) {
+    this._icon = value;
+  }
+
+  get coin(): string {
     return this._coin;
   }
 
-  get name() {
+  set coin(value: string) {
+    this._coin = value;
+  }
+
+  get name(): string {
     return this._name;
   }
 
-  get balance() {
+  set name(value: string) {
+    this._name = value;
+  }
+
+  get balance(): bigint {
     return this._balance;
+  }
+
+  set balance(value: bigint) {
+    this._balance = value;
+  }
+
+  get flagged(): boolean {
+    return this._flagged;
+  }
+
+  set flagged(value: boolean) {
+    this._flagged = value;
   }
 }
