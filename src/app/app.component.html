@@ -1,9 +1,9 @@
 <div>
-  <mat-toolbar class="mat-elevation-z1" style="margin-bottom: 8px; background-color: white;">
+  <mat-toolbar class="mat-elevation-z2" style="margin-bottom: 8px; background-color: white;">
     <a [routerLink]="['/']">
       <button mat-flat-button aria-label="Home">
         <mat-icon style="width: 48px; height: 48px;" svgIcon="icons8-bitcoin"></mat-icon>
-        <span style="position: relative; top: 0.1rem"> TRADER</span>
+        <span style="position: relative; top: 0.1rem">INANCE TRADER</span>
       </button>
     </a>
     <span style="flex: 1 1 auto"></span>
@@ -13,7 +13,7 @@
                 aria-label="Log in"
                 mat-button
                 [routerLink]="['/login']">
-          Log In
+          LOG IN
         </button>
       </div>
       <div style="margin-left: 8px">
@@ -22,16 +22,16 @@
                 aria-label="Create an account"
                 [routerLink]="['/signup']"
                 mat-raised-button>
-          Sign Up
+          SIGN UP
         </button>
       </div>
     </ng-template>
     <ng-template #loggedOut>
-      <div style="margin-left: 8px">
+      <div>
         <button aria-label="Log Out"
                 [routerLink]="['/logout']"
                 mat-button class="example-icon favorite-icon">
-          Log Out
+          LOG OUT
         </button>
       </div>
     </ng-template>

@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from "@stomp/ng2-stompjs";
 import {rxStompConfig} from "./rx-stomp.config";
-import {NotificationsComponent} from './views/notifications/notifications.component';
+import {NotificationsComponent} from './components/notifications/notifications.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
 import {RouterModule, Routes} from "@angular/router";
@@ -19,16 +19,17 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import { NumberFormatPipe } from './shared/pipes/number-format.pipe';
 import {MatToolbarModule} from "@angular/material/toolbar";
-import { WalletComponent } from './views/wallet/wallet.component';
-import { LoginComponent } from './views/login/login.component';
-import { SignupComponent } from './views/signup/signup.component';
+import { WalletComponent } from './components/wallet/wallet.component';
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {OAuth2TokenHttpInterceptor} from "./shared/interceptors/o-auth2-token-http-interceptor";
-import { LogoutComponent } from './views/logout/logout.component';
-import { NotFoundComponent } from './views/not-found/not-found.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AutocompleteDirective } from './shared/directives/autocomplete.directive';
+import {MatDividerModule} from "@angular/material/divider";
 
 const routes: Routes = [
   {
@@ -66,27 +67,28 @@ const routes: Routes = [
     NotFoundComponent,
     AutocompleteDirective,
   ],
-  imports: [
-    FormsModule,
-    RouterModule.forRoot(routes),
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MatIconModule,
-    MatTableModule,
-    MatButtonModule,
-    MatPaginatorModule,
-    FlexLayoutModule,
-    MatGridListModule,
-    MatCardModule,
-    MatToolbarModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule
-  ],
+    imports: [
+        FormsModule,
+        RouterModule.forRoot(routes),
+        CommonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        MatIconModule,
+        MatTableModule,
+        MatButtonModule,
+        MatPaginatorModule,
+        FlexLayoutModule,
+        MatGridListModule,
+        MatCardModule,
+        MatToolbarModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatDividerModule
+    ],
   providers: [
     {
       multi: true,

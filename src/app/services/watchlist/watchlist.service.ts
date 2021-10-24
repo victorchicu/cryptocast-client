@@ -4,6 +4,8 @@ import {Observable, of} from "rxjs";
 import {SubscriptionDto} from "./dto/subscription-dto";
 import {catchError} from "rxjs/operators";
 import {BaseService} from "../base-service";
+import {Asset} from "../wallet/models/asset";
+import {AssetDto} from "../wallet/dto/asset-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +17,15 @@ export class WatchlistService extends BaseService {
     super(WatchlistService.API_WATCHLIST_PATH, httpClient);
   }
 
-  public addSubscription(assetName: string): Observable<SubscriptionDto> {
-    const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${assetName}/add`;
-    return this.httpClient.post<SubscriptionDto>(url, {}, this.httpOptions)
+  public addSubscription(asset: Asset): Observable<SubscriptionDto> {
+    const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${asset.coin}/add`;
+    return this.httpClient.post<SubscriptionDto>(
+      url,
+      {
+        balance: asset.balance
+      },
+      this.httpOptions
+    )
       .pipe(
         catchError(this.handleError<SubscriptionDto>('addSubscription'))
       )

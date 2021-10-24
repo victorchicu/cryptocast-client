@@ -2,10 +2,6 @@ table {
   width: 100%;
 }
 
-.mr_px-12 {
-  margin-right: 12px
-}
-
 .my-card {
   width: 100%;
   margin-left: 8px;
@@ -13,26 +9,29 @@ table {
   margin-bottom: 0px;
 }
 
-.mat-column-watchlist {
-  width: 5% !important;
-}
+//.mat-column-watchlist {
+//  width: 5% !important;
+//}
+//
+//.mat-column-coin {
+//  width: 15% !important;
+//}
+//
+//.mat-column-spot-balance {
+//  width: 80% !important;
+//}
 
-.mat-column-coin {
-  width: 30% !important;
-}
-
-.mat-column-balance {
-  width: 65% !important;
-}
+//.mat-column-fiat-balance {
+//  width: 65% !important;
+//}
 
 th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
   padding-left: 0px;
 }
 
-.coin-icon {
+.icon24 {
   width: 24px;
   height: 24px;
-  border-radius: 12px;
 }
 
 .unselectable {

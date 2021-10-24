@@ -14,7 +14,6 @@ import {Message} from "@stomp/stompjs";
   styleUrls: ['./wallet.component.scss']
 })
 export class WalletComponent implements OnInit {
-  columns: string[] = ['watchlist', 'coin', 'balance'];
   assets: Asset[] = [];
   loading: boolean;
 
@@ -24,6 +23,27 @@ export class WalletComponent implements OnInit {
     private readonly watchlistService: WatchlistService
   ) {
     //
+  }
+
+  private static toAsset(source: AssetDto): Asset {
+    let asset: Asset = new Asset();
+    asset.icon = source.icon;
+    asset.coin = source.coin;
+    asset.name = source.name;
+    asset.flagged = source.flagged;
+    asset.balance = source.balance;
+    asset.lowPrice = source.lowPrice;
+    asset.highPrice = source.highPrice;
+    asset.openPrice = source.openPrice;
+    asset.averagePrice = source.averagePrice;
+    return asset;
+  }
+
+  private static updateAsset(source: AssetDto, target: Asset) {
+    target.openPrice = source.openPrice;
+    target.highPrice = source.highPrice;
+    target.lowPrice = source.lowPrice;
+    target.averagePrice = source.averagePrice;
   }
 
   ngOnInit(): void {
@@ -37,16 +57,11 @@ export class WalletComponent implements OnInit {
     this.loading = true;
     this.walletService.listAssets(httpParams)
       .subscribe((assets: AssetDto[]) => {
+        console.log(assets);
         this.assets = assets!.map(WalletComponent.toAsset)
-        assets.forEach((assetDto: AssetDto) => {
-          if (assetDto.flagged) {
-            const topic = `/topic/${assetDto.coin}USDT-ticker`;
-            console.log(`Subscribe to: ${topic}`)
-            this.rxStompService
-              .watch(topic)
-              .subscribe((message: Message) => {
-                console.log(message);
-              })
+        this.assets.forEach((asset: Asset) => {
+          if (asset.flagged) {
+            this.registerTickerEvent(asset);
           }
         });
         this.loading = false;
@@ -56,28 +71,22 @@ export class WalletComponent implements OnInit {
   }
 
   addSubscription(asset: Asset) {
-    this.watchlistService.addSubscription(asset.coin)
+    this.watchlistService.addSubscription(asset)
       .subscribe((subscription: SubscriptionDto) => {
         asset.flagged = !asset.flagged;
         if (asset.flagged) {
-          const topic = `/topic/${asset.coin}USDT-ticker`;
-          console.log(`Subscribe to: ${topic}`)
-          this.rxStompService
-            .watch(topic)
-            .subscribe((message: Message) => {
-              console.log(message);
-            })
+          this.registerTickerEvent(asset);
         }
       });
   }
 
-  private static toAsset(source: AssetDto): Asset {
-    let asset: Asset = new Asset();
-    asset.icon = source.icon;
-    asset.coin = source.coin;
-    asset.name = source.name;
-    asset.balance = source.balance;
-    asset.flagged = source.flagged;
-    return asset;
+  private registerTickerEvent(asset: Asset) {
+    const topic = `/topic/${asset.coin}-ticker`;
+    this.rxStompService
+      .watch(topic)
+      .subscribe((message: Message) => {
+        const assetDto: AssetDto = JSON.parse(message.body);
+        WalletComponent.updateAsset(assetDto, asset);
+      })
   }
 }

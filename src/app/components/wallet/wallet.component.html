@@ -1,0 +1,38 @@
+<div fxLayout="column" *ngFor="let asset of assets" style="background: white; padding: 16px">
+  <div fxLayout="row">
+    <div fxLayoutAlign="center center">
+      <button (click)="addSubscription(asset)" mat-icon-button aria-label="Watchlist">
+        <mat-icon style="width: 24px; height: 24px;" svgIcon="{{asset.flagged ? 'star' : 'star_outline'}}"></mat-icon>
+      </button>
+    </div>
+    <div fxLayout="row">
+      <div fxLayoutAlign="center center" style="margin: 8px">
+        <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{asset.icon}}.png" class="icon24 unselectable">
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+        <b>{{asset.coin}}</b>
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+        <u>{{asset.name}}</u>
+      </div>
+    </div>
+  </div>
+  <div fxLayoutAlign="start center" style="margin: 8px">
+    TOTAL: {{asset.balance.toFixed(8)}} / {{asset.balance * asset.averagePrice}}$ <!-- <b *ngIf="asset.balance > 1000">({{asset.balance | numberFormat }})</b> -->
+  </div>
+  <div fxLayout="row">
+    <div fxLayoutAlign="start center" style="margin: 8px">
+      OPEN PRICE: {{asset.openPrice.toFixed(8)}}
+    </div>
+    <div fxLayoutAlign="start center" style="margin: 8px">
+      HIGH PRICE: {{asset.highPrice.toFixed(8)}}
+    </div>
+    <div fxLayoutAlign="start center" style="margin: 8px">
+      LOW PRICE: {{asset.lowPrice.toFixed(8)}}
+    </div>
+    <div fxLayoutAlign="start center" style="margin: 8px">
+      AVERAGE PRICE: {{asset.averagePrice.toFixed(8)}}
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
