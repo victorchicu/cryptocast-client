@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Asset} from "../../services/wallet/models/asset";
-import {WatchlistService} from "../../services/watchlist/watchlist.service";
+import {SubscriptionService} from "../../services/subscriptions/subscription.service";
 import {WalletService} from "../../services/wallet/wallet.service";
 import {HttpParams} from "@angular/common/http";
 import {AssetDto} from "../../services/wallet/dto/asset-dto";
-import {SubscriptionDto} from "../../services/watchlist/dto/subscription-dto";
+import {SubscriptionDto} from "../../services/subscriptions/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
 
@@ -20,7 +20,7 @@ export class WalletComponent implements OnInit {
   constructor(
     private readonly walletService: WalletService,
     private readonly rxStompService: RxStompService,
-    private readonly watchlistService: WatchlistService
+    private readonly subscriptionService: SubscriptionService
   ) {
     //
   }
@@ -71,7 +71,7 @@ export class WalletComponent implements OnInit {
   }
 
   addSubscription(asset: Asset) {
-    this.watchlistService.addSubscription(asset)
+    this.subscriptionService.addSubscription(asset)
       .subscribe((subscription: SubscriptionDto) => {
         asset.flagged = !asset.flagged;
         if (asset.flagged) {

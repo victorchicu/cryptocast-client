@@ -40,10 +40,10 @@ export class WalletService extends BaseService {
     "fiatBalance": null
   }];
 
-  static readonly API_WALLET_PATH: string = "/api/wallet"
+  static readonly API_PATH: string = "/api/wallet"
 
   constructor(protected httpClient: HttpClient) {
-    super(WalletService.API_WALLET_PATH, httpClient);
+    super(WalletService.API_PATH, httpClient);
   }
 
   public listAssets(params: HttpParams): Observable<AssetDto[]> {
@@ -52,7 +52,7 @@ export class WalletService extends BaseService {
     //   subscriber.next(assets);
     // })
     const options = {params: params};
-    return this.httpClient.get<AssetDto[]>(WalletService.API_WALLET_PATH + "/assets", options)
+    return this.httpClient.get<AssetDto[]>(WalletService.API_PATH + "/assets", options)
       .pipe(
         catchError(super.handleError<AssetDto[]>('listAssets'))
       );

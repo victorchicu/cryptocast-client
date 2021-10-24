@@ -10,15 +10,15 @@ import {AssetDto} from "../wallet/dto/asset-dto";
 @Injectable({
   providedIn: 'root'
 })
-export class WatchlistService extends BaseService {
-  static readonly API_WATCHLIST_PATH: string = "/api/watchlist"
+export class SubscriptionService extends BaseService {
+  static readonly API_PATH: string = "/api/subscriptions"
 
   constructor(protected httpClient: HttpClient) {
-    super(WatchlistService.API_WATCHLIST_PATH, httpClient);
+    super(SubscriptionService.API_PATH, httpClient);
   }
 
   public addSubscription(asset: Asset): Observable<SubscriptionDto> {
-    const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${asset.coin}/add`;
+    const url: string = `${SubscriptionService.API_PATH}/${asset.coin}/add`;
     return this.httpClient.post<SubscriptionDto>(
       url,
       {
@@ -32,7 +32,7 @@ export class WatchlistService extends BaseService {
   }
 
   public removeSubscription(assetName: string): Observable<SubscriptionDto> {
-    const url: string = `${WatchlistService.API_WATCHLIST_PATH}/${assetName}/remove`;
+    const url: string = `${SubscriptionService.API_PATH}/${assetName}/remove`;
     return this.httpClient.delete<SubscriptionDto>(url, this.httpOptions)
       .pipe(
         catchError(super.handleError<SubscriptionDto>('removeSubscription'))

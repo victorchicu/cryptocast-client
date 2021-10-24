@@ -1,7 +1,7 @@
 <div fxLayout="column" *ngFor="let asset of assets" style="background: white; padding: 16px">
   <div fxLayout="row">
     <div fxLayoutAlign="center center">
-      <button (click)="addSubscription(asset)" mat-icon-button aria-label="Watchlist">
+      <button (click)="addSubscription(asset)" mat-icon-button aria-label="Subscriptions">
         <mat-icon style="width: 24px; height: 24px;" svgIcon="{{asset.flagged ? 'star' : 'star_outline'}}"></mat-icon>
       </button>
     </div>
@@ -18,7 +18,7 @@
     </div>
   </div>
   <div fxLayoutAlign="start center" style="margin: 8px">
-    TOTAL: {{asset.balance.toFixed(8)}} / {{asset.balance * asset.averagePrice}}$ <!-- <b *ngIf="asset.balance > 1000">({{asset.balance | numberFormat }})</b> -->
+    TOTAL: {{asset.balance.toFixed(8)}} / {{(asset.balance * asset.averagePrice).toFixed(8)}}$ <!-- <b *ngIf="asset.balance > 1000">({{asset.balance | numberFormat }})</b> -->
   </div>
   <div fxLayout="row">
     <div fxLayoutAlign="start center" style="margin: 8px">
