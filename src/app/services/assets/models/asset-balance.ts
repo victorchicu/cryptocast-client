@@ -1,4 +1,4 @@
-export class Asset {
+export class AssetBalance {
   private _icon: number;
   private _coin: string;
   private _name: string;

@@ -1,4 +1,4 @@
-export interface AssetDto {
+export interface AssetBalanceDto {
   icon: number;
   coin: string;
   name: string;

@@ -1,32 +1,32 @@
 import {Component, OnInit} from '@angular/core';
-import {Asset} from "../../services/wallet/models/asset";
+import {AssetBalance} from "../../services/assets/models/asset-balance";
 import {SubscriptionService} from "../../services/subscriptions/subscription.service";
-import {WalletService} from "../../services/wallet/wallet.service";
+import {AssetService} from "../../services/assets/asset.service";
 import {HttpParams} from "@angular/common/http";
-import {AssetDto} from "../../services/wallet/dto/asset-dto";
+import {AssetBalanceDto} from "../../services/assets/dto/asset-balance-dto";
 import {SubscriptionDto} from "../../services/subscriptions/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
 
 @Component({
-  selector: 'app-wallet',
-  templateUrl: './wallet.component.html',
-  styleUrls: ['./wallet.component.scss']
+  selector: 'app-asset',
+  templateUrl: './asset.component.html',
+  styleUrls: ['./asset.component.scss']
 })
-export class WalletComponent implements OnInit {
-  assets: Asset[] = [];
+export class AssetComponent implements OnInit {
+  assets: AssetBalance[] = [];
   loading: boolean;
 
   constructor(
-    private readonly walletService: WalletService,
+    private readonly walletService: AssetService,
     private readonly rxStompService: RxStompService,
     private readonly subscriptionService: SubscriptionService
   ) {
     //
   }
 
-  private static toAsset(source: AssetDto): Asset {
-    let asset: Asset = new Asset();
+  private static toAssetBalance(source: AssetBalanceDto): AssetBalance {
+    let asset: AssetBalance = new AssetBalance();
     asset.icon = source.icon;
     asset.coin = source.coin;
     asset.name = source.name;
@@ -39,7 +39,7 @@ export class WalletComponent implements OnInit {
     return asset;
   }
 
-  private static updateAsset(source: AssetDto, target: Asset) {
+  private static updateAsset(source: AssetBalanceDto, target: AssetBalance) {
     target.openPrice = source.openPrice;
     target.highPrice = source.highPrice;
     target.lowPrice = source.lowPrice;
@@ -56,10 +56,10 @@ export class WalletComponent implements OnInit {
   listAssets(httpParams: HttpParams) {
     this.loading = true;
     this.walletService.listAssets(httpParams)
-      .subscribe((assets: AssetDto[]) => {
+      .subscribe((assets: AssetBalanceDto[]) => {
         console.log(assets);
-        this.assets = assets!.map(WalletComponent.toAsset)
-        this.assets.forEach((asset: Asset) => {
+        this.assets = assets!.map(AssetComponent.toAssetBalance)
+        this.assets.forEach((asset: AssetBalance) => {
           if (asset.flagged) {
             this.registerTickerEvent(asset);
           }
@@ -70,7 +70,7 @@ export class WalletComponent implements OnInit {
       })
   }
 
-  addSubscription(asset: Asset) {
+  addSubscription(asset: AssetBalance) {
     this.subscriptionService.addSubscription(asset)
       .subscribe((subscription: SubscriptionDto) => {
         asset.flagged = !asset.flagged;
@@ -80,13 +80,13 @@ export class WalletComponent implements OnInit {
       });
   }
 
-  private registerTickerEvent(asset: Asset) {
+  private registerTickerEvent(asset: AssetBalance) {
     const topic = `/topic/${asset.coin}-ticker`;
     this.rxStompService
       .watch(topic)
       .subscribe((message: Message) => {
-        const assetDto: AssetDto = JSON.parse(message.body);
-        WalletComponent.updateAsset(assetDto, asset);
+        const assetDto: AssetBalanceDto = JSON.parse(message.body);
+        AssetComponent.updateAsset(assetDto, asset);
       })
   }
 }
