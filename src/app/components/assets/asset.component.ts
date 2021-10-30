@@ -32,18 +32,13 @@ export class AssetComponent implements OnInit {
     asset.name = source.name;
     asset.flagged = source.flagged;
     asset.balance = source.balance;
-    asset.lowPrice = source.lowPrice;
-    asset.highPrice = source.highPrice;
-    asset.openPrice = source.openPrice;
-    asset.averagePrice = source.averagePrice;
+    asset.usdtValue = source.usdtValue;
     return asset;
   }
 
-  private static updateAsset(source: AssetBalanceDto, target: AssetBalance) {
-    target.openPrice = source.openPrice;
-    target.highPrice = source.highPrice;
-    target.lowPrice = source.lowPrice;
-    target.averagePrice = source.averagePrice;
+  private static updateAssetBalance(source: AssetBalanceDto, target: AssetBalance) {
+    target.balance = source.balance;
+    target.usdtValue = source.usdtValue;
   }
 
   ngOnInit(): void {
@@ -82,11 +77,13 @@ export class AssetComponent implements OnInit {
 
   private registerTickerEvent(asset: AssetBalance) {
     const topic = `/topic/${asset.coin}-ticker`;
+    console.log(topic)
     this.rxStompService
       .watch(topic)
       .subscribe((message: Message) => {
         const assetDto: AssetBalanceDto = JSON.parse(message.body);
-        AssetComponent.updateAsset(assetDto, asset);
+        console.log(assetDto);
+        AssetComponent.updateAssetBalance(assetDto, asset);
       })
   }
 }
