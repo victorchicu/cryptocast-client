@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {AssetBalance} from "../../services/assets/models/asset-balance";
-import {SubscriptionService} from "../../services/subscriptions/subscription.service";
-import {AssetService} from "../../services/assets/asset.service";
+import {AssetBalance} from "../../services/asset/models/asset-balance";
+import {SubscriptionService} from "../../services/subscription/subscription.service";
+import {AssetService} from "../../services/asset/asset.service";
 import {HttpParams} from "@angular/common/http";
-import {AssetBalanceDto} from "../../services/assets/dto/asset-balance-dto";
-import {SubscriptionDto} from "../../services/subscriptions/dto/subscription-dto";
+import {AssetBalanceDto} from "../../services/asset/dto/asset-balance-dto";
+import {SubscriptionDto} from "../../services/subscription/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
+import {Quotation} from "../../shared/enums/quotation";
 
 @Component({
   selector: 'app-asset',
@@ -27,18 +28,24 @@ export class AssetComponent implements OnInit {
 
   private static toAssetBalance(source: AssetBalanceDto): AssetBalance {
     let asset: AssetBalance = new AssetBalance();
-    asset.icon = source.icon;
-    asset.coin = source.coin;
-    asset.name = source.name;
+    asset.asset = source.asset;
+    asset.fullName = source.fullName;
+    asset.iconIndex = source.iconIndex;
     asset.flagged = source.flagged;
-    asset.balance = source.balance;
-    asset.usdtValue = source.usdtValue;
+    asset.free = source.free;
+    asset.frozen = source.frozen;
+    asset.price = source.price;
+    asset.balance = source.balance.toFixed(2);
+    asset.quotation = source.quotation;
     return asset;
   }
 
   private static updateAssetBalance(source: AssetBalanceDto, target: AssetBalance) {
-    target.balance = source.balance;
-    target.usdtValue = source.usdtValue;
+    target.free = source.free;
+    target.frozen = source.frozen;
+    target.price = source.price;
+    target.balance = source.balance.toFixed(2);
+    target.quotation = source.quotation;
   }
 
   ngOnInit(): void {
@@ -73,16 +80,16 @@ export class AssetComponent implements OnInit {
           this.registerTickerEvent(asset);
         }
       });
+
   }
 
-  private registerTickerEvent(asset: AssetBalance) {
-    const topic = `/topic/${asset.coin}-ticker`;
+  registerTickerEvent(asset: AssetBalance) {
+    const topic = `/topic/${asset.asset}-ticker`;
     console.log(topic)
     this.rxStompService
       .watch(topic)
       .subscribe((message: Message) => {
         const assetDto: AssetBalanceDto = JSON.parse(message.body);
-        console.log(assetDto);
         AssetComponent.updateAssetBalance(assetDto, asset);
       })
   }

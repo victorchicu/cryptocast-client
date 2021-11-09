@@ -16,5 +16,4 @@ export class AppComponent implements OnInit {
   isLoggedIn(): boolean {
     return Preconditions.isDefined(localStorage.getItem(Globals.ACCESS_TOKEN));
   }
-
 }

@@ -1,0 +1,46 @@
+<div fxLayout="column" *ngFor="let asset of assets" style="background: white; padding: 16px">
+  <div fxLayout="row" [ngStyle]="{'background-color': asset.frozen > 0 ? 'mistyrose' : 'white'}">
+    <div fxLayoutAlign="center center">
+      <button
+        (click)="addSubscription(asset)"
+        [ngStyle]="{'visibility':asset.asset === 'USDT' ? 'hidden' : 'visible'}"
+        mat-icon-button aria-label="Subscriptions">
+        <mat-icon
+          style="width: 24px; height: 24px;"
+          svgIcon="{{asset.flagged ? 'star' : 'star_outline'}}">
+        </mat-icon>
+      </button>
+    </div>
+    <div fxLayout="row">
+      <div fxLayoutAlign="center center" style="margin: 8px">
+        <img
+          alt="Asset icon"
+          src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{asset.iconIndex}}.png"
+          class="icon24 unselectable">
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+        <a [routerLink]="['/orders/' + asset.asset]" style="color: black; text-decoration: none">
+          <b><u>{{asset.asset}}</u></b>
+        </a>
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+        {{asset.fullName}}
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+        <ng-template [ngIf]="asset.frozen > 0" [ngIfElse]="free">
+          {{asset.free}} / {{asset.frozen}}
+        </ng-template>
+        <ng-template #free>
+          {{asset.free}}
+        </ng-template>
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+        ${{asset.price}}
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+        <b [ngStyle]="{color: asset.quotation?.toString() === 'EQUAL' ? 'black' : asset.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">${{asset.balance}}</b>
+      </div>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>

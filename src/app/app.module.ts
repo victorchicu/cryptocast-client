@@ -19,7 +19,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import { NumberFormatPipe } from './shared/pipes/number-format.pipe';
 import {MatToolbarModule} from "@angular/material/toolbar";
-import { AssetComponent } from './components/assets/asset.component';
+import { AssetComponent } from './components/asset/asset.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import {MatDialogModule} from "@angular/material/dialog";
@@ -30,6 +30,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AutocompleteDirective } from './shared/directives/autocomplete.directive';
 import {MatDividerModule} from "@angular/material/divider";
+import { OrderComponent } from './components/order/order.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,7 @@ const routes: Routes = [
     LogoutComponent,
     NotFoundComponent,
     AutocompleteDirective,
+    OrderComponent,
   ],
     imports: [
         FormsModule,

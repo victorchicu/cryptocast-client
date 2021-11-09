@@ -4,8 +4,8 @@ import {Observable, of} from "rxjs";
 import {SubscriptionDto} from "./dto/subscription-dto";
 import {catchError} from "rxjs/operators";
 import {BaseService} from "../base-service";
-import {AssetBalance} from "../assets/models/asset-balance";
-import {AssetBalanceDto} from "../assets/dto/asset-balance-dto";
+import {AssetBalance} from "../asset/models/asset-balance";
+import {AssetBalanceDto} from "../asset/dto/asset-balance-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +18,11 @@ export class SubscriptionService extends BaseService {
   }
 
   public addSubscription(asset: AssetBalance): Observable<SubscriptionDto> {
-    const url: string = `${SubscriptionService.API_PATH}/${asset.coin}/add`;
+    const url: string = `${SubscriptionService.API_PATH}/${asset.asset}/add`;
     return this.httpClient.post<SubscriptionDto>(
       url,
       {
-        balance: asset.balance
+        balance: asset.free
       },
       this.httpOptions
     )
