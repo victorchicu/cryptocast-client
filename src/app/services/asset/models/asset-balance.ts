@@ -7,7 +7,7 @@ export class AssetBalance {
   private _flagged: boolean;
   private _free: number;
   private _frozen: number;
-  private _price: number;
+  private _price: string;
   private _balance: string;
   private _quotation: Quotation
 
@@ -51,11 +51,11 @@ export class AssetBalance {
     this._free = value;
   }
 
-  get price(): number {
+  get price(): string {
     return this._price;
   }
 
-  set price(value: number) {
+  set price(value: string) {
     this._price = value;
   }
 

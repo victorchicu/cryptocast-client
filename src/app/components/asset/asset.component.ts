@@ -7,7 +7,6 @@ import {AssetBalanceDto} from "../../services/asset/dto/asset-balance-dto";
 import {SubscriptionDto} from "../../services/subscription/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
-import {Quotation} from "../../shared/enums/quotation";
 
 @Component({
   selector: 'app-asset',
@@ -34,7 +33,7 @@ export class AssetComponent implements OnInit {
     asset.flagged = source.flagged;
     asset.free = source.free;
     asset.frozen = source.frozen;
-    asset.price = source.price;
+    asset.price = source.price.toFixed(2);
     asset.balance = source.balance.toFixed(2);
     asset.quotation = source.quotation;
     return asset;
@@ -43,7 +42,7 @@ export class AssetComponent implements OnInit {
   private static updateAssetBalance(source: AssetBalanceDto, target: AssetBalance) {
     target.free = source.free;
     target.frozen = source.frozen;
-    target.price = source.price;
+    target.price = source.price.toFixed(2);
     target.balance = source.balance.toFixed(2);
     target.quotation = source.quotation;
   }

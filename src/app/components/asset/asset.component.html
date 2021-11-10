@@ -28,7 +28,7 @@
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
         <ng-template [ngIf]="asset.frozen > 0" [ngIfElse]="free">
-          {{asset.free}} / {{asset.frozen}}
+          FREE BALANCE: {{asset.free}} / OPEN ORDER: {{asset.frozen}}
         </ng-template>
         <ng-template #free>
           {{asset.free}}
