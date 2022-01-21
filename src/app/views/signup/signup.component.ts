@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SignupService} from "../../services/signup/signup.service";
-import {SignupRequestDto} from "../../services/signup/dto/signup-request-dto";
+import {SignupDto} from "../../services/signup/dto/signup-dto";
 import {Globals} from "../../shared/globals";
 import {Router} from "@angular/router";
 
@@ -14,6 +14,7 @@ export class SignupComponent implements OnInit {
   hidden: boolean = true;
   loading: boolean;
   signupForm: FormGroup;
+  selected: string = 'BINANCE'
 
   constructor(
     private readonly router: Router,
@@ -32,6 +33,9 @@ export class SignupComponent implements OnInit {
       ),
       secretKey: new FormControl(
         null, [Validators.required]
+      ),
+      exchange: new FormControl(
+        null, [Validators.required]
       )
     })
   }
@@ -42,13 +46,14 @@ export class SignupComponent implements OnInit {
 
   signup(): void {
     this.loading = true;
-    let signupRequestDto: SignupRequestDto = new SignupRequestDto(
+    let signupDto: SignupDto = new SignupDto(
       this.signupForm.value.email,
       this.signupForm.value.password,
       this.signupForm.value.apiKey,
-      this.signupForm.value.secretKey
+      this.signupForm.value.secretKey,
+      this.signupForm.value.exchange
     )
-    this.signupService.signup(signupRequestDto)
+    this.signupService.signup(signupDto)
       .subscribe((dto) => {
         localStorage.setItem(Globals.ACCESS_TOKEN, dto.accessToken);
         this.router.navigateByUrl("/");

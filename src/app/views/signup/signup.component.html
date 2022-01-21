@@ -1,0 +1,79 @@
+<mat-card>
+  <mat-card-header fxLayout="column">
+    <h2 mat-dialog-title><b>Create an account</b></h2>
+    <h3>Gain access to additional features such as tracking, predictions.</h3>
+  </mat-card-header>
+  <mat-card-content class="mat-typography">
+    <form [formGroup]="signupForm" (ngSubmit)="signup()" fxLayout="column">
+      <mat-form-field appearance="standard">
+        <mat-label>Enter your email</mat-label>
+        <input matInput
+               autocomplete="off"
+               placeholder="email@example.com"
+               formControlName="email"
+               required>
+        <mat-error *ngIf="form.email.errors?.required" style="font-size: small">
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Enter your password</mat-label>
+        <input [type]="hidden ? 'password' : 'text'"
+               matInput
+               autocomplete="new-password"
+               formControlName="password"
+               required>
+        <button type="button"
+                matSuffix
+                mat-icon-button
+                (click)="hidden = !hidden"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hidden">
+          <mat-icon>{{hidden ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="form.password.errors?.required" style="font-size: small">
+        </mat-error>
+        <mat-error *ngIf="form.password.errors?.minlength" style="font-size: small">
+          Password should be more than 8 characters
+        </mat-error>`
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-select [ngModel]="selected"
+                    placeholder="Default Exchange"
+                    formControlName="exchange">
+          <mat-option value="BINANCE">BINANCE</mat-option>
+          <mat-option value="GATE">GATE</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.exchange.errors?.required" style="font-size: small">
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Enter your API Key</mat-label>
+        <input matInput
+               autocomplete="off"
+               placeholder="API Key"
+               formControlName="apiKey"
+               required>
+        <mat-error *ngIf="form.apiKey.errors?.required" style="font-size: small">
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="standard">
+        <mat-label>Enter your Secret Key</mat-label>
+        <input matInput
+               autocomplete="off"
+               placeholder="Secret Key"
+               formControlName="secretKey"
+               required>
+        <mat-error *ngIf="form.secretKey.errors?.required" style="font-size: small">
+        </mat-error>
+      </mat-form-field>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <button type="submit"
+                color="primary"
+                style="width: 100%; margin-top: 32px"
+                mat-raised-button>
+          Sign Up
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card-content>
+</mat-card>
