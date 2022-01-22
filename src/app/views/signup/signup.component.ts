@@ -34,7 +34,7 @@ export class SignupComponent implements OnInit {
       secretKey: new FormControl(
         null, [Validators.required]
       ),
-      exchange: new FormControl(
+      exchangeProvider: new FormControl(
         null, [Validators.required]
       )
     })
@@ -51,10 +51,11 @@ export class SignupComponent implements OnInit {
       this.signupForm.value.password,
       this.signupForm.value.apiKey,
       this.signupForm.value.secretKey,
-      this.signupForm.value.exchange
+      this.signupForm.value.exchangeProvider
     )
     this.signupService.signup(signupDto)
       .subscribe((dto) => {
+        console.log(dto);
         localStorage.setItem(Globals.ACCESS_TOKEN, dto.accessToken);
         this.router.navigateByUrl("/");
         this.loading = false;

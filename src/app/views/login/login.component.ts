@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
         null,
         [Validators.minLength(8), Validators.maxLength(128)]
       ),
-      exchange: new FormControl(
+      exchangeProvider: new FormControl(
         null,
         [Validators.required]
       )
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     let authRequestDto: LoginRequestDto = new LoginRequestDto(
       this.loginForm.value.email,
       this.loginForm.value.password,
-      this.loginForm.value.exchange
+      this.loginForm.value.exchangeProvider
     )
     this.loginService.login(authRequestDto)
       .subscribe((accessTokenResponseDto) => {

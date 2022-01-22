@@ -1,13 +1,13 @@
-import {ExchangeType} from "../../../shared/enums/exchange-type";
+import {ExchangeProvider} from "../../../shared/enums/exchange-provider";
 
 export class LoginRequestDto {
   private email: string
   private password: string
-  private exchange: ExchangeType
+  private exchangeProvider: ExchangeProvider
 
-  constructor(email: string, password: string, exchange: ExchangeType) {
+  constructor(email: string, password: string, exchangeProvider: ExchangeProvider) {
     this.email = email;
     this.password = password;
-    this.exchange = exchange;
+    this.exchangeProvider = exchangeProvider;
   }
 }

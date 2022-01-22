@@ -1,23 +1,23 @@
-import {ExchangeType} from "../../../shared/enums/exchange-type";
+import {ExchangeProvider} from "../../../shared/enums/exchange-provider";
 
 export class SignupDto {
   private email: string
   private password: string
   private apiKey: string
   private secretKey: string
-  private exchange: ExchangeType
+  private exchangeProvider: ExchangeProvider
 
   constructor(
     email: string,
     password: string,
     apiKey: string,
     secretKey: string,
-    exchange: ExchangeType
+    exchangeProvider: ExchangeProvider
   ) {
     this.email = email;
     this.password = password;
     this.apiKey = apiKey;
     this.secretKey = secretKey;
-    this.exchange = exchange;
+    this.exchangeProvider = exchangeProvider;
   }
 }

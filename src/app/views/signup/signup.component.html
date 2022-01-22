@@ -34,16 +34,16 @@
         </mat-error>
         <mat-error *ngIf="form.password.errors?.minlength" style="font-size: small">
           Password should be more than 8 characters
-        </mat-error>`
+        </mat-error>
       </mat-form-field>
       <mat-form-field appearance="standard">
         <mat-select [ngModel]="selected"
-                    placeholder="Default Exchange"
-                    formControlName="exchange">
+                    placeholder="Exchange provider"
+                    formControlName="exchangeProvider">
           <mat-option value="BINANCE">BINANCE</mat-option>
           <mat-option value="GATE">GATE</mat-option>
         </mat-select>
-        <mat-error *ngIf="form.exchange.errors?.required" style="font-size: small">
+        <mat-error *ngIf="form.exchangeProvider.errors?.required" style="font-size: small">
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="standard">
