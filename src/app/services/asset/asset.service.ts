@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable, of, Subscriber} from "rxjs";
 import {catchError} from "rxjs/operators";
-import {AssetBalanceDto} from "./dto/asset-balance-dto";
+import {AssetBalanceDto} from "../../shared/dto/asset-balance-dto";
 import {Page} from "../../shared/paging/page";
 import {BaseService} from "../base-service";
 

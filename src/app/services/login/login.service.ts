@@ -3,8 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {catchError, tap} from "rxjs/operators";
 import {BaseService} from "../base-service";
-import {AccessTokenResponseDto} from "./dto/access-token-response-dto";
-import {LoginRequestDto} from "./dto/login-request-dto";
+import {AccessTokenDto} from "../../shared/dto/access-token-dto";
+import {LoginRequestDto} from "../../shared/dto/login-request-dto";
 import {Globals} from "../../shared/globals";
 
 @Injectable({
@@ -17,13 +17,13 @@ export class LoginService extends BaseService {
     super(LoginService.API_PATH, httpClient);
   }
 
-  public login(loginRequestDto: LoginRequestDto): Observable<AccessTokenResponseDto> {
-    return this.httpClient.post<AccessTokenResponseDto>(LoginService.API_PATH, loginRequestDto, this.httpOptions)
+  public login(loginRequestDto: LoginRequestDto): Observable<AccessTokenDto> {
+    return this.httpClient.post<AccessTokenDto>(LoginService.API_PATH, loginRequestDto, this.httpOptions)
       .pipe(
-        tap((accessTokenResponseDto: AccessTokenResponseDto) => {
+        tap((accessTokenResponseDto: AccessTokenDto) => {
           localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenResponseDto.accessToken);
         }),
-        catchError(super.handleError<AccessTokenResponseDto>('login'))
+        catchError(super.handleError<AccessTokenDto>('login'))
       )
   }
 }

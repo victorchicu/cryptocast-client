@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {LoginRequestDto} from "../../services/login/dto/login-request-dto";
+import {LoginRequestDto} from "../../shared/dto/login-request-dto";
 import {LoginService} from "../../services/login/login.service";
 import {Router} from "@angular/router";
+import {Globals} from "../../shared/globals";
+import {AccessTokenDto} from "../../shared/dto/access-token-dto";
 
 @Component({
   selector: 'login-component',
@@ -13,6 +15,7 @@ export class LoginComponent implements OnInit {
   hidden: boolean = true;
   loading: boolean;
   loginForm: FormGroup;
+  selected: string = 'BINANCE'
 
   constructor(
     private readonly router: Router,
@@ -51,7 +54,8 @@ export class LoginComponent implements OnInit {
       this.loginForm.value.exchangeProvider
     )
     this.loginService.login(authRequestDto)
-      .subscribe((accessTokenResponseDto) => {
+      .subscribe((accessTokenDto: AccessTokenDto) => {
+        localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenDto.accessToken);
         this.router.navigateByUrl("/");
         this.loading = false;
       }, (error) => {

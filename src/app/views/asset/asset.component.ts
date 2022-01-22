@@ -3,8 +3,8 @@ import {AssetBalance} from "../../services/asset/models/asset-balance";
 import {SubscriptionService} from "../../services/subscription/subscription.service";
 import {AssetService} from "../../services/asset/asset.service";
 import {HttpParams} from "@angular/common/http";
-import {AssetBalanceDto} from "../../services/asset/dto/asset-balance-dto";
-import {SubscriptionDto} from "../../services/subscription/dto/subscription-dto";
+import {AssetBalanceDto} from "../../shared/dto/asset-balance-dto";
+import {SubscriptionDto} from "../../shared/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
 

@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SignupService} from "../../services/signup/signup.service";
-import {SignupDto} from "../../services/signup/dto/signup-dto";
+import {SignupDto} from "../../shared/dto/signup-dto";
 import {Globals} from "../../shared/globals";
 import {Router} from "@angular/router";
+import {AccessTokenDto} from "../../shared/dto/access-token-dto";
 
 @Component({
   selector: 'app-signup',
@@ -54,9 +55,9 @@ export class SignupComponent implements OnInit {
       this.signupForm.value.exchangeProvider
     )
     this.signupService.signup(signupDto)
-      .subscribe((dto) => {
-        console.log(dto);
-        localStorage.setItem(Globals.ACCESS_TOKEN, dto.accessToken);
+      .subscribe((accessTokenDto: AccessTokenDto) => {
+        console.log(accessTokenDto);
+        localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenDto.accessToken);
         this.router.navigateByUrl("/");
         this.loading = false;
       }, error => {

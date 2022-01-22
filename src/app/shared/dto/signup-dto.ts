@@ -1,4 +1,4 @@
-import {ExchangeProvider} from "../../../shared/enums/exchange-provider";
+import {ExchangeProvider} from "../enums/exchange-provider";
 
 export class SignupDto {
   private email: string

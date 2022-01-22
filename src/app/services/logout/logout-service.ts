@@ -2,7 +2,6 @@ import {catchError, tap} from "rxjs/operators";
 import {Injectable} from "@angular/core";
 import {BaseService} from "../base-service";
 import {HttpClient} from "@angular/common/http";
-import {AccessTokenResponseDto} from "../login/dto/access-token-response-dto";
 import {Globals} from "../../shared/globals";
 
 @Injectable({

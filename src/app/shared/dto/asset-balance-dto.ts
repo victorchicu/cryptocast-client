@@ -1,4 +1,4 @@
-import {Quotation} from "../../../shared/enums/quotation";
+import {Quotation} from "../enums/quotation";
 
 export interface AssetBalanceDto {
   asset: string;
