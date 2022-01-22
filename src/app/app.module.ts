@@ -34,11 +34,13 @@ import {OrderComponent} from './views/order/order.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ANIMATION_TYPES, Ng2LoadingSpinnerModule} from 'ng2-loading-spinner'
+import {AuthGuard} from "./shared/guards/auth-guard";
 
 const routes: Routes = [
   {
     path: '',
     component: AssetComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
