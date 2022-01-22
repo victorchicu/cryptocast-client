@@ -17,28 +17,28 @@ import {MatButtonModule} from "@angular/material/button";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
-import { NumberFormatPipe } from './shared/pipes/number-format.pipe';
+import {NumberFormatPipe} from './shared/pipes/number-format.pipe';
 import {MatToolbarModule} from "@angular/material/toolbar";
-import { AssetComponent } from './views/asset/asset.component';
-import { LoginComponent } from './views/login/login.component';
-import { SignupComponent } from './views/signup/signup.component';
+import {AssetComponent} from './views/asset/asset.component';
+import {LoginComponent} from './views/login/login.component';
+import {SignupComponent} from './views/signup/signup.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {OAuth2TokenHttpInterceptor} from "./shared/interceptors/o-auth2-token-http-interceptor";
-import { LogoutComponent } from './views/logout/logout.component';
-import { NotFoundComponent } from './views/not-found/not-found.component';
-import { AutocompleteDirective } from './shared/directives/autocomplete.directive';
+import {LogoutComponent} from './views/logout/logout.component';
+import {NotFoundComponent} from './views/not-found/not-found.component';
+import {AutocompleteDirective} from './shared/directives/autocomplete.directive';
 import {MatDividerModule} from "@angular/material/divider";
-import { OrderComponent } from './views/order/order.component';
+import {OrderComponent} from './views/order/order.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {ANIMATION_TYPES, Ng2LoadingSpinnerModule} from 'ng2-loading-spinner'
 
 const routes: Routes = [
   {
     path: '',
     component: AssetComponent,
-    // canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -71,30 +71,34 @@ const routes: Routes = [
     AutocompleteDirective,
     OrderComponent,
   ],
-    imports: [
-        FormsModule,
-        RouterModule.forRoot(routes),
-        CommonModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        MatIconModule,
-        MatTableModule,
-        MatButtonModule,
-        MatPaginatorModule,
-        FlexLayoutModule,
-        MatGridListModule,
-        MatCardModule,
-        MatToolbarModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatDividerModule,
-        MatSelectModule,
-        MatExpansionModule
-    ],
+  imports: [
+    FormsModule,
+    RouterModule.forRoot(routes),
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    MatIconModule,
+    MatTableModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    FlexLayoutModule,
+    MatGridListModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatDividerModule,
+    MatSelectModule,
+    MatExpansionModule,
+    Ng2LoadingSpinnerModule.forRoot({
+      spinnerSize: 'xl',
+      animationType: ANIMATION_TYPES.cubeGrid,
+    })
+  ],
   providers: [
     {
       multi: true,

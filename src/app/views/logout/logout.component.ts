@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {LogoutService} from "../../services/logout/logout-service";
+import {SpinnerService} from "../../shared/services/spinner.service";
 
 @Component({
   selector: 'app-logout',
@@ -8,14 +9,12 @@ import {LogoutService} from "../../services/logout/logout-service";
   styleUrls: ['./logout.component.scss']
 })
 export class LogoutComponent implements OnInit {
-
-  constructor(private readonly router: Router, private readonly logoutService: LogoutService) {
+  constructor(private router: Router, private logoutService: LogoutService) {
     //
   }
 
   ngOnInit(): void {
     this.logoutService.logout()
-      .subscribe(() => this.router.navigateByUrl("/"));
+      .subscribe(() => this.router.navigateByUrl("/"))
   }
-
 }

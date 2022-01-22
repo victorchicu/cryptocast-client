@@ -5,6 +5,8 @@ import {LoginService} from "../../services/login/login.service";
 import {Router} from "@angular/router";
 import {Globals} from "../../shared/globals";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
+import {SubscriptionService} from "../../services/subscription/subscription.service";
+import {SpinnerService} from "../../shared/services/spinner.service";
 
 @Component({
   selector: 'login-component',
@@ -13,14 +15,14 @@ import {AccessTokenDto} from "../../shared/dto/access-token-dto";
 })
 export class LoginComponent implements OnInit {
   hidden: boolean = true;
-  loading: boolean;
   loginForm: FormGroup;
   selected: string = 'BINANCE'
 
   constructor(
-    private readonly router: Router,
-    private readonly formBuilder: FormBuilder,
-    private readonly loginService: LoginService
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private loginService: LoginService,
+    private spinnerService: SpinnerService
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl(
@@ -47,19 +49,21 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.loading = true;
     let authRequestDto: LoginRequestDto = new LoginRequestDto(
       this.loginForm.value.email,
       this.loginForm.value.password,
       this.loginForm.value.exchangeProvider
     )
+    this.spinnerService.setLoading(true)
     this.loginService.login(authRequestDto)
       .subscribe((accessTokenDto: AccessTokenDto) => {
-        localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenDto.accessToken);
-        this.router.navigateByUrl("/");
-        this.loading = false;
+        if (accessTokenDto) {
+          localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenDto.accessToken);
+          this.router.navigateByUrl("/");
+        }
+        this.spinnerService.setLoading(false)
       }, (error) => {
-        this.loading = false;
+        this.spinnerService.setLoading(false)
       });
   }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AssetBalance} from "../../services/asset/models/asset-balance";
 import {SubscriptionService} from "../../services/subscription/subscription.service";
 import {AssetService} from "../../services/asset/asset.service";
@@ -7,6 +7,7 @@ import {AssetBalanceDto} from "../../shared/dto/asset-balance-dto";
 import {SubscriptionDto} from "../../shared/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
+import {SpinnerService} from "../../shared/services/spinner.service";
 
 @Component({
   selector: 'app-asset',
@@ -15,12 +16,12 @@ import {Message} from "@stomp/stompjs";
 })
 export class AssetComponent implements OnInit {
   assets: AssetBalance[] = [];
-  loading: boolean;
 
   constructor(
-    private readonly walletService: AssetService,
-    private readonly rxStompService: RxStompService,
-    private readonly subscriptionService: SubscriptionService
+    private walletService: AssetService,
+    private rxStompService: RxStompService,
+    private spinnerService: SpinnerService,
+    private subscriptionService: SubscriptionService
   ) {
     //
   }
@@ -55,31 +56,39 @@ export class AssetComponent implements OnInit {
   }
 
   listAssets(httpParams: HttpParams) {
-    this.loading = true;
+    this.spinnerService.setLoading(true);
     this.walletService.listAssets(httpParams)
       .subscribe((assets: AssetBalanceDto[]) => {
-        console.log(assets);
-        this.assets = assets!.map(AssetComponent.toAssetBalance)
-        this.assets.forEach((asset: AssetBalance) => {
-          if (asset.flagged) {
-            this.registerTickerEvent(asset);
-          }
-        });
-        this.loading = false;
+        if (assets) {
+          this.assets = assets!.map(AssetComponent.toAssetBalance)
+          this.assets.forEach((asset: AssetBalance) => {
+            if (asset.flagged) {
+              this.registerTickerEvent(asset);
+            }
+          });
+        }
+        this.spinnerService.setLoading(false);
       }, error => {
-        this.loading = false;
+        console.log(error)
+        this.spinnerService.setLoading(false);
       })
   }
 
   addSubscription(asset: AssetBalance) {
+    this.spinnerService.setLoading(true);
     this.subscriptionService.addSubscription(asset)
       .subscribe((subscription: SubscriptionDto) => {
-        asset.flagged = !asset.flagged;
-        if (asset.flagged) {
-          this.registerTickerEvent(asset);
+        if (subscription) {
+          asset.flagged = !asset.flagged;
+          if (asset.flagged) {
+            this.registerTickerEvent(asset);
+          }
         }
+        this.spinnerService.setLoading(false);
+      }, error => {
+        console.log(error)
+        this.spinnerService.setLoading(false);
       });
-
   }
 
   registerTickerEvent(asset: AssetBalance) {
@@ -88,8 +97,10 @@ export class AssetComponent implements OnInit {
     this.rxStompService
       .watch(topic)
       .subscribe((message: Message) => {
-        const assetDto: AssetBalanceDto = JSON.parse(message.body);
-        AssetComponent.updateAssetBalance(assetDto, asset);
+        if (message) {
+          const assetDto: AssetBalanceDto = JSON.parse(message.body);
+          AssetComponent.updateAssetBalance(assetDto, asset);
+        }
       })
   }
 }

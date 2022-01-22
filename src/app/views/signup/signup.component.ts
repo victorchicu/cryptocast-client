@@ -5,6 +5,7 @@ import {SignupDto} from "../../shared/dto/signup-dto";
 import {Globals} from "../../shared/globals";
 import {Router} from "@angular/router";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
+import {SpinnerService} from "../../shared/services/spinner.service";
 
 @Component({
   selector: 'app-signup',
@@ -13,14 +14,14 @@ import {AccessTokenDto} from "../../shared/dto/access-token-dto";
 })
 export class SignupComponent implements OnInit {
   hidden: boolean = true;
-  loading: boolean;
   signupForm: FormGroup;
   selected: string = 'BINANCE'
 
   constructor(
-    private readonly router: Router,
-    private readonly formBuilder: FormBuilder,
-    private readonly signupService: SignupService
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private signupService: SignupService,
+    private spinnerService: SpinnerService
   ) {
     this.signupForm = this.formBuilder.group({
       email: new FormControl(
@@ -46,7 +47,6 @@ export class SignupComponent implements OnInit {
   }
 
   signup(): void {
-    this.loading = true;
     let signupDto: SignupDto = new SignupDto(
       this.signupForm.value.email,
       this.signupForm.value.password,
@@ -54,15 +54,17 @@ export class SignupComponent implements OnInit {
       this.signupForm.value.secretKey,
       this.signupForm.value.exchangeProvider
     )
+    this.spinnerService.setLoading(true)
     this.signupService.signup(signupDto)
       .subscribe((accessTokenDto: AccessTokenDto) => {
-        console.log(accessTokenDto);
-        localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenDto.accessToken);
-        this.router.navigateByUrl("/");
-        this.loading = false;
+        if (accessTokenDto) {
+          localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenDto.accessToken);
+          this.router.navigateByUrl("/");
+        }
+        this.spinnerService.setLoading(false)
       }, error => {
         console.log(error);
-        this.loading = false;
+        this.spinnerService.setLoading(false)
       });
   }
 
