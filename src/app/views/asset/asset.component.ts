@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AssetBalance} from "../../services/asset/models/asset-balance";
 import {SubscriptionService} from "../../services/subscription/subscription.service";
 import {AssetService} from "../../services/asset/asset.service";
@@ -15,7 +15,7 @@ import {SpinnerService} from "../../shared/services/spinner.service";
   styleUrls: ['./asset.component.scss']
 })
 export class AssetComponent implements OnInit {
-  assets: AssetBalance[] = [];
+  assetBalances: AssetBalance[] = [];
 
   constructor(
     private walletService: AssetService,
@@ -56,12 +56,13 @@ export class AssetComponent implements OnInit {
   }
 
   listAssets(httpParams: HttpParams) {
+    console.log("AssetComponent::listAssets BEGIN");
     this.spinnerService.setLoading(true);
     this.walletService.listAssets(httpParams)
       .subscribe((assets: AssetBalanceDto[]) => {
         if (assets) {
-          this.assets = assets!.map(AssetComponent.toAssetBalance)
-          this.assets.forEach((asset: AssetBalance) => {
+          this.assetBalances = assets!.map(AssetComponent.toAssetBalance)
+          this.assetBalances.forEach((asset: AssetBalance) => {
             if (asset.flagged) {
               this.registerTickerEvent(asset);
             }
@@ -72,10 +73,11 @@ export class AssetComponent implements OnInit {
         console.log(error)
         this.spinnerService.setLoading(false);
       })
+    console.log("AssetComponent::listAssets END");
   }
 
   addSubscription(asset: AssetBalance) {
-    this.spinnerService.setLoading(true);
+    console.log("AssetComponent::addSubscription BEGIN");
     this.subscriptionService.addSubscription(asset)
       .subscribe((subscription: SubscriptionDto) => {
         if (subscription) {
@@ -84,23 +86,23 @@ export class AssetComponent implements OnInit {
             this.registerTickerEvent(asset);
           }
         }
-        this.spinnerService.setLoading(false);
       }, error => {
         console.log(error)
-        this.spinnerService.setLoading(false);
       });
+    console.log("AssetComponent::addSubscription END");
   }
 
-  registerTickerEvent(asset: AssetBalance) {
-    const topic = `/topic/${asset.asset}-ticker`;
-    console.log(topic)
+  registerTickerEvent(assetBalance: AssetBalance) {
+    console.log("AssetComponent::registerTickerEvent BEGIN");
+    const topic = `/topic/${assetBalance.asset}-ticker`;
     this.rxStompService
       .watch(topic)
       .subscribe((message: Message) => {
         if (message) {
           const assetDto: AssetBalanceDto = JSON.parse(message.body);
-          AssetComponent.updateAssetBalance(assetDto, asset);
+          AssetComponent.updateAssetBalance(assetDto, assetBalance);
         }
       })
+    console.log("AssetComponent::registerTickerEvent END");
   }
 }

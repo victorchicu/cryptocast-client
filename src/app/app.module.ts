@@ -30,16 +30,40 @@ import {LogoutComponent} from './views/logout/logout.component';
 import {NotFoundComponent} from './views/not-found/not-found.component';
 import {AutocompleteDirective} from './shared/directives/autocomplete.directive';
 import {MatDividerModule} from "@angular/material/divider";
-import {OrderComponent} from './views/order/order.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ANIMATION_TYPES, Ng2LoadingSpinnerModule} from 'ng2-loading-spinner'
 import {AuthGuard} from "./shared/guards/auth-guard";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MAT_RADIO_DEFAULT_OPTIONS, MatRadioModule} from "@angular/material/radio";
+import {MatTabsModule} from "@angular/material/tabs";
+import {MatRippleModule} from "@angular/material/core";
+import {MatTreeModule} from "@angular/material/tree";
+import { OrderConfirmComponent } from './shared/dialogs/order-confirm-dialog/order-confirm.component';
+import { OpenOrdersComponent } from './views/orders/open-orders/open-orders.component';
+import { OrderHistoryComponent } from './views/orders/order-history/order-history.component';
+import { PlaceOrderComponent } from './views/orders/place-order/place-order.component';
+import {MatBadgeModule} from "@angular/material/badge";
 
 const routes: Routes = [
   {
     path: '',
     component: AssetComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'orders/history',
+    component: OrderHistoryComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'orders/open',
+    component: OpenOrdersComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'orders/place',
+    component: PlaceOrderComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -52,7 +76,8 @@ const routes: Routes = [
   },
   {
     path: 'logout',
-    component: LogoutComponent
+    component: LogoutComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '**',
@@ -71,7 +96,10 @@ const routes: Routes = [
     LogoutComponent,
     NotFoundComponent,
     AutocompleteDirective,
-    OrderComponent,
+    OrderConfirmComponent,
+    OpenOrdersComponent,
+    OrderHistoryComponent,
+    PlaceOrderComponent,
   ],
   imports: [
     FormsModule,
@@ -99,7 +127,13 @@ const routes: Routes = [
     Ng2LoadingSpinnerModule.forRoot({
       spinnerSize: 'xl',
       animationType: ANIMATION_TYPES.cubeGrid,
-    })
+    }),
+    MatSlideToggleModule,
+    MatRadioModule,
+    MatTabsModule,
+    MatRippleModule,
+    MatTreeModule,
+    MatBadgeModule
   ],
   providers: [
     {
@@ -116,6 +150,10 @@ const routes: Routes = [
       useFactory: rxStompServiceFactory,
       deps: [InjectableRxStompConfig],
     },
+    {
+      provide: MAT_RADIO_DEFAULT_OPTIONS,
+      useValue: { color: 'primary' },
+    }
   ],
   bootstrap: [AppComponent]
 })
@@ -126,6 +164,9 @@ export class AppModule {
       ["star", "/assets/star_black_24dp.svg"],
       ["star_outline", "/assets/star_outline_black_24dp.svg"],
       ["icons8-bitcoin", "/assets/icons8-bitcoin.svg"],
+      ["open-orders", "/assets/open-orders.svg"],
+      ["order-history", "/assets/order-history.svg"],
+      ["place-order", "/assets/place-order.svg"]
     ];
     icons.forEach((entry: string[]) => {
       this.iconRegistry.addSvgIcon(

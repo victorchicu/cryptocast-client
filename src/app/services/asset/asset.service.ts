@@ -51,7 +51,9 @@ export class AssetService extends BaseService {
     // return new Observable<AssetDto[]>(subscriber => {
     //   subscriber.next(assets);
     // })
-    const options = {params: params};
+    const options = {
+      params: params
+    };
     return this.httpClient.get<AssetBalanceDto[]>(AssetService.API_PATH, options)
       .pipe(
         catchError(super.handleError<AssetBalanceDto[]>('listAssets'))

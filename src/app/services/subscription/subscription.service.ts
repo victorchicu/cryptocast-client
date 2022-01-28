@@ -16,18 +16,17 @@ export class SubscriptionService extends BaseService {
     super(SubscriptionService.API_PATH, httpClient);
   }
 
-  public addSubscription(asset: AssetBalance): Observable<SubscriptionDto> {
-    const url: string = `${SubscriptionService.API_PATH}/${asset.asset}/add`;
+  public addSubscription(assetBalance: AssetBalance): Observable<SubscriptionDto> {
+    const url: string = `${SubscriptionService.API_PATH}/${assetBalance.asset}/add`;
     return this.httpClient.post<SubscriptionDto>(
       url,
       {
-        balance: asset.free
+        balance: assetBalance.free
       },
       this.httpOptions
+    ).pipe(
+      catchError(this.handleError<SubscriptionDto>('addSubscription'))
     )
-      .pipe(
-        catchError(this.handleError<SubscriptionDto>('addSubscription'))
-      )
   }
 
   public removeSubscription(assetName: string): Observable<SubscriptionDto> {

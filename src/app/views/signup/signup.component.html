@@ -1,8 +1,10 @@
-<mat-card style="height: auto">
-  <mat-card-header fxLayout="column">
+<mat-card style="height: auto; box-shadow: none">
+  <mat-card-title fxLayout="column">
     <h2 mat-dialog-title><b>Create an account</b></h2>
-    <h3>Gain access to additional features such as tracking, predictions.</h3>
-  </mat-card-header>
+  </mat-card-title>
+  <mat-card-subtitle>
+    Gain access to additional features such as tracking, predictions.
+  </mat-card-subtitle>
   <mat-card-content class="mat-typography">
     <form [formGroup]="signupForm" (ngSubmit)="signup()" fxLayout="column">
       <mat-form-field appearance="standard">

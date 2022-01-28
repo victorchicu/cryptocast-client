@@ -1,44 +1,79 @@
-<div fxLayout="column" *ngFor="let asset of assets" style="background: white; padding: 16px">
-  <div fxLayout="row" [ngStyle]="{'background-color': asset.frozen > 0 ? 'mistyrose' : 'white'}">
+<div fxLayout="column" *ngFor="let assetBalance of assetBalances" style="background: white; padding: 16px">
+  <div fxLayout="row" [ngStyle]="{'background-color': assetBalance.frozen > 0 ? 'mistyrose' : 'white'}">
     <div fxLayoutAlign="center center">
       <button
-        (click)="addSubscription(asset)"
-        [ngStyle]="{'visibility':asset.asset === 'USDT' ? 'hidden' : 'visible'}"
+        (click)="addSubscription(assetBalance)"
+        [ngStyle]="{'visibility':assetBalance.asset === 'USDT' ? 'hidden' : 'visible'}"
         mat-icon-button aria-label="Subscriptions">
         <mat-icon
           style="width: 24px; height: 24px;"
-          svgIcon="{{asset.flagged ? 'star' : 'star_outline'}}">
+          svgIcon="{{assetBalance.flagged ? 'star' : 'star_outline'}}">
         </mat-icon>
       </button>
     </div>
     <div fxLayout="row">
-      <div fxLayoutAlign="center center" style="margin: 8px">
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
         <img
           alt="Asset icon"
-          src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{asset.iconIndex}}.png"
+          src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{assetBalance.iconIndex}}.png"
           class="icon24 unselectable">
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        <a [routerLink]="['/orders/' + asset.asset]" style="color: black; text-decoration: none">
-          <b><u>{{asset.asset}}</u></b>
+        <a href="https://coinmarketcap.com/currencies/bitcoin/" target="_blank"
+           style="color: black; text-decoration: none">
+          <b><u>{{assetBalance.asset}}</u></b>
         </a>
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        {{asset.fullName}}
+        {{assetBalance.fullName}}
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        <ng-template [ngIf]="asset.frozen > 0" [ngIfElse]="free">
-          FREE BALANCE: {{asset.free}} / OPEN ORDER: {{asset.frozen}}
+        <ng-template [ngIf]="assetBalance.frozen > 0" [ngIfElse]="free">
+          FREE BALANCE: {{assetBalance.free}} / OPEN ORDER: {{assetBalance.frozen}}
         </ng-template>
         <ng-template #free>
-          {{asset.free}}
+          {{assetBalance.free}}
         </ng-template>
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        ${{asset.price}}
+        ${{assetBalance.price}}
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        <b [ngStyle]="{color: asset.quotation?.toString() === 'EQUAL' ? 'black' : asset.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">${{asset.balance}}</b>
+        <b
+          [ngStyle]="{color: assetBalance.quotation?.toString() === 'EQUAL' ? 'black' : assetBalance.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">
+          ${{assetBalance.balance}}
+        </b>
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
+        <a [routerLink]="['/orders/history']" [queryParams]="{assetName: assetBalance.asset}"
+           style="text-decoration: none; color: black">
+          <mat-icon matBadge="0"
+                    style="width: 24px; height: 24px;"
+                    svgIcon="open-orders">
+          </mat-icon>
+        </a>
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
+        <div fxLayout="column">
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <a [routerLink]="['/orders/history']" [queryParams]="{assetName: assetBalance.asset}"
+               style="text-decoration: none; color: black">
+              <mat-icon
+                style="width: 24px; height: 24px;"
+                svgIcon="order-history">
+              </mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
+        <a [routerLink]="['/orders/place']" [queryParams]="{assetName: assetBalance.asset}"
+           style="text-decoration: none; color: black">
+          <mat-icon
+            style="width: 24px; height: 24px;"
+            svgIcon="place-order">
+          </mat-icon>
+        </a>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ export class SpinnerService {
     return this.subject.subscribe(next)
   }
 
-  setLoading(loading: boolean = false) {
+  setLoading(loading: boolean) {
     this.subject.next(loading);
   }
 }

@@ -11,21 +11,21 @@ import {SpinnerService} from "./shared/services/spinner.service";
 })
 export class AppComponent implements OnInit, OnDestroy {
   loading = false;
+  subscription: Subscription;
   spinnerService: SpinnerService;
-  spinnerSubscription: Subscription;
 
   constructor(spinnerService: SpinnerService) {
     this.spinnerService = spinnerService;
   }
 
   ngOnInit(): void {
-    this.spinnerSubscription = this.spinnerService.subscribe(loading => {
-      this.loading = loading;
+    this.subscription = this.spinnerService.subscribe(loading => {
+      setTimeout(() => this.loading = loading, 100);
     });
   }
 
   ngOnDestroy(): void {
-    this.spinnerSubscription.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   isLoggedIn(): boolean {
