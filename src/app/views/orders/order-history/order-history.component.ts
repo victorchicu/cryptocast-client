@@ -68,7 +68,6 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class OrderHistoryComponent implements OnInit {
 
-  assetName: string;
   dataSource = ELEMENT_DATA;
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -91,17 +90,11 @@ export class OrderHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.listChips();
-    this.listOrders();
     this.listAvailableChips();
   }
 
   listChips() {
     console.log('OrderHistoryComponent::listChips BEGIN')
-    this.route.queryParams
-      .subscribe(params => {
-          this.assetName = params.assetName;
-        }
-      );
     const params = new HttpParams()
       // .set('page', 0)
       // .set('size', 10);
@@ -109,6 +102,9 @@ export class OrderHistoryComponent implements OnInit {
       .subscribe((chips: ChipDto[]) => {
         if (chips) {
           this.chips = chips.map(value => value.name);
+          this.chips.forEach((chip: string) => {
+            this.listOrders(chip)
+          });
         }
       }, error => {
         console.log(error)
@@ -116,38 +112,25 @@ export class OrderHistoryComponent implements OnInit {
     console.log('OrderHistoryComponent::listChips END')
   }
 
-  listOrders() {
+  listOrders(assetName: string) {
     console.log('OrderHistoryComponent::ngOnInit BEGIN')
-    // this.spinnerService.setLoading(true);
-    this.route.queryParams
-      .subscribe(params => {
-          this.assetName = params.assetName;
-        }
-      );
     const params = new HttpParams()
-      .set("assetName", this.assetName)
+      .set("assetName", assetName)
       .set('page', 0)
       .set('size', 10);
-    // this.orderService.listOrders(params)
-    //   .subscribe((orders: OrderDto[]) => {
-    //     if (orders) {
-    //       console.log(orders);
-    //     }
-    //     this.spinnerService.setLoading(false);
-    //   }, error => {
-    //     console.log(error)
-    //     this.spinnerService.setLoading(false);
-    //   });
+    this.orderService.listOrders(params)
+      .subscribe((orders: OrderDto[]) => {
+        if (orders) {
+          console.log(orders);
+        }
+      }, error => {
+        console.log(error)
+      });
     console.log('OrderHistoryComponent::ngOnInit END')
   }
 
   listAvailableChips() {
     console.log('OrderHistoryComponent::availableChips BEGIN')
-    this.route.queryParams
-      .subscribe(params => {
-          this.assetName = params.assetName;
-        }
-      );
     const params = new HttpParams()
       // .set('page', 0)
       // .set('size', 10);
