@@ -10,9 +10,11 @@ import {OrderDto} from "../../../shared/dto/order-dto";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {ChipService} from "../../../services/chips/chip-service";
+import {ChipDto} from "../../../shared/dto/chip-dto";
 
 /*
 [
@@ -70,26 +72,48 @@ export class OrderHistoryComponent implements OnInit {
   dataSource = ELEMENT_DATA;
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  assetChips: string[] = ['Lemon'];
-  allAssetChips: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  chipsControl = new FormControl();
+  filteredChips: Observable<string[]>;
+  chips: string[] = [];
+  availableChips: string[] = [];
 
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
+  @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
+  @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
 
   constructor(
     private route: ActivatedRoute,
+    private chipService: ChipService,
     private orderService: OrderService,
     private spinnerService: SpinnerService
   ) {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allAssetChips.slice())),
-    );
+    //
   }
 
   ngOnInit(): void {
+    this.listChips();
     this.listOrders();
+    this.listAvailableChips();
+  }
+
+  listChips() {
+    console.log('OrderHistoryComponent::listChips BEGIN')
+    this.route.queryParams
+      .subscribe(params => {
+          this.assetName = params.assetName;
+        }
+      );
+    const params = new HttpParams()
+      // .set('page', 0)
+      // .set('size', 10);
+    this.chipService.listChips(params)
+      .subscribe((chips: ChipDto[]) => {
+        if (chips) {
+          this.chips = chips.map(value => value.name);
+        }
+      }, error => {
+        console.log(error)
+      });
+    console.log('OrderHistoryComponent::listChips END')
   }
 
   listOrders() {
@@ -117,39 +141,72 @@ export class OrderHistoryComponent implements OnInit {
     console.log('OrderHistoryComponent::ngOnInit END')
   }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+  listAvailableChips() {
+    console.log('OrderHistoryComponent::availableChips BEGIN')
+    this.route.queryParams
+      .subscribe(params => {
+          this.assetName = params.assetName;
+        }
+      );
+    const params = new HttpParams()
+      // .set('page', 0)
+      // .set('size', 10);
+    this.chipService.availableChips(params)
+      .subscribe((chips: ChipDto[]) => {
+        if (chips) {
+          this.availableChips = chips!.map((chip: ChipDto) => chip.name)
+          this.filteredChips = this.chipsControl.valueChanges.pipe(
+            startWith(null),
+            map((fruit: string | null) => (fruit ? this._filter(fruit) : this.availableChips.slice())),
+          );
+        }
+      }, error => {
+        console.log(error)
+      });
+    console.log('OrderHistoryComponent::availableChips END')
+  }
 
-    // Add our fruit
-    if (value) {
-      this.assetChips.push(value);
+  addChip(event: MatChipInputEvent): void {
+    console.log('OrderHistoryComponent::addChip BEGIN')
+    const symbol = (event.value || '').trim();
+    if (symbol && this.availableChips.indexOf(symbol) >= 0) {
+      this.chipService.addChip(new ChipDto(symbol))
+        .subscribe((chip: ChipDto) => {
+          this.chips.push(chip.name);
+        });
     }
-
-    // Clear the input value
     event.chipInput!.clear();
-
-    this.fruitCtrl.setValue(null);
-
-    console.log("Add chip");
+    this.chipsControl.setValue(null);
+    this.matAutocomplete.closePanel();
+    console.log('OrderHistoryComponent::addChip END')
   }
 
-  remove(fruit: string): void {
-    const index = this.assetChips.indexOf(fruit);
+  removeChip(chip: string): void {
+    console.log('OrderHistoryComponent::removeChip BEGIN')
+    const index = this.chips.indexOf(chip);
     if (index >= 0) {
-      this.assetChips.splice(index, 1);
+      this.chipService.removeChip(chip)
+        .subscribe((value: void) => {
+          this.chips.splice(index, 1);
+        });
     }
-    console.log("Remove chip");
+    console.log('OrderHistoryComponent::removeChip END')
   }
 
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.assetChips.push(event.option.viewValue);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
-    console.log("Chip selected");
+  selectChip(event: MatAutocompleteSelectedEvent): void {
+    console.log('OrderHistoryComponent::selectChip BEGIN')
+    this.chipInput.nativeElement.value = '';
+    this.chipsControl.setValue(null);
+    this.chipService.addChip(new ChipDto(event.option.viewValue))
+      .subscribe((chip: ChipDto) => {
+        this.chips.push(chip.name);
+      });
+    console.log('OrderHistoryComponent::selectChip END')
   }
+
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.allAssetChips.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.availableChips.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 }

@@ -1,28 +1,28 @@
 <div fxLayout="column" style="background: white; padding: 16px">
   <div fxLayout="row">
-    <mat-form-field class="example-chip-list" appearance="fill" style="width: 100%">
+    <mat-form-field class="chip-list" appearance="fill" style="width: 100%">
       <mat-label>SEARCH...</mat-label>
       <mat-chip-list #chipList aria-label="Search">
         <mat-chip
-          *ngFor="let fruit of assetChips"
-          (removed)="remove(fruit)">
-          {{fruit}}
+          *ngFor="let chip of chips"
+          (removed)="removeChip(chip)">
+          {{chip}}
           <button matChipRemove>
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
         <input
           placeholder="Enter asset name"
-          #fruitInput
-          [formControl]="fruitCtrl"
-          [matAutocomplete]="auto"
+          #chipInput
+          [formControl]="chipsControl"
+          [matAutocomplete]="matAutocomplete"
           [matChipInputFor]="chipList"
           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="add($event)">
+          (matChipInputTokenEnd)="addChip($event)">
       </mat-chip-list>
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-        <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-          {{fruit}}
+      <mat-autocomplete #matAutocomplete="matAutocomplete" (optionSelected)="selectChip($event)">
+        <mat-option *ngFor="let chip of filteredChips | async" [value]="chip">
+          {{chip}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

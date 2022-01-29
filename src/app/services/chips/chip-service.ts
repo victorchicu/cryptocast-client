@@ -3,7 +3,11 @@ import {BaseService} from "../base-service";
 import {Observable} from "rxjs";
 import {catchError} from "rxjs/operators";
 import {ChipDto} from "../../shared/dto/chip-dto";
+import {Injectable} from "@angular/core";
 
+@Injectable({
+  providedIn: 'root'
+})
 export class ChipService extends BaseService {
   static readonly API_PATH: string = "/api/chips"
 
