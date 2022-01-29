@@ -23,7 +23,7 @@ export class ChipService extends BaseService {
   }
 
   public removeChip(name: string): Observable<void> {
-    const url: string = `${ChipService.API_PATH}/${name}/remove`;
+    const url: string = `${ChipService.API_PATH}/${name}`;
     return this.httpClient.delete<void>(url, this.httpOptions)
       .pipe(
         catchError(this.handleError<void>('removeChip'))
