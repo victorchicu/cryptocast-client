@@ -44,37 +44,6 @@
           ${{assetBalance.balance}}
         </b>
       </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
-        <a [routerLink]="['/orders/history']" [queryParams]="{assetName: assetBalance.asset}"
-           style="text-decoration: none; color: black">
-          <mat-icon matBadge="0"
-                    style="width: 24px; height: 24px;"
-                    svgIcon="open-orders">
-          </mat-icon>
-        </a>
-      </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
-        <div fxLayout="column">
-          <div fxLayout="row" fxLayoutAlign="center center">
-            <a [routerLink]="['/orders/history']" [queryParams]="{assetName: assetBalance.asset}"
-               style="text-decoration: none; color: black">
-              <mat-icon
-                style="width: 24px; height: 24px;"
-                svgIcon="order-history">
-              </mat-icon>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
-        <a [routerLink]="['/orders/place']" [queryParams]="{assetName: assetBalance.asset}"
-           style="text-decoration: none; color: black">
-          <mat-icon
-            style="width: 24px; height: 24px;"
-            svgIcon="place-order">
-          </mat-icon>
-        </a>
-      </div>
     </div>
   </div>
   <mat-divider></mat-divider>

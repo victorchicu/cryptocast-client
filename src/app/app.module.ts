@@ -44,6 +44,8 @@ import { OpenOrdersComponent } from './views/orders/open-orders/open-orders.comp
 import { OrderHistoryComponent } from './views/orders/order-history/order-history.component';
 import { PlaceOrderComponent } from './views/orders/place-order/place-order.component';
 import {MatBadgeModule} from "@angular/material/badge";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatChipsModule} from "@angular/material/chips";
 
 const routes: Routes = [
   {
@@ -133,7 +135,9 @@ const routes: Routes = [
     MatTabsModule,
     MatRippleModule,
     MatTreeModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatAutocompleteModule,
+    MatChipsModule
   ],
   providers: [
     {

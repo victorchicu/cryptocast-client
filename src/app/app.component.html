@@ -1,40 +1,79 @@
 <div [ng2-loading]="loading" style="height: 100%; background-color: white">
   <mat-toolbar class="mat-elevation-z2" style="margin-bottom: 8px; background-color: white;">
-    <a [routerLink]="['/']">
-      <button mat-flat-button aria-label="Home">
-        <mat-icon style="width: 48px; height: 48px;" svgIcon="icons8-bitcoin"></mat-icon>
-        <span style="position: relative; top: 0.1rem"> TRADER</span>
-      </button>
-    </a>
-    <span style="flex: 1 1 auto"></span>
-    <ng-template [ngIf]="!isLoggedIn()" [ngIfElse]="loggedOut">
-      <div style="margin-left: 8px">
-        <button class="example-icon favorite-icon"
-                aria-label="Log in"
-                mat-button
-                [routerLink]="['/login']">
-          LOG IN
+    <mat-toolbar-row>
+      <a [routerLink]="['/']">
+        <button mat-flat-button aria-label="Home">
+          <mat-icon style="width: 48px; height: 48px;" svgIcon="icons8-bitcoin"></mat-icon>
+          <span style="position: relative; top: 0.1rem"> TRADER</span>
         </button>
-      </div>
-      <div style="margin-left: 8px">
-        <button color="primary"
-                class="example-icon"
-                aria-label="Create an account"
-                [routerLink]="['/signup']"
-                mat-raised-button>
-          SIGN UP
-        </button>
-      </div>
-    </ng-template>
-    <ng-template #loggedOut>
-      <div>
-        <button aria-label="Log Out"
-                [routerLink]="['/logout']"
-                mat-button class="example-icon favorite-icon">
-          LOG OUT
-        </button>
-      </div>
-    </ng-template>
+      </a>
+      <span style="flex: 1 1 auto"></span>
+      <ng-template [ngIf]="!isLoggedIn()" [ngIfElse]="loggedOut">
+        <div style="margin-left: 8px">
+          <button class="example-icon favorite-icon"
+                  aria-label="Log in"
+                  mat-button
+                  [routerLink]="['/login']">
+            LOG IN
+          </button>
+        </div>
+        <div style="margin-left: 8px">
+          <button color="primary"
+                  class="example-icon"
+                  aria-label="Create an account"
+                  [routerLink]="['/signup']"
+                  mat-raised-button>
+            SIGN UP
+          </button>
+        </div>
+      </ng-template>
+      <ng-template #loggedOut>
+        <div fxLayout="row">
+          <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
+            <a [routerLink]="['/orders/place']"
+               style="text-decoration: none; color: black">
+              <mat-icon
+                style="width: 24px; height: 24px;"
+                svgIcon="place-order">
+              </mat-icon>
+            </a>
+          </div>
+          <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
+            <a [routerLink]="['/orders/history']"
+               style="text-decoration: none; color: black">
+              <mat-icon
+                style="width: 24px; height: 24px;"
+                svgIcon="open-orders">
+              </mat-icon>
+            </a>
+          </div>
+          <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
+            <div fxLayout="column">
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <a [routerLink]="['/orders/open']"
+                   style="text-decoration: none; color: black">
+                  <mat-icon matBadge="0"
+                            style="width: 24px; height: 24px;"
+                            svgIcon="order-history">
+                  </mat-icon>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button aria-label="Log Out"
+                  [routerLink]="['/logout']"
+                  mat-button class="example-icon favorite-icon">
+            LOG OUT
+          </button>
+        </div>
+      </ng-template>
+    </mat-toolbar-row>
+<!--    <mat-toolbar-row>-->
+<!--      <span style="flex: 1 1 auto"></span>-->
+<!--     -->
+<!--    </mat-toolbar-row>-->
   </mat-toolbar>
   <router-outlet>
   </router-outlet>
