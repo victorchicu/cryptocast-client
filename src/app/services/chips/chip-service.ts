@@ -18,8 +18,7 @@ export class ChipService extends BaseService {
       )
   }
 
-
-  public removeChip(name: string, chipDto: ChipDto): Observable<void> {
+  public removeChip(name: string): Observable<void> {
     const url: string = `${ChipService.API_PATH}/${name}/remove`;
     return this.httpClient.delete<void>(url, this.httpOptions)
       .pipe(
@@ -32,6 +31,17 @@ export class ChipService extends BaseService {
       params: params,
     }
     return this.httpClient.get<ChipDto[]>(ChipService.API_PATH, options)
+      .pipe(
+        catchError(this.handleError<ChipDto[]>('listChips'))
+      )
+  }
+
+  public availableChips(params: HttpParams): Observable<ChipDto[]> {
+    const url: string = `${ChipService.API_PATH}/available`;
+    const options = {
+      params: params,
+    }
+    return this.httpClient.get<ChipDto[]>(url, options)
       .pipe(
         catchError(this.handleError<ChipDto[]>('listChips'))
       )
