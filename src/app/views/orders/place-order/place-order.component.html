@@ -1,0 +1,101 @@
+<div fxLayout="column" style="background: white; padding: 16px">
+  <div fxLayout="row">
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Number</mat-label>
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout="row">
+    <mat-card style="box-shadow: none">
+      <mat-card-title>
+        Buy/Sell {{assetName}} by limits
+      </mat-card-title>
+      <mat-card-content>
+        <form class="limit-form">
+          <div fxLayout="column">
+            <div fxLayout="row">
+              <mat-form-field appearance="legacy" style="width: 100%">
+                <mat-label>PRICE</mat-label>
+                <input type="number" name="price" matInput placeholder="Enter your price" [(ngModel)]="price">
+              </mat-form-field>
+            </div>
+            <div fxLayout="row">
+              <mat-form-field appearance="legacy" style="width: 100%">
+                <mat-label>AMOUNT</mat-label>
+                <input type="number" name="amount" matInput placeholder="Enter your amount" [(ngModel)]="amount">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-button
+          color="primary"
+          (click)="openDialog(OrderType.LIMIT, OrderSide.BUY,'assetBalance')">
+          BUY
+        </button>
+        <button
+          mat-button
+          color="warn"
+          (click)="openDialog(OrderType.LIMIT, OrderSide.BUY,'assetBalance')">
+          SELL
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout="row">
+    <mat-card style="box-shadow: none">
+      <mat-card-title>
+        Buy/Sell <span style="color: red">{{assetName}}</span> by market price
+      </mat-card-title>
+      <mat-card-content>
+        <form class="market-form">
+          <div fxLayout="column">
+            <div fxLayout="row">
+              <mat-form-field appearance="legacy" style="width: 100%">
+                <mat-label>PRICE BY MARKET</mat-label>
+                <input type="number" matInput value="" disabled>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row">
+              <mat-form-field appearance="legacy" style="width: 100%">
+                <mat-label>AMOUNT</mat-label>
+                <input type="number" name="amount" matInput placeholder="Enter your amount" [(ngModel)]="amount">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-button
+          color="primary"
+          (click)="openDialog(OrderType.MARKET, OrderSide.BUY,'assetBalance')">
+          BUY
+        </button>
+        <button
+          mat-button
+          color="warn"
+          (click)="openDialog(OrderType.MARKET, OrderSide.BUY,'assetBalance')">
+          SELL
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  <mat-divider></mat-divider>
+</div>
