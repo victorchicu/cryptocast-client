@@ -2,10 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpParams} from "@angular/common/http";
 import {OrderService} from "../../../services/orders/order.service";
-import {AssetService} from "../../../services/asset/asset.service";
 import {SpinnerService} from "../../../shared/services/spinner.service";
-import {AssetBalanceDto} from "../../../shared/dto/asset-balance-dto";
-import {AssetBalance} from "../../../services/asset/models/asset-balance";
 import {OrderDto} from "../../../shared/dto/order-dto";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
@@ -15,50 +12,51 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {ChipService} from "../../../services/chips/chip-service";
 import {ChipDto} from "../../../shared/dto/chip-dto";
+import {Page} from "../../../shared/paging/page";
+import {MatTable} from "@angular/material/table";
 
-/*
-[
-  {
-    "symbol": "LTCBTC",
-    "orderId": 1,
-    "orderListId": -1, //Unless OCO, the value will always be -1
-    "clientOrderId": "myOrder1",
-    "price": "0.1",
-    "origQty": "1.0",
-    "executedQty": "0.0",
-    "cummulativeQuoteQty": "0.0",
-    "status": "NEW",
-    "timeInForce": "GTC",
-    "type": "LIMIT",
-    "side": "BUY",
-    "stopPrice": "0.0",
-    "icebergQty": "0.0",
-    "time": 1499827319559,
-    "updateTime": 1499827319559,
-    "isWorking": true,
-    "origQuoteOrderQty": "0.000000"
-  }
-]
-*/
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
+export class OrderElement {
   symbol: string;
+  orderId: number;
+  orderListId: number;
+  clientOrderId: string;
+  price: string;
+  origQty: string;
+  executedQty: string;
+  cummulativeQuoteQty: string;
+  status: string;
+  timeInForce: string;
+  type: string;
+  side: string;
+  stopPrice: string;
+  icebergQty: string;
+  time: number;
+  updateTime: number;
+  isWorking: boolean;
+  origQuoteOrderQty: number;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+const ORDER_DATA: OrderElement[] = [
+  {
+    symbol: '',
+    orderId: 0,
+    orderListId: 0,
+    clientOrderId: 'H',
+    price: '',
+    origQty: '',
+    executedQty: '',
+    cummulativeQuoteQty: '',
+    status: '',
+    timeInForce: '',
+    type: '',
+    side: '',
+    stopPrice: '',
+    icebergQty: '',
+    time: 0,
+    updateTime: 0,
+    isWorking: true,
+    origQuoteOrderQty: 0
+  }
 ];
 
 @Component({
@@ -68,14 +66,34 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class OrderHistoryComponent implements OnInit {
 
-  dataSource = ELEMENT_DATA;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  chips: string[] = [];
+  availableChips: string[] = [];
+  orderElements: OrderElement[] = [];
+  displayedColumns: string[] = [
+    'symbol',
+    'orderId',
+    // 'orderListId',
+    // 'clientOrderId',
+    'price',
+    'origQty',
+    // 'executedQty',
+    // 'cummulativeQuoteQty',
+    'status',
+    'timeInForce',
+    'type',
+    'side',
+    // 'stopPrice',
+    // 'icebergQty',
+    'time',
+    // 'updateTime',
+    // 'isWorking',
+    // 'origQuoteOrderQty'
+  ];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   chipsControl = new FormControl();
   filteredChips: Observable<string[]>;
-  chips: string[] = [];
-  availableChips: string[] = [];
 
+  @ViewChild(MatTable) table: MatTable<OrderElement>;
   @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
   @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
 
@@ -89,64 +107,8 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.listChips();
-    this.listAvailableChips();
-  }
-
-  listChips() {
-    console.log('OrderHistoryComponent::listChips BEGIN')
-    const params = new HttpParams()
-      // .set('page', 0)
-      // .set('size', 10);
-    this.chipService.listChips(params)
-      .subscribe((chips: ChipDto[]) => {
-        if (chips) {
-          this.chips = chips.map(value => value.name);
-          this.chips.forEach((chip: string) => {
-            this.listOrders(chip)
-          });
-        }
-      }, error => {
-        console.log(error)
-      });
-    console.log('OrderHistoryComponent::listChips END')
-  }
-
-  listOrders(assetName: string) {
-    console.log('OrderHistoryComponent::ngOnInit BEGIN')
-    const params = new HttpParams()
-      .set("assetName", assetName)
-      .set('page', 0)
-      .set('size', 10);
-    this.orderService.listOrders(params)
-      .subscribe((orders: OrderDto[]) => {
-        if (orders) {
-          console.log(orders);
-        }
-      }, error => {
-        console.log(error)
-      });
-    console.log('OrderHistoryComponent::ngOnInit END')
-  }
-
-  listAvailableChips() {
-    console.log('OrderHistoryComponent::availableChips BEGIN')
-    const params = new HttpParams()
-      // .set('page', 0)
-      // .set('size', 10);
-    this.chipService.availableChips(params)
-      .subscribe((chips: ChipDto[]) => {
-        if (chips) {
-          this.availableChips = chips!.map((chip: ChipDto) => chip.name)
-          this.filteredChips = this.chipsControl.valueChanges.pipe(
-            startWith(null),
-            map((fruit: string | null) => (fruit ? this._filter(fruit) : this.availableChips.slice())),
-          );
-        }
-      }, error => {
-        console.log(error)
-      });
-    console.log('OrderHistoryComponent::availableChips END')
+    this.fetchAppendedChips();
+    this.fetchAvailableChips();
   }
 
   addChip(event: MatChipInputEvent): void {
@@ -156,6 +118,7 @@ export class OrderHistoryComponent implements OnInit {
       this.chipService.addChip(new ChipDto(symbol))
         .subscribe((chip: ChipDto) => {
           this.chips.push(chip.name);
+          this.fetchOrders(chip.name);
         });
     }
     event.chipInput!.clear();
@@ -171,6 +134,9 @@ export class OrderHistoryComponent implements OnInit {
       this.chipService.removeChip(chip)
         .subscribe((value: void) => {
           this.chips.splice(index, 1);
+          const symbolName = `${chip}USDT`;
+          this.orderElements = this.orderElements.filter(order => order.symbol !== symbolName);
+          this.table.renderRows();
         });
     }
     console.log('OrderHistoryComponent::removeChip END')
@@ -183,13 +149,98 @@ export class OrderHistoryComponent implements OnInit {
     this.chipService.addChip(new ChipDto(event.option.viewValue))
       .subscribe((chip: ChipDto) => {
         this.chips.push(chip.name);
+        this.fetchOrders(chip.name);
       });
     console.log('OrderHistoryComponent::selectChip END')
   }
 
+  fetchOrders(assetName: string) {
+    console.log('OrderHistoryComponent::ngOnInit BEGIN')
+    const params = new HttpParams()
+      .set("assetName", assetName)
+      .set('page', 0)
+      .set('size', 10);
+    this.orderService.listOrders(params)
+      .subscribe((page: Page<OrderDto[]>) => {
+        if (page && page.content) {
+          const orders: OrderDto[] = page.content;
+          orders!.forEach((orderDto: OrderDto) => {
+            this.orderElements.unshift(this.toOrderElement(orderDto))
+          })
+          if (orders.length > 0) {
+            this.table.renderRows();
+          }
+        }
+      }, error => {
+        console.log(error)
+      });
+    console.log('OrderHistoryComponent::ngOnInit END')
+  }
+
+  fetchAppendedChips() {
+    console.log('OrderHistoryComponent::fetchAppendedChips BEGIN')
+    const params = new HttpParams()
+    // .set('page', 0)
+    // .set('size', 10);
+    this.chipService.listChips(params)
+      .subscribe((chips: ChipDto[]) => {
+        if (chips) {
+          this.chips = chips.map(value => value.name);
+          this.chips.forEach((chip: string) => {
+            this.fetchOrders(chip)
+          });
+        }
+      }, error => {
+        console.log(error);
+      });
+    console.log('OrderHistoryComponent::fetchAppendedChips END')
+  }
+
+  fetchAvailableChips() {
+    console.log('OrderHistoryComponent::fetchAvailableChips BEGIN')
+    const params = new HttpParams()
+      .set('page', 0)
+      .set('size', 10);
+    this.chipService.availableChips(params)
+      .subscribe((chips: ChipDto[]) => {
+        if (chips) {
+          this.availableChips = chips!.map((chip: ChipDto) => chip.name)
+          this.filteredChips = this.chipsControl.valueChanges.pipe(
+            startWith(null),
+            map((chip: string | null) => (chip ? this._filter(chip) : this.availableChips.slice())),
+          );
+        }
+      }, error => {
+        console.log(error)
+      });
+    console.log('OrderHistoryComponent::fetchAvailableChips END')
+  }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.availableChips.filter(fruit => fruit.toLowerCase().includes(filterValue));
+  }
+
+  private toOrderElement(orderDto: OrderDto): OrderElement {
+    const orderElement: OrderElement = new OrderElement();
+    orderElement.symbol = orderDto.symbol;
+    orderElement.orderId = orderDto.orderId;
+    orderElement.orderListId = orderDto.orderListId;
+    orderElement.clientOrderId = orderDto.clientOrderId;
+    orderElement.price = orderDto.price.toString();
+    orderElement.origQty = orderDto.origQty.toString();
+    orderElement.executedQty = "null";
+    orderElement.cummulativeQuoteQty = orderDto.cummulativeQuoteQty.toString();
+    orderElement.status = orderDto.status;
+    orderElement.timeInForce = orderDto.timeInForce;
+    orderElement.type = orderDto.type;
+    orderElement.side = orderDto.side;
+    orderElement.stopPrice = orderDto.stopPrice.toString();
+    orderElement.icebergQty = orderDto.icebergQty.toString();
+    orderElement.time = orderDto.time
+    orderElement.updateTime = orderDto.updateTime;
+    orderElement.isWorking = orderDto.isWorking;
+    orderElement.origQuoteOrderQty = orderDto.origQuoteOrderQty;
+    return orderElement;
   }
 }

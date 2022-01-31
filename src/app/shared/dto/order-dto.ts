@@ -1,21 +1,21 @@
 export class OrderDto {
-  private symbol: string
-  private orderId: number
-  private orderListId: number;
-  private clientOrderId: string;
-  private price: number;
-  private origQty: number;
-  private cummulativeQuoteQty: number;
-  private status: string;
-  private timeInForce: string;
-  private type: string;
-  private side: string;
-  private stopPrice: number;
-  private icebergQty: number;
-  private time: number;
-  private updateTime: number;
-  private isWorking: boolean;
-  private origQuoteOrderQty: number;
+  symbol: string
+  orderId: number
+  orderListId: number;
+  clientOrderId: string;
+  price: number;
+  origQty: number;
+  cummulativeQuoteQty: number;
+  status: string;
+  timeInForce: string;
+  type: string;
+  side: string;
+  stopPrice: number;
+  icebergQty: number;
+  time: number;
+  updateTime: number;
+  isWorking: boolean;
+  origQuoteOrderQty: number;
 
   constructor(
     symbol: string,
