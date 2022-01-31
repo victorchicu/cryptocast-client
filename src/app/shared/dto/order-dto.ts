@@ -12,6 +12,7 @@ export class OrderDto {
   side: string;
   stopPrice: number;
   icebergQty: number;
+  executedQty: number;
   time: number;
   updateTime: number;
   isWorking: boolean;

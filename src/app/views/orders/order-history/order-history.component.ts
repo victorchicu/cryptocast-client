@@ -76,8 +76,8 @@ export class OrderHistoryComponent implements OnInit {
     // 'clientOrderId',
     'price',
     'origQty',
-    // 'executedQty',
-    // 'cummulativeQuoteQty',
+    'executedQty',
+    'cummulativeQuoteQty',
     'status',
     'timeInForce',
     'type',
@@ -86,8 +86,8 @@ export class OrderHistoryComponent implements OnInit {
     // 'icebergQty',
     'time',
     // 'updateTime',
-    // 'isWorking',
-    // 'origQuoteOrderQty'
+    'isWorking',
+    'origQuoteOrderQty'
   ];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   chipsControl = new FormControl();
@@ -229,7 +229,7 @@ export class OrderHistoryComponent implements OnInit {
     orderElement.clientOrderId = orderDto.clientOrderId;
     orderElement.price = orderDto.price.toString();
     orderElement.origQty = orderDto.origQty.toString();
-    orderElement.executedQty = "null";
+    orderElement.executedQty = orderDto.executedQty.toString();
     orderElement.cummulativeQuoteQty = orderDto.cummulativeQuoteQty.toString();
     orderElement.status = orderDto.status;
     orderElement.timeInForce = orderDto.timeInForce;
