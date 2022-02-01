@@ -39,15 +39,4 @@ export class ChipService extends BaseService {
         catchError(this.handleError<ChipDto[]>('listChips'))
       )
   }
-
-  public availableChips(params: HttpParams): Observable<ChipDto[]> {
-    const url: string = `${ChipService.API_PATH}/available`;
-    const options = {
-      params: params,
-    }
-    return this.httpClient.get<ChipDto[]>(url, options)
-      .pipe(
-        catchError(this.handleError<ChipDto[]>('listChips'))
-      )
-  }
 }

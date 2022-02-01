@@ -14,6 +14,7 @@ import {ChipService} from "../../../services/chips/chip-service";
 import {ChipDto} from "../../../shared/dto/chip-dto";
 import {Page} from "../../../shared/paging/page";
 import {MatTable} from "@angular/material/table";
+import {AssetService} from "../../../services/asset/asset.service";
 
 export class OrderElement {
   symbol: string;
@@ -101,14 +102,14 @@ export class OrderHistoryComponent implements OnInit {
     private route: ActivatedRoute,
     private chipService: ChipService,
     private orderService: OrderService,
-    private spinnerService: SpinnerService
+    private assetService: AssetService
   ) {
     //
   }
 
   ngOnInit(): void {
-    this.fetchAppendedChips();
-    this.fetchAvailableChips();
+    this.fetchPersistentChips();
+    this.fetchAvailableAssets();
   }
 
   addChip(event: MatChipInputEvent): void {
@@ -177,11 +178,11 @@ export class OrderHistoryComponent implements OnInit {
     console.log('OrderHistoryComponent::ngOnInit END')
   }
 
-  fetchAppendedChips() {
+  fetchPersistentChips() {
     console.log('OrderHistoryComponent::fetchAppendedChips BEGIN')
     const params = new HttpParams()
-    // .set('page', 0)
-    // .set('size', 10);
+    .set('page', 0)
+    .set('size', 10);
     this.chipService.listChips(params)
       .subscribe((chips: ChipDto[]) => {
         if (chips) {
@@ -196,12 +197,12 @@ export class OrderHistoryComponent implements OnInit {
     console.log('OrderHistoryComponent::fetchAppendedChips END')
   }
 
-  fetchAvailableChips() {
+  fetchAvailableAssets() {
     console.log('OrderHistoryComponent::fetchAvailableChips BEGIN')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
-    this.chipService.availableChips(params)
+    this.assetService.availableAssets(params)
       .subscribe((chips: ChipDto[]) => {
         if (chips) {
           this.availableChips = chips!.map((chip: ChipDto) => chip.name)
@@ -218,7 +219,7 @@ export class OrderHistoryComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.availableChips.filter(fruit => fruit.toLowerCase().includes(filterValue));
+    return this.availableChips.filter(chip => chip.toLowerCase().includes(filterValue));
   }
 
   private toOrderElement(orderDto: OrderDto): OrderElement {

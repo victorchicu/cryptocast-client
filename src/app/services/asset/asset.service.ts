@@ -5,6 +5,7 @@ import {catchError} from "rxjs/operators";
 import {AssetBalanceDto} from "../../shared/dto/asset-balance-dto";
 import {Page} from "../../shared/paging/page";
 import {BaseService} from "../base-service";
+import {ChipDto} from "../../shared/dto/chip-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -58,5 +59,16 @@ export class AssetService extends BaseService {
       .pipe(
         catchError(super.handleError<AssetBalanceDto[]>('listAssets'))
       );
+  }
+
+  public availableAssets(params: HttpParams): Observable<ChipDto[]> {
+    const url: string = `${AssetService.API_PATH}/available`;
+    const options = {
+      params: params,
+    }
+    return this.httpClient.get<ChipDto[]>(url, options)
+      .pipe(
+        catchError(this.handleError<ChipDto[]>('availableAssets'))
+      )
   }
 }
