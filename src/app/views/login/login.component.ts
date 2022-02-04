@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {LoginRequestDto} from "../../shared/dto/login-request-dto";
-import {LoginService} from "../../services/login/login.service";
+import {LoginService} from "../../services/login.service";
 import {Router} from "@angular/router";
 import {Globals} from "../../shared/globals";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
-import {SubscriptionService} from "../../services/subscription/subscription.service";
+import {SubscriptionService} from "../../services/subscription.service";
 import {SpinnerService} from "../../shared/services/spinner.service";
 
 @Component({

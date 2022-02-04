@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable, of} from "rxjs";
-import {SubscriptionDto} from "../../shared/dto/subscription-dto";
+import {SubscriptionDto} from "../shared/dto/subscription-dto";
 import {catchError} from "rxjs/operators";
-import {BaseService} from "../base-service";
-import {FundsBalance} from "../funds/models/funds-balance";
+import {BaseService} from "./base-service";
+import {FundsBalance} from "../shared/domain/funds-balance";
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpParams} from "@angular/common/http";
-import {OrderService} from "../../../services/orders/order.service";
+import {OrderService} from "../../../services/order.service";
 import {SpinnerService} from "../../../shared/services/spinner.service";
 import {OrderDto} from "../../../shared/dto/order-dto";
 import {FormControl} from "@angular/forms";
@@ -10,11 +10,11 @@ import {map, startWith} from "rxjs/operators";
 import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
 import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {ChipService} from "../../../services/chips/chip-service";
+import {ChipsService} from "../../../services/chips.service";
 import {ChipDto} from "../../../shared/dto/chip-dto";
 import {Page} from "../../../shared/paging/page";
 import {MatTable} from "@angular/material/table";
-import {FundsService} from "../../../services/funds/funds.service";
+import {FundsService} from "../../../services/funds.service";
 
 export class OrderElement {
   symbol: string;
@@ -100,7 +100,7 @@ export class OrderHistoryComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private chipService: ChipService,
+    private chipService: ChipsService,
     private orderService: OrderService,
     private assetService: FundsService
   ) {
@@ -158,11 +158,11 @@ export class OrderHistoryComponent implements OnInit {
   fetchOrders(fundsName: string) {
     console.log('OrderHistoryComponent::ngOnInit BEGIN')
     const params = new HttpParams()
-      .set("fundsName", fundsName)
       .set('page', 0)
       .set('size', 10);
-    this.orderService.listOrders(params)
+    this.orderService.getAllOrders(fundsName, params)
       .subscribe((page: Page<OrderDto[]>) => {
+        console.log(page)
         if (page && page.content) {
           const orders: OrderDto[] = page.content;
           orders!.forEach((orderDto: OrderDto) => {

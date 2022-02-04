@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FundsBalance} from "../../../services/funds/models/funds-balance";
+import {FundsBalance} from "../../../shared/domain/funds-balance";
 import {Order} from "../../../shared/domain/order";
 import {OrderConfirmComponent} from "../../../shared/dialogs/order-confirm-dialog/order-confirm.component";
 import {OrderType} from "../../../shared/enums/order-type";
 import {OrderSide} from "../../../shared/enums/order-side";
 import {MatDialog} from "@angular/material/dialog";
 import {TestOrderDto} from "../../../shared/dto/test-order-dto";
-import {OrderService} from "../../../services/orders/order.service";
+import {OrderService} from "../../../services/order.service";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";

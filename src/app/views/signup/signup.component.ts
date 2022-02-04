@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {SignupService} from "../../services/signup/signup.service";
+import {SignupService} from "../../services/signup.service";
 import {SignupDto} from "../../shared/dto/signup-dto";
 import {Globals} from "../../shared/globals";
 import {Router} from "@angular/router";

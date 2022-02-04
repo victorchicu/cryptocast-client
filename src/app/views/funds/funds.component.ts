@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {FundsBalance} from "../../services/funds/models/funds-balance";
-import {SubscriptionService} from "../../services/subscription/subscription.service";
-import {FundsService} from "../../services/funds/funds.service";
+import {FundsBalance} from "../../shared/domain/funds-balance";
+import {SubscriptionService} from "../../services/subscription.service";
+import {FundsService} from "../../services/funds.service";
 import {HttpParams} from "@angular/common/http";
 import {FundsBalanceDto} from "../../shared/dto/funds-balance-dto";
 import {SubscriptionDto} from "../../shared/dto/subscription-dto";
@@ -15,7 +15,7 @@ import {SpinnerService} from "../../shared/services/spinner.service";
   styleUrls: ['./funds.component.scss']
 })
 export class FundsComponent implements OnInit {
-  assetBalances: FundsBalance[] = [];
+  fundsBalances: FundsBalance[] = [];
 
   constructor(
     private fundsService: FundsService,
@@ -27,17 +27,17 @@ export class FundsComponent implements OnInit {
   }
 
   private static toFundsBalance(source: FundsBalanceDto): FundsBalance {
-    let asset: FundsBalance = new FundsBalance();
-    asset.asset = source.asset;
-    asset.fullName = source.fullName;
-    asset.iconIndex = source.iconIndex;
-    asset.flagged = source.flagged;
-    asset.free = source.free;
-    asset.frozen = source.frozen;
-    asset.price = source.price.toFixed(2);
-    asset.balance = source.balance.toFixed(2);
-    asset.quotation = source.quotation;
-    return asset;
+    const fundsBalance: FundsBalance = new FundsBalance();
+    fundsBalance.asset = source.asset;
+    fundsBalance.fullName = source.fullName;
+    fundsBalance.iconIndex = source.iconIndex;
+    fundsBalance.flagged = source.flagged;
+    fundsBalance.free = source.free;
+    fundsBalance.frozen = source.frozen;
+    fundsBalance.price = source.price.toFixed(2);
+    fundsBalance.balance = source.balance.toFixed(2);
+    fundsBalance.quotation = source.quotation;
+    return fundsBalance;
   }
 
   private static updateFundsBalance(source: FundsBalanceDto, target: FundsBalance) {
@@ -59,12 +59,12 @@ export class FundsComponent implements OnInit {
     console.log("FundsComponent::listFundsBalances BEGIN");
     this.spinnerService.setLoading(true);
     this.fundsService.listFundsBalances(httpParams)
-      .subscribe((assets: FundsBalanceDto[]) => {
-        if (assets) {
-          this.assetBalances = assets!.map(FundsComponent.toFundsBalance)
-          this.assetBalances.forEach((asset: FundsBalance) => {
-            if (asset.flagged) {
-              this.registerTickerEvent(asset);
+      .subscribe((fundsBalances: FundsBalanceDto[]) => {
+        if (fundsBalances) {
+          this.fundsBalances = fundsBalances!.map(FundsComponent.toFundsBalance)
+          this.fundsBalances.forEach((fundsBalance: FundsBalance) => {
+            if (fundsBalance.flagged) {
+              this.registerTickerEvent(fundsBalance);
             }
           });
         }
@@ -76,14 +76,14 @@ export class FundsComponent implements OnInit {
     console.log("FundsComponent::listFundsBalances END");
   }
 
-  addSubscription(asset: FundsBalance) {
+  addSubscription(fundsBalance: FundsBalance) {
     console.log("FundsComponent::addSubscription BEGIN");
-    this.subscriptionService.addSubscription(asset)
+    this.subscriptionService.addSubscription(fundsBalance)
       .subscribe((subscription: SubscriptionDto) => {
         if (subscription) {
-          asset.flagged = !asset.flagged;
-          if (asset.flagged) {
-            this.registerTickerEvent(asset);
+          fundsBalance.flagged = !fundsBalance.flagged;
+          if (fundsBalance.flagged) {
+            this.registerTickerEvent(fundsBalance);
           }
         }
       }, error => {
@@ -99,8 +99,8 @@ export class FundsComponent implements OnInit {
       .watch(topic)
       .subscribe((message: Message) => {
         if (message) {
-          const assetDto: FundsBalanceDto = JSON.parse(message.body);
-          FundsComponent.updateFundsBalance(assetDto, fundsBalance);
+          const fundsBalanceDto: FundsBalanceDto = JSON.parse(message.body);
+          FundsComponent.updateFundsBalance(fundsBalanceDto, fundsBalance);
         }
       })
     console.log("FundsComponent::registerTickerEvent END");

@@ -19,7 +19,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {NumberFormatPipe} from './shared/pipes/number-format.pipe';
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {FundsComponent} from './views/asset/funds.component';
+import {FundsComponent} from './views/funds/funds.component';
 import {LoginComponent} from './views/login/login.component';
 import {SignupComponent} from './views/signup/signup.component';
 import {MatDialogModule} from "@angular/material/dialog";

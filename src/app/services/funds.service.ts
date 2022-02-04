@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable, of, Subscriber} from "rxjs";
 import {catchError} from "rxjs/operators";
-import {FundsBalanceDto} from "../../shared/dto/funds-balance-dto";
-import {Page} from "../../shared/paging/page";
-import {BaseService} from "../base-service";
-import {ChipDto} from "../../shared/dto/chip-dto";
+import {FundsBalanceDto} from "../shared/dto/funds-balance-dto";
+import {Page} from "../shared/paging/page";
+import {BaseService} from "./base-service";
+import {ChipDto} from "../shared/dto/chip-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +57,7 @@ export class FundsService extends BaseService {
     };
     return this.httpClient.get<FundsBalanceDto[]>(FundsService.API_PATH, options)
       .pipe(
-        catchError(super.handleError<FundsBalanceDto[]>('listAssets'))
+        catchError(super.handleError<FundsBalanceDto[]>('listFundsBalances'))
       );
   }
 
@@ -68,7 +68,7 @@ export class FundsService extends BaseService {
     }
     return this.httpClient.get<ChipDto[]>(url, options)
       .pipe(
-        catchError(this.handleError<ChipDto[]>('availableAssets'))
+        catchError(this.handleError<ChipDto[]>('availableFunds'))
       )
   }
 }
