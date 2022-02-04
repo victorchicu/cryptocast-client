@@ -1,11 +1,11 @@
 import {OrderType} from "../enums/order-type";
 import {OrderSide} from "../enums/order-side";
-import {AssetBalance} from "../../services/asset/models/asset-balance";
+import {FundsBalance} from "../../services/funds/models/funds-balance";
 
 export class Order {
   private _orderType: OrderType;
   private _orderSide: OrderSide;
-  private _assetName: string;
+  private _fundsName: string;
 
   get orderType(): OrderType {
     return this._orderType;
@@ -23,11 +23,11 @@ export class Order {
     this._orderSide = value;
   }
 
-  get assetName(): string {
-    return this._assetName;
+  get fundsName(): string {
+    return this._fundsName;
   }
 
-  set assetName(value: string) {
-    this._assetName = value;
+  set fundsName(value: string) {
+    this._fundsName = value;
   }
 }

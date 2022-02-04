@@ -1,24 +1,24 @@
 import {Component, OnInit} from '@angular/core';
-import {AssetBalance} from "../../services/asset/models/asset-balance";
+import {FundsBalance} from "../../services/funds/models/funds-balance";
 import {SubscriptionService} from "../../services/subscription/subscription.service";
-import {AssetService} from "../../services/asset/asset.service";
+import {FundsService} from "../../services/funds/funds.service";
 import {HttpParams} from "@angular/common/http";
-import {AssetBalanceDto} from "../../shared/dto/asset-balance-dto";
+import {FundsBalanceDto} from "../../shared/dto/funds-balance-dto";
 import {SubscriptionDto} from "../../shared/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
 import {SpinnerService} from "../../shared/services/spinner.service";
 
 @Component({
-  selector: 'app-asset',
-  templateUrl: './asset.component.html',
-  styleUrls: ['./asset.component.scss']
+  selector: 'app-funds',
+  templateUrl: './funds.component.html',
+  styleUrls: ['./funds.component.scss']
 })
-export class AssetComponent implements OnInit {
-  assetBalances: AssetBalance[] = [];
+export class FundsComponent implements OnInit {
+  assetBalances: FundsBalance[] = [];
 
   constructor(
-    private walletService: AssetService,
+    private fundsService: FundsService,
     private rxStompService: RxStompService,
     private spinnerService: SpinnerService,
     private subscriptionService: SubscriptionService
@@ -26,8 +26,8 @@ export class AssetComponent implements OnInit {
     //
   }
 
-  private static toAssetBalance(source: AssetBalanceDto): AssetBalance {
-    let asset: AssetBalance = new AssetBalance();
+  private static toFundsBalance(source: FundsBalanceDto): FundsBalance {
+    let asset: FundsBalance = new FundsBalance();
     asset.asset = source.asset;
     asset.fullName = source.fullName;
     asset.iconIndex = source.iconIndex;
@@ -40,7 +40,7 @@ export class AssetComponent implements OnInit {
     return asset;
   }
 
-  private static updateAssetBalance(source: AssetBalanceDto, target: AssetBalance) {
+  private static updateFundsBalance(source: FundsBalanceDto, target: FundsBalance) {
     target.free = source.free;
     target.frozen = source.frozen;
     target.price = source.price.toFixed(2);
@@ -52,17 +52,17 @@ export class AssetComponent implements OnInit {
     const params = new HttpParams()
     // .set('page', 0)
     // .set('size', this.pageSize);
-    this.listAssets(params)
+    this.listFundsBalances(params)
   }
 
-  listAssets(httpParams: HttpParams) {
-    console.log("AssetComponent::listAssets BEGIN");
+  listFundsBalances(httpParams: HttpParams) {
+    console.log("FundsComponent::listFundsBalances BEGIN");
     this.spinnerService.setLoading(true);
-    this.walletService.listAssets(httpParams)
-      .subscribe((assets: AssetBalanceDto[]) => {
+    this.fundsService.listFundsBalances(httpParams)
+      .subscribe((assets: FundsBalanceDto[]) => {
         if (assets) {
-          this.assetBalances = assets!.map(AssetComponent.toAssetBalance)
-          this.assetBalances.forEach((asset: AssetBalance) => {
+          this.assetBalances = assets!.map(FundsComponent.toFundsBalance)
+          this.assetBalances.forEach((asset: FundsBalance) => {
             if (asset.flagged) {
               this.registerTickerEvent(asset);
             }
@@ -73,11 +73,11 @@ export class AssetComponent implements OnInit {
         console.log(error)
         this.spinnerService.setLoading(false);
       })
-    console.log("AssetComponent::listAssets END");
+    console.log("FundsComponent::listFundsBalances END");
   }
 
-  addSubscription(asset: AssetBalance) {
-    console.log("AssetComponent::addSubscription BEGIN");
+  addSubscription(asset: FundsBalance) {
+    console.log("FundsComponent::addSubscription BEGIN");
     this.subscriptionService.addSubscription(asset)
       .subscribe((subscription: SubscriptionDto) => {
         if (subscription) {
@@ -89,20 +89,20 @@ export class AssetComponent implements OnInit {
       }, error => {
         console.log(error)
       });
-    console.log("AssetComponent::addSubscription END");
+    console.log("FundsComponent::addSubscription END");
   }
 
-  registerTickerEvent(assetBalance: AssetBalance) {
-    console.log("AssetComponent::registerTickerEvent BEGIN");
-    const topic = `/topic/${assetBalance.asset}-ticker`;
+  registerTickerEvent(fundsBalance: FundsBalance) {
+    console.log("FundsComponent::registerTickerEvent BEGIN");
+    const topic = `/topic/${fundsBalance.asset}-ticker`;
     this.rxStompService
       .watch(topic)
       .subscribe((message: Message) => {
         if (message) {
-          const assetDto: AssetBalanceDto = JSON.parse(message.body);
-          AssetComponent.updateAssetBalance(assetDto, assetBalance);
+          const assetDto: FundsBalanceDto = JSON.parse(message.body);
+          FundsComponent.updateFundsBalance(assetDto, fundsBalance);
         }
       })
-    console.log("AssetComponent::registerTickerEvent END");
+    console.log("FundsComponent::registerTickerEvent END");
   }
 }

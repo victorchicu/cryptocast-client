@@ -1,4 +1,4 @@
 export interface SubscriptionDto {
   id: string;
-  assetName: string
+  fundsName: string
 }

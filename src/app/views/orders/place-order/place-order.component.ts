@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AssetBalance} from "../../../services/asset/models/asset-balance";
+import {FundsBalance} from "../../../services/funds/models/funds-balance";
 import {Order} from "../../../shared/domain/order";
 import {OrderConfirmComponent} from "../../../shared/dialogs/order-confirm-dialog/order-confirm.component";
 import {OrderType} from "../../../shared/enums/order-type";
@@ -20,7 +20,7 @@ import {map, startWith} from "rxjs/operators";
 export class PlaceOrderComponent implements OnInit {
   price: number;
   amount: number;
-  assetName: string;
+  fundsName: string;
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
@@ -33,18 +33,18 @@ export class PlaceOrderComponent implements OnInit {
     private orderService: OrderService,
   ) { }
 
-  private static toOrder(orderType: OrderType, orderSide: OrderSide, assetName: string): Order {
+  private static toOrder(orderType: OrderType, orderSide: OrderSide, fundsName: string): Order {
     const order: Order = new Order();
     order.orderType = orderType;
     order.orderSide = orderSide;
-    order.assetName = assetName;
+    order.fundsName = fundsName;
     return order;
   }
 
   ngOnInit(): void {
     this.route.queryParams
       .subscribe(params => {
-          this.assetName = params.assetName;
+          this.fundsName = params.fundsName;
         }
       );
     this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -53,7 +53,7 @@ export class PlaceOrderComponent implements OnInit {
     );
   }
 
-  createOrder(assetBalance: AssetBalance, orderType: OrderType, orderSide: OrderSide) {
+  createOrder(assetBalance: FundsBalance, orderType: OrderType, orderSide: OrderSide) {
     this.orderService.createOrder(
       assetBalance.asset,
       new TestOrderDto(orderType, orderSide, this.amount, this.price)
@@ -66,8 +66,8 @@ export class PlaceOrderComponent implements OnInit {
     });
   }
 
-  openDialog(orderType: OrderType, orderSide: OrderSide, assetName: string): void {
-    const order: Order = PlaceOrderComponent.toOrder(orderType, orderSide, assetName);
+  openDialog(orderType: OrderType, orderSide: OrderSide, fundsName: string): void {
+    const order: Order = PlaceOrderComponent.toOrder(orderType, orderSide, fundsName);
     const dialogRef = this.dialog.open(OrderConfirmComponent, {
       data: order,
     });

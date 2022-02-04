@@ -14,7 +14,7 @@ import {ChipService} from "../../../services/chips/chip-service";
 import {ChipDto} from "../../../shared/dto/chip-dto";
 import {Page} from "../../../shared/paging/page";
 import {MatTable} from "@angular/material/table";
-import {AssetService} from "../../../services/asset/asset.service";
+import {FundsService} from "../../../services/funds/funds.service";
 
 export class OrderElement {
   symbol: string;
@@ -87,7 +87,7 @@ export class OrderHistoryComponent implements OnInit {
     // 'icebergQty',
     'time',
     // 'updateTime',
-    'isWorking',
+    // 'isWorking',
     'origQuoteOrderQty'
   ];
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -102,7 +102,7 @@ export class OrderHistoryComponent implements OnInit {
     private route: ActivatedRoute,
     private chipService: ChipService,
     private orderService: OrderService,
-    private assetService: AssetService
+    private assetService: FundsService
   ) {
     //
   }
@@ -155,10 +155,10 @@ export class OrderHistoryComponent implements OnInit {
     console.log('OrderHistoryComponent::selectChip END')
   }
 
-  fetchOrders(assetName: string) {
+  fetchOrders(fundsName: string) {
     console.log('OrderHistoryComponent::ngOnInit BEGIN')
     const params = new HttpParams()
-      .set("assetName", assetName)
+      .set("fundsName", fundsName)
       .set('page', 0)
       .set('size', 10);
     this.orderService.listOrders(params)
@@ -202,7 +202,7 @@ export class OrderHistoryComponent implements OnInit {
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
-    this.assetService.availableAssets(params)
+    this.assetService.availableFunds(params)
       .subscribe((chips: ChipDto[]) => {
         if (chips) {
           this.availableChips = chips!.map((chip: ChipDto) => chip.name)

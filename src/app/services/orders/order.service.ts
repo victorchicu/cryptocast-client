@@ -27,8 +27,8 @@ export class OrderService extends BaseService {
       )
   }
 
-  public createOrder(assetName: string, orderDto: TestOrderDto): Observable<TestOrderDto> {
-    const url: string = `${OrderService.API_PATH}/${assetName}`;
+  public createOrder(fundsName: string, orderDto: TestOrderDto): Observable<TestOrderDto> {
+    const url: string = `${OrderService.API_PATH}/${fundsName}`;
     return this.httpClient.post<TestOrderDto>(
       url,
       orderDto,

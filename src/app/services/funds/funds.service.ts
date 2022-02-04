@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable, of, Subscriber} from "rxjs";
 import {catchError} from "rxjs/operators";
-import {AssetBalanceDto} from "../../shared/dto/asset-balance-dto";
+import {FundsBalanceDto} from "../../shared/dto/funds-balance-dto";
 import {Page} from "../../shared/paging/page";
 import {BaseService} from "../base-service";
 import {ChipDto} from "../../shared/dto/chip-dto";
@@ -10,7 +10,7 @@ import {ChipDto} from "../../shared/dto/chip-dto";
 @Injectable({
   providedIn: 'root'
 })
-export class AssetService extends BaseService {
+export class FundsService extends BaseService {
   static readonly MOCK_DATA = [{
     "coin": "XLM",
     "name": "Stellar Lumens",
@@ -41,13 +41,13 @@ export class AssetService extends BaseService {
     "fiatBalance": null
   }];
 
-  static readonly API_PATH: string = "/api/assets"
+  static readonly API_PATH: string = "/api/funds"
 
   constructor(protected httpClient: HttpClient) {
-    super(AssetService.API_PATH, httpClient);
+    super(FundsService.API_PATH, httpClient);
   }
 
-  public listAssets(params: HttpParams): Observable<AssetBalanceDto[]> {
+  public listFundsBalances(params: HttpParams): Observable<FundsBalanceDto[]> {
     // const assets: AssetDto[] = JSON.parse(JSON.stringify(WalletService.MOCK_DATA));
     // return new Observable<AssetDto[]>(subscriber => {
     //   subscriber.next(assets);
@@ -55,14 +55,14 @@ export class AssetService extends BaseService {
     const options = {
       params: params
     };
-    return this.httpClient.get<AssetBalanceDto[]>(AssetService.API_PATH, options)
+    return this.httpClient.get<FundsBalanceDto[]>(FundsService.API_PATH, options)
       .pipe(
-        catchError(super.handleError<AssetBalanceDto[]>('listAssets'))
+        catchError(super.handleError<FundsBalanceDto[]>('listAssets'))
       );
   }
 
-  public availableAssets(params: HttpParams): Observable<ChipDto[]> {
-    const url: string = `${AssetService.API_PATH}/available`;
+  public availableFunds(params: HttpParams): Observable<ChipDto[]> {
+    const url: string = `${FundsService.API_PATH}/available`;
     const options = {
       params: params,
     }
