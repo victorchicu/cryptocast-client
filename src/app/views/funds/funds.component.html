@@ -29,10 +29,10 @@
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
         <ng-template [ngIf]="fundsBalance.frozen > 0" [ngIfElse]="free">
-          FREE BALANCE: {{fundsBalance.free}} / OPEN ORDER: {{fundsBalance.frozen}}
+          FREE BALANCE: ${{fundsBalance.free.toFixed(8)}} / OPEN ORDER: ${{fundsBalance.frozen.toFixed(8)}}
         </ng-template>
         <ng-template #free>
-          {{fundsBalance.free}}
+          ${{fundsBalance.free.toFixed(8)}}
         </ng-template>
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">

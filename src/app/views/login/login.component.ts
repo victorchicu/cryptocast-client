@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 import {Globals} from "../../shared/globals";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
 import {SubscriptionService} from "../../services/subscription.service";
-import {SpinnerService} from "../../shared/services/spinner.service";
+import {LoadingIndicatorService} from "../../services/loading-indicator.service";
 
 @Component({
   selector: 'login-component',
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private loginService: LoginService,
-    private spinnerService: SpinnerService
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.loginForm = this.formBuilder.group({
       email: new FormControl(
@@ -54,16 +54,16 @@ export class LoginComponent implements OnInit {
       this.loginForm.value.password,
       this.loginForm.value.exchangeProvider
     )
-    this.spinnerService.setLoading(true)
+    this.loadingIndicatorService.setLoading(true)
     this.loginService.login(authRequestDto)
       .subscribe((accessTokenDto: AccessTokenDto) => {
         if (accessTokenDto) {
           localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenDto.accessToken);
           this.router.navigateByUrl("/");
         }
-        this.spinnerService.setLoading(false)
+        this.loadingIndicatorService.setLoading(false)
       }, (error) => {
-        this.spinnerService.setLoading(false)
+        this.loadingIndicatorService.setLoading(false)
       });
   }
 

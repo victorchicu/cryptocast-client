@@ -4,7 +4,7 @@ import {Subject, Subscription} from "rxjs";
 @Injectable({
   providedIn: 'root'
 })
-export class SpinnerService {
+export class LoadingIndicatorService {
   private subject: Subject<boolean>
 
   constructor() {

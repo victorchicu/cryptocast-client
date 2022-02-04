@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 import {Globals} from "./shared/globals";
 import {Preconditions} from "./shared/preconditions";
 import {Subscription} from "rxjs";
-import {SpinnerService} from "./shared/services/spinner.service";
+import {LoadingIndicatorService} from "./services/loading-indicator.service";
 
 @Component({
   selector: 'app-root',
@@ -12,14 +12,14 @@ import {SpinnerService} from "./shared/services/spinner.service";
 export class AppComponent implements OnInit, OnDestroy {
   loading = false;
   subscription: Subscription;
-  spinnerService: SpinnerService;
+  loadingIndicatorService: LoadingIndicatorService;
 
-  constructor(spinnerService: SpinnerService) {
-    this.spinnerService = spinnerService;
+  constructor(loadingIndicatorService: LoadingIndicatorService) {
+    this.loadingIndicatorService = loadingIndicatorService;
   }
 
   ngOnInit(): void {
-    this.subscription = this.spinnerService.subscribe(loading => {
+    this.subscription = this.loadingIndicatorService.subscribe(loading => {
       setTimeout(() => this.loading = loading, 100);
     });
   }

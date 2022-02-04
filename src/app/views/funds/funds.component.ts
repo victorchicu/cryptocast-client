@@ -7,7 +7,7 @@ import {FundsBalanceDto} from "../../shared/dto/funds-balance-dto";
 import {SubscriptionDto} from "../../shared/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
-import {SpinnerService} from "../../shared/services/spinner.service";
+import {LoadingIndicatorService} from "../../services/loading-indicator.service";
 
 @Component({
   selector: 'app-funds',
@@ -20,8 +20,8 @@ export class FundsComponent implements OnInit {
   constructor(
     private fundsService: FundsService,
     private rxStompService: RxStompService,
-    private spinnerService: SpinnerService,
-    private subscriptionService: SubscriptionService
+    private subscriptionService: SubscriptionService,
+    private loadingIndicatorService: LoadingIndicatorService,
   ) {
     //
   }
@@ -57,7 +57,7 @@ export class FundsComponent implements OnInit {
 
   listFundsBalances(httpParams: HttpParams) {
     console.log("FundsComponent::listFundsBalances BEGIN");
-    this.spinnerService.setLoading(true);
+    this.loadingIndicatorService.setLoading(true);
     this.fundsService.listFundsBalances(httpParams)
       .subscribe((fundsBalances: FundsBalanceDto[]) => {
         if (fundsBalances) {
@@ -68,10 +68,10 @@ export class FundsComponent implements OnInit {
             }
           });
         }
-        this.spinnerService.setLoading(false);
+        this.loadingIndicatorService.setLoading(false);
       }, error => {
         console.log(error)
-        this.spinnerService.setLoading(false);
+        this.loadingIndicatorService.setLoading(false);
       })
     console.log("FundsComponent::listFundsBalances END");
   }
@@ -100,6 +100,7 @@ export class FundsComponent implements OnInit {
       .subscribe((message: Message) => {
         if (message) {
           const fundsBalanceDto: FundsBalanceDto = JSON.parse(message.body);
+          console.log(fundsBalanceDto);
           FundsComponent.updateFundsBalance(fundsBalanceDto, fundsBalance);
         }
       })

@@ -5,7 +5,7 @@ import {SignupDto} from "../../shared/dto/signup-dto";
 import {Globals} from "../../shared/globals";
 import {Router} from "@angular/router";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
-import {SpinnerService} from "../../shared/services/spinner.service";
+import {LoadingIndicatorService} from "../../services/loading-indicator.service";
 
 @Component({
   selector: 'app-signup',
@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private signupService: SignupService,
-    private spinnerService: SpinnerService
+    private loadingIndicatorService: LoadingIndicatorService
   ) {
     this.signupForm = this.formBuilder.group({
       email: new FormControl(
@@ -54,17 +54,17 @@ export class SignupComponent implements OnInit {
       this.signupForm.value.secretKey,
       this.signupForm.value.exchangeProvider
     )
-    this.spinnerService.setLoading(true)
+    this.loadingIndicatorService.setLoading(true)
     this.signupService.signup(signupDto)
       .subscribe((accessTokenDto: AccessTokenDto) => {
         if (accessTokenDto) {
           localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenDto.accessToken);
           this.router.navigateByUrl("/");
         }
-        this.spinnerService.setLoading(false)
+        this.loadingIndicatorService.setLoading(false)
       }, error => {
         console.log(error);
-        this.spinnerService.setLoading(false)
+        this.loadingIndicatorService.setLoading(false)
       });
   }
 

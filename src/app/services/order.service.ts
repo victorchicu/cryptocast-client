@@ -17,17 +17,6 @@ export class OrderService extends BaseService {
     super(OrderService.API_PATH, httpClient);
   }
 
-  public getAllOrders(fundsName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
-    const url: string = `${OrderService.API_PATH}/${fundsName}`;
-    const options = {
-      params: params,
-    }
-    return this.httpClient.get<Page<OrderDto[]>>(url, options)
-      .pipe(
-        catchError(this.handleError<Page<OrderDto[]>>('listOrders'))
-      )
-  }
-
   public createOrder(fundsName: string, orderDto: TestOrderDto): Observable<TestOrderDto> {
     const url: string = `${OrderService.API_PATH}/${fundsName}`;
     return this.httpClient.post<TestOrderDto>(
@@ -37,5 +26,27 @@ export class OrderService extends BaseService {
     ).pipe(
       catchError(this.handleError<TestOrderDto>('createOrder'))
     )
+  }
+
+  public getAllOrders(fundsName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
+    const url: string = `${OrderService.API_PATH}/${fundsName}`;
+    const options = {
+      params: params,
+    }
+    return this.httpClient.get<Page<OrderDto[]>>(url, options)
+      .pipe(
+        catchError(this.handleError<Page<OrderDto[]>>('getAllOrders'))
+      )
+  }
+
+  public getOpenOrders(fundsName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
+    const url: string = `${OrderService.API_PATH}/open/${fundsName}`;
+    const options = {
+      params: params,
+    }
+    return this.httpClient.get<Page<OrderDto[]>>(url, options)
+      .pipe(
+        catchError(this.handleError<Page<OrderDto[]>>('getOpenOrders'))
+      )
   }
 }

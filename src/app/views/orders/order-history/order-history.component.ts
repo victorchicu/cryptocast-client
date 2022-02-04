@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpParams} from "@angular/common/http";
 import {OrderService} from "../../../services/order.service";
-import {SpinnerService} from "../../../shared/services/spinner.service";
+import {LoadingIndicatorService} from "../../../services/loading-indicator.service";
 import {OrderDto} from "../../../shared/dto/order-dto";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
@@ -15,86 +15,21 @@ import {ChipDto} from "../../../shared/dto/chip-dto";
 import {Page} from "../../../shared/paging/page";
 import {MatTable} from "@angular/material/table";
 import {FundsService} from "../../../services/funds.service";
-
-export class OrderElement {
-  symbol: string;
-  orderId: number;
-  orderListId: number;
-  clientOrderId: string;
-  price: string;
-  origQty: string;
-  executedQty: string;
-  cummulativeQuoteQty: string;
-  status: string;
-  timeInForce: string;
-  type: string;
-  side: string;
-  stopPrice: string;
-  icebergQty: string;
-  time: number;
-  updateTime: number;
-  isWorking: boolean;
-  origQuoteOrderQty: number;
-}
-
-const ORDER_DATA: OrderElement[] = [
-  {
-    symbol: '',
-    orderId: 0,
-    orderListId: 0,
-    clientOrderId: 'H',
-    price: '',
-    origQty: '',
-    executedQty: '',
-    cummulativeQuoteQty: '',
-    status: '',
-    timeInForce: '',
-    type: '',
-    side: '',
-    stopPrice: '',
-    icebergQty: '',
-    time: 0,
-    updateTime: 0,
-    isWorking: true,
-    origQuoteOrderQty: 0
-  }
-];
+import {OrderComponent, OrderElement} from "../order-component";
 
 @Component({
   selector: 'app-order-history',
   templateUrl: './order-history.component.html',
   styleUrls: ['./order-history.component.scss']
 })
-export class OrderHistoryComponent implements OnInit {
+export class OrderHistoryComponent extends OrderComponent {
 
   chips: string[] = [];
   availableChips: string[] = [];
-  orderElements: OrderElement[] = [];
-  displayedColumns: string[] = [
-    'symbol',
-    'orderId',
-    // 'orderListId',
-    // 'clientOrderId',
-    'price',
-    'origQty',
-    'executedQty',
-    'cummulativeQuoteQty',
-    'status',
-    'timeInForce',
-    'type',
-    'side',
-    // 'stopPrice',
-    // 'icebergQty',
-    'time',
-    // 'updateTime',
-    // 'isWorking',
-    'origQuoteOrderQty'
-  ];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   chipsControl = new FormControl();
   filteredChips: Observable<string[]>;
 
-  @ViewChild(MatTable) table: MatTable<OrderElement>;
   @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
   @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
 
@@ -102,14 +37,15 @@ export class OrderHistoryComponent implements OnInit {
     private route: ActivatedRoute,
     private chipService: ChipsService,
     private orderService: OrderService,
-    private assetService: FundsService
+    private fundsService: FundsService
   ) {
-    //
+    super();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.fetchAvailableFunds();
     this.fetchPersistentChips();
-    this.fetchAvailableAssets();
+    super.ngOnInit();
   }
 
   addChip(event: MatChipInputEvent): void {
@@ -156,7 +92,7 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   fetchOrders(fundsName: string) {
-    console.log('OrderHistoryComponent::ngOnInit BEGIN')
+    console.log('OrderHistoryComponent::fetchOrders BEGIN')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
@@ -166,7 +102,7 @@ export class OrderHistoryComponent implements OnInit {
         if (page && page.content) {
           const orders: OrderDto[] = page.content;
           orders!.forEach((orderDto: OrderDto) => {
-            this.orderElements.unshift(this.toOrderElement(orderDto))
+            this.orderElements.unshift(OrderHistoryComponent.toOrderElement(orderDto))
           })
           if (orders.length > 0) {
             this.table.renderRows();
@@ -175,14 +111,38 @@ export class OrderHistoryComponent implements OnInit {
       }, error => {
         console.log(error)
       });
-    console.log('OrderHistoryComponent::ngOnInit END')
+    console.log('OrderHistoryComponent::fetchOrders END')
+  }
+
+  fetchAvailableFunds() {
+    console.log('OrderHistoryComponent::fetchAvailableFunds BEGIN')
+    const params = new HttpParams()
+      .set('page', 0)
+      .set('size', 10);
+    this.fundsService.availableFunds(params)
+      .subscribe((chips: ChipDto[]) => {
+        if (chips) {
+          this.availableChips = chips!.map((chip: ChipDto) => chip.name)
+          this.filteredChips = this.chipsControl.valueChanges.pipe(
+            startWith(null),
+            map((chip: string | null) => (
+              chip
+                ? this.filterChips(chip)
+                : this.availableChips.slice()
+            ))
+          );
+        }
+      }, error => {
+        console.log(error)
+      });
+    console.log('OrderHistoryComponent::fetchAvailableFunds END')
   }
 
   fetchPersistentChips() {
-    console.log('OrderHistoryComponent::fetchAppendedChips BEGIN')
+    console.log('OrderHistoryComponent::fetchPersistentChips BEGIN')
     const params = new HttpParams()
-    .set('page', 0)
-    .set('size', 10);
+      .set('page', 0)
+      .set('size', 10);
     this.chipService.listChips(params)
       .subscribe((chips: ChipDto[]) => {
         if (chips) {
@@ -194,54 +154,11 @@ export class OrderHistoryComponent implements OnInit {
       }, error => {
         console.log(error);
       });
-    console.log('OrderHistoryComponent::fetchAppendedChips END')
+    console.log('OrderHistoryComponent::fetchPersistentChips END')
   }
 
-  fetchAvailableAssets() {
-    console.log('OrderHistoryComponent::fetchAvailableChips BEGIN')
-    const params = new HttpParams()
-      .set('page', 0)
-      .set('size', 10);
-    this.assetService.availableFunds(params)
-      .subscribe((chips: ChipDto[]) => {
-        if (chips) {
-          this.availableChips = chips!.map((chip: ChipDto) => chip.name)
-          this.filteredChips = this.chipsControl.valueChanges.pipe(
-            startWith(null),
-            map((chip: string | null) => (chip ? this._filter(chip) : this.availableChips.slice())),
-          );
-        }
-      }, error => {
-        console.log(error)
-      });
-    console.log('OrderHistoryComponent::fetchAvailableChips END')
-  }
-
-  private _filter(value: string): string[] {
+  private filterChips(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.availableChips.filter(chip => chip.toLowerCase().includes(filterValue));
-  }
-
-  private toOrderElement(orderDto: OrderDto): OrderElement {
-    const orderElement: OrderElement = new OrderElement();
-    orderElement.symbol = orderDto.symbol;
-    orderElement.orderId = orderDto.orderId;
-    orderElement.orderListId = orderDto.orderListId;
-    orderElement.clientOrderId = orderDto.clientOrderId;
-    orderElement.price = orderDto.price.toString();
-    orderElement.origQty = orderDto.origQty.toString();
-    orderElement.executedQty = orderDto.executedQty.toString();
-    orderElement.cummulativeQuoteQty = orderDto.cummulativeQuoteQty.toString();
-    orderElement.status = orderDto.status;
-    orderElement.timeInForce = orderDto.timeInForce;
-    orderElement.type = orderDto.type;
-    orderElement.side = orderDto.side;
-    orderElement.stopPrice = orderDto.stopPrice.toString();
-    orderElement.icebergQty = orderDto.icebergQty.toString();
-    orderElement.time = orderDto.time
-    orderElement.updateTime = orderDto.updateTime;
-    orderElement.isWorking = orderDto.isWorking;
-    orderElement.origQuoteOrderQty = orderDto.origQuoteOrderQty;
-    return orderElement;
   }
 }
