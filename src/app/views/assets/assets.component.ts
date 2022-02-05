@@ -121,7 +121,6 @@ export class AssetsComponent implements OnInit {
       .subscribe((message: Message) => {
         if (message) {
           const assetBalanceDto: AssetBalanceDto = JSON.parse(message.body);
-          console.log(assetBalanceDto);
           AssetsComponent.updateAssetBalance(assetBalanceDto, assetBalance);
         }
       })
