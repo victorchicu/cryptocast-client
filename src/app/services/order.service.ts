@@ -40,7 +40,7 @@ export class OrderService extends BaseService {
   }
 
   public getOpenOrders(assetName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
-    const url: string = `${OrderService.API_PATH}/open/${assetName}`;
+    const url: string = `${OrderService.API_PATH}/open?assetName=${assetName}`;
     const options = {
       params: params,
     }

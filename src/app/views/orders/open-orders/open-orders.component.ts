@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {OrderComponent} from "../order-component";
 import {HttpParams} from "@angular/common/http";
 import {Page} from "../../../shared/paging/page";
 import {OrderDto} from "../../../shared/dto/order-dto";
 import {OrderService} from "../../../services/order.service";
+import {ActivatedRoute, Params} from "@angular/router";
 
 @Component({
   selector: 'app-open-orders',
@@ -11,12 +12,19 @@ import {OrderService} from "../../../services/order.service";
   styleUrls: ['./open-orders.component.scss']
 })
 export class OpenOrdersComponent extends OrderComponent {
+  assetNameQueryParam: string
 
-  constructor(private orderService: OrderService) {
+  constructor(private orderService: OrderService, private route: ActivatedRoute) {
     super();
   }
 
   ngOnInit() {
+    this.route.queryParams
+      .subscribe((params: Params) => {
+          this.assetNameQueryParam = params.assetName;
+          console.log(this.assetNameQueryParam);
+        }
+      );
     super.ngOnInit();
   }
 

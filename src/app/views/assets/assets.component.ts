@@ -8,6 +8,11 @@ import {SubscriptionDto} from "../../shared/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
 import {LoadingIndicatorService} from "../../services/loading-indicator.service";
+import {OrderDto} from "../../shared/dto/order-dto";
+import {OrderService} from "../../services/order.service";
+import {Page} from "../../shared/paging/page";
+import {OrderComponent} from "../orders/order-component";
+import {Order} from "../../shared/domain/order";
 
 @Component({
   selector: 'app-assets',
@@ -19,6 +24,7 @@ export class AssetsComponent implements OnInit {
 
   constructor(
     private assetService: AssetService,
+    private orderService: OrderService,
     private rxStompService: RxStompService,
     private subscriptionService: SubscriptionService,
     private loadingIndicatorService: LoadingIndicatorService,
@@ -52,28 +58,7 @@ export class AssetsComponent implements OnInit {
     const params = new HttpParams()
     // .set('page', 0)
     // .set('size', this.pageSize);
-    this.listAssetBalances(params)
-  }
-
-  listAssetBalances(httpParams: HttpParams) {
-    console.log("AssetsComponent::listAssetBalances BEGIN");
-    this.loadingIndicatorService.setLoading(true);
-    this.assetService.listAssetBalances(httpParams)
-      .subscribe((assetBalances: AssetBalanceDto[]) => {
-        if (assetBalances) {
-          this.assetBalances = assetBalances!.map(AssetsComponent.toAssetBalance)
-          this.assetBalances.forEach((assetBalance: AssetBalance) => {
-            if (assetBalance.flagged) {
-              this.registerTickerEvent(assetBalance);
-            }
-          });
-        }
-        this.loadingIndicatorService.setLoading(false);
-      }, error => {
-        console.log(error)
-        this.loadingIndicatorService.setLoading(false);
-      })
-    console.log("AssetsComponent::listAssetBalances END");
+    this.fetchAssetBalances(params)
   }
 
   addSubscription(assetBalance: AssetBalance) {
@@ -90,6 +75,42 @@ export class AssetsComponent implements OnInit {
         console.log(error)
       });
     console.log("AssetsComponent::addSubscription END");
+  }
+
+  fetchOpenOrders(assetBalance: AssetBalance) {
+    console.log("AssetsComponent::fetchOpenOrders BEGIN");
+    const params = new HttpParams()
+    // .set('page', 0)
+    // .set('size', this.pageSize);
+    this.orderService.getOpenOrders(assetBalance.asset, params)
+      .subscribe((page: Page<OrderDto[]>) => {
+        assetBalance.openOrders = page.totalElements
+      }, error => {
+        console.log(error)
+      });
+    console.log("AssetsComponent::fetchOpenOrders END");
+  }
+
+  fetchAssetBalances(httpParams: HttpParams) {
+    console.log("AssetsComponent::fetchAssetBalances BEGIN");
+    this.loadingIndicatorService.setLoading(true);
+    this.assetService.listAssetBalances(httpParams)
+      .subscribe((assetBalances: AssetBalanceDto[]) => {
+        if (assetBalances) {
+          this.assetBalances = assetBalances!.map(AssetsComponent.toAssetBalance)
+          this.assetBalances.forEach((assetBalance: AssetBalance) => {
+            if (assetBalance.flagged) {
+              this.registerTickerEvent(assetBalance);
+            }
+            this.fetchOpenOrders(assetBalance);
+          });
+        }
+        this.loadingIndicatorService.setLoading(false);
+      }, error => {
+        console.log(error)
+        this.loadingIndicatorService.setLoading(false);
+      })
+    console.log("AssetsComponent::fetchAssetBalances END");
   }
 
   registerTickerEvent(assetBalance: AssetBalance) {

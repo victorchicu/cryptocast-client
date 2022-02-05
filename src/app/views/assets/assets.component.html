@@ -1,6 +1,6 @@
 <div fxLayout="column" *ngFor="let assetBalance of assetBalances" style="background: white; padding: 16px">
   <div fxLayout="row" [ngStyle]="{'background-color': assetBalance.frozen > 0 ? 'mistyrose' : 'white'}">
-    <div fxLayoutAlign="center center">
+    <div fxLayoutAlign="center center" style="margin-right: 8px!important;">
       <button
         (click)="addSubscription(assetBalance)"
         [ngStyle]="{'visibility':assetBalance.asset === 'USDT' ? 'hidden' : 'visible'}"
@@ -12,22 +12,31 @@
       </button>
     </div>
     <div fxLayout="row">
+      <div fxLayoutAlign="center center" style="margin: 0px; margin-top: 10px!important; margin-right: 16px!important;">
+        <a [routerLink]="['/orders/open']" [queryParams]="{assetName: assetBalance.asset}"
+           style="text-decoration: none; color: black">
+          <mat-icon matBadge="{{assetBalance.openOrders}}"
+                    style="width: 24px; height: 24px;"
+                    svgIcon="order-history">
+          </mat-icon>
+        </a>
+      </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
         <img
           alt="Asset icon"
           src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{assetBalance.iconIndex}}.png"
           class="icon24 unselectable">
       </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
         <a href="https://coinmarketcap.com/currencies/bitcoin/" target="_blank"
            style="color: black; text-decoration: none">
           <b><u>{{assetBalance.asset}}</u></b>
         </a>
       </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
         {{assetBalance.fullName}}
       </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
         <ng-template [ngIf]="assetBalance.frozen > 0" [ngIfElse]="free">
           FREE BALANCE: ${{assetBalance.free.toFixed(8)}} / OPEN ORDER: ${{assetBalance.frozen.toFixed(8)}}
         </ng-template>
@@ -35,10 +44,10 @@
           ${{assetBalance.free.toFixed(8)}}
         </ng-template>
       </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
         ${{assetBalance.price}}
       </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
+      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
         <b
           [ngStyle]="{color: assetBalance.quotation?.toString() === 'EQUAL' ? 'black' : assetBalance.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">
           ${{assetBalance.balance}}

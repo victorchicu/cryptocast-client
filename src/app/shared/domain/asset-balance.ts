@@ -9,7 +9,8 @@ export class AssetBalance {
   private _frozen: number;
   private _price: string;
   private _balance: string;
-  private _quotation: Quotation
+  private _quotation: Quotation;
+  private _openOrders: number;
 
   get iconIndex(): number {
     return this._iconIndex;
@@ -83,5 +84,14 @@ export class AssetBalance {
 
   set quotation(value: Quotation) {
     this._quotation = value;
+  }
+
+
+  get openOrders(): number {
+    return this._openOrders;
+  }
+
+  set openOrders(value: number) {
+    this._openOrders = value;
   }
 }
