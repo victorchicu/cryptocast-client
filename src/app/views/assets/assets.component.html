@@ -1,13 +1,13 @@
-<div fxLayout="column" *ngFor="let fundsBalance of fundsBalances" style="background: white; padding: 16px">
-  <div fxLayout="row" [ngStyle]="{'background-color': fundsBalance.frozen > 0 ? 'mistyrose' : 'white'}">
+<div fxLayout="column" *ngFor="let assetBalance of assetBalances" style="background: white; padding: 16px">
+  <div fxLayout="row" [ngStyle]="{'background-color': assetBalance.frozen > 0 ? 'mistyrose' : 'white'}">
     <div fxLayoutAlign="center center">
       <button
-        (click)="addSubscription(fundsBalance)"
-        [ngStyle]="{'visibility':fundsBalance.asset === 'USDT' ? 'hidden' : 'visible'}"
+        (click)="addSubscription(assetBalance)"
+        [ngStyle]="{'visibility':assetBalance.asset === 'USDT' ? 'hidden' : 'visible'}"
         mat-icon-button aria-label="Subscriptions">
         <mat-icon
           style="width: 24px; height: 24px;"
-          svgIcon="{{fundsBalance.flagged ? 'star' : 'star_outline'}}">
+          svgIcon="{{assetBalance.flagged ? 'star' : 'star_outline'}}">
         </mat-icon>
       </button>
     </div>
@@ -15,33 +15,33 @@
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
         <img
           alt="Asset icon"
-          src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{fundsBalance.iconIndex}}.png"
+          src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{assetBalance.iconIndex}}.png"
           class="icon24 unselectable">
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
         <a href="https://coinmarketcap.com/currencies/bitcoin/" target="_blank"
            style="color: black; text-decoration: none">
-          <b><u>{{fundsBalance.asset}}</u></b>
+          <b><u>{{assetBalance.asset}}</u></b>
         </a>
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        {{fundsBalance.fullName}}
+        {{assetBalance.fullName}}
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        <ng-template [ngIf]="fundsBalance.frozen > 0" [ngIfElse]="free">
-          FREE BALANCE: ${{fundsBalance.free.toFixed(8)}} / OPEN ORDER: ${{fundsBalance.frozen.toFixed(8)}}
+        <ng-template [ngIf]="assetBalance.frozen > 0" [ngIfElse]="free">
+          FREE BALANCE: ${{assetBalance.free.toFixed(8)}} / OPEN ORDER: ${{assetBalance.frozen.toFixed(8)}}
         </ng-template>
         <ng-template #free>
-          ${{fundsBalance.free.toFixed(8)}}
+          ${{assetBalance.free.toFixed(8)}}
         </ng-template>
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        ${{fundsBalance.price}}
+        ${{assetBalance.price}}
       </div>
       <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
         <b
-          [ngStyle]="{color: fundsBalance.quotation?.toString() === 'EQUAL' ? 'black' : fundsBalance.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">
-          ${{fundsBalance.balance}}
+          [ngStyle]="{color: assetBalance.quotation?.toString() === 'EQUAL' ? 'black' : assetBalance.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">
+          ${{assetBalance.balance}}
         </b>
       </div>
     </div>

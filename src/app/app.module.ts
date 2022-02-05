@@ -19,7 +19,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatCardModule} from "@angular/material/card";
 import {NumberFormatPipe} from './shared/pipes/number-format.pipe';
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {FundsComponent} from './views/funds/funds.component';
+import {AssetsComponent} from './views/assets/assets.component';
 import {LoginComponent} from './views/login/login.component';
 import {SignupComponent} from './views/signup/signup.component';
 import {MatDialogModule} from "@angular/material/dialog";
@@ -50,7 +50,7 @@ import {MatChipsModule} from "@angular/material/chips";
 const routes: Routes = [
   {
     path: '',
-    component: FundsComponent,
+    component: AssetsComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -93,7 +93,7 @@ const routes: Routes = [
     LoginComponent,
     SignupComponent,
     NumberFormatPipe,
-    FundsComponent,
+    AssetsComponent,
     NotificationsComponent,
     LogoutComponent,
     NotFoundComponent,

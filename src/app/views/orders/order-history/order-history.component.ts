@@ -14,7 +14,7 @@ import {ChipsService} from "../../../services/chips.service";
 import {ChipDto} from "../../../shared/dto/chip-dto";
 import {Page} from "../../../shared/paging/page";
 import {MatTable} from "@angular/material/table";
-import {FundsService} from "../../../services/funds.service";
+import {AssetService} from "../../../services/asset.service";
 import {OrderComponent, OrderElement} from "../order-component";
 
 @Component({
@@ -37,13 +37,13 @@ export class OrderHistoryComponent extends OrderComponent {
     private route: ActivatedRoute,
     private chipService: ChipsService,
     private orderService: OrderService,
-    private fundsService: FundsService
+    private assetService: AssetService
   ) {
     super();
   }
 
   ngOnInit() {
-    this.fetchAvailableFunds();
+    this.fetchAvailableAssets();
     this.fetchPersistentChips();
     super.ngOnInit();
   }
@@ -91,12 +91,12 @@ export class OrderHistoryComponent extends OrderComponent {
     console.log('OrderHistoryComponent::selectChip END')
   }
 
-  fetchOrders(fundsName: string) {
+  fetchOrders(assetName: string) {
     console.log('OrderHistoryComponent::fetchOrders BEGIN')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
-    this.orderService.getAllOrders(fundsName, params)
+    this.orderService.getAllOrders(assetName, params)
       .subscribe((page: Page<OrderDto[]>) => {
         console.log(page)
         if (page && page.content) {
@@ -114,12 +114,12 @@ export class OrderHistoryComponent extends OrderComponent {
     console.log('OrderHistoryComponent::fetchOrders END')
   }
 
-  fetchAvailableFunds() {
-    console.log('OrderHistoryComponent::fetchAvailableFunds BEGIN')
+  fetchAvailableAssets() {
+    console.log('OrderHistoryComponent::fetchAvailableAssets BEGIN')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
-    this.fundsService.availableFunds(params)
+    this.assetService.availableAssets(params)
       .subscribe((chips: ChipDto[]) => {
         if (chips) {
           this.availableChips = chips!.map((chip: ChipDto) => chip.name)
@@ -135,7 +135,7 @@ export class OrderHistoryComponent extends OrderComponent {
       }, error => {
         console.log(error)
       });
-    console.log('OrderHistoryComponent::fetchAvailableFunds END')
+    console.log('OrderHistoryComponent::fetchAvailableAssets END')
   }
 
   fetchPersistentChips() {

@@ -1,6 +1,6 @@
 import {Quotation} from "../enums/quotation";
 
-export class FundsBalance {
+export class AssetBalance {
   private _asset: string;
   private _fullName: string;
   private _iconIndex: number;

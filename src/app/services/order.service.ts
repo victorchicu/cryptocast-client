@@ -17,8 +17,8 @@ export class OrderService extends BaseService {
     super(OrderService.API_PATH, httpClient);
   }
 
-  public createOrder(fundsName: string, orderDto: TestOrderDto): Observable<TestOrderDto> {
-    const url: string = `${OrderService.API_PATH}/${fundsName}`;
+  public createOrder(assetName: string, orderDto: TestOrderDto): Observable<TestOrderDto> {
+    const url: string = `${OrderService.API_PATH}/${assetName}`;
     return this.httpClient.post<TestOrderDto>(
       url,
       orderDto,
@@ -28,8 +28,8 @@ export class OrderService extends BaseService {
     )
   }
 
-  public getAllOrders(fundsName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
-    const url: string = `${OrderService.API_PATH}/${fundsName}`;
+  public getAllOrders(assetName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
+    const url: string = `${OrderService.API_PATH}/${assetName}`;
     const options = {
       params: params,
     }
@@ -39,8 +39,8 @@ export class OrderService extends BaseService {
       )
   }
 
-  public getOpenOrders(fundsName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
-    const url: string = `${OrderService.API_PATH}/open/${fundsName}`;
+  public getOpenOrders(assetName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
+    const url: string = `${OrderService.API_PATH}/open/${assetName}`;
     const options = {
       params: params,
     }

@@ -20,12 +20,12 @@ export class OpenOrdersComponent extends OrderComponent {
     super.ngOnInit();
   }
 
-  fetchOrders(fundsName: string) {
+  fetchOrders(assetName: string) {
     console.log('OrderHistoryComponent::fetchOrders BEGIN')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
-    this.orderService.getOpenOrders(fundsName, params)
+    this.orderService.getOpenOrders(assetName, params)
       .subscribe((page: Page<OrderDto[]>) => {
         console.log(page)
         if (page && page.content) {
