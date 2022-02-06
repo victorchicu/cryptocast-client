@@ -16,6 +16,14 @@ export class SubscriptionService extends BaseService {
     super(SubscriptionService.API_PATH, httpClient);
   }
 
+  public getSubscription(assetName: string): Observable<SubscriptionDto> {
+    const url: string = `${SubscriptionService.API_PATH}/${assetName}`;
+    return this.httpClient.get<SubscriptionDto>(
+      url,
+      this.httpOptions
+    );
+  }
+
   public addSubscription(assetBalance: AssetBalance): Observable<SubscriptionDto> {
     const url: string = `${SubscriptionService.API_PATH}/${assetBalance.asset}/add`;
     return this.httpClient.post<SubscriptionDto>(
@@ -24,16 +32,11 @@ export class SubscriptionService extends BaseService {
         balance: assetBalance.free
       },
       this.httpOptions
-    ).pipe(
-      catchError(this.handleError<SubscriptionDto>('addSubscription'))
-    )
+    );
   }
 
-  public removeSubscription(assetName: string): Observable<SubscriptionDto> {
+  public removeSubscription(assetName: string): Observable<Response> {
     const url: string = `${SubscriptionService.API_PATH}/${assetName}/remove`;
-    return this.httpClient.delete<SubscriptionDto>(url, this.httpOptions)
-      .pipe(
-        catchError(super.handleError<SubscriptionDto>('removeSubscription'))
-      )
+    return this.httpClient.delete<Response>(url, this.httpOptions);
   }
 }

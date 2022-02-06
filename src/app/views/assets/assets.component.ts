@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AssetBalance} from "../../shared/domain/asset-balance";
 import {SubscriptionService} from "../../services/subscription.service";
 import {AssetService} from "../../services/asset.service";
-import {HttpParams} from "@angular/common/http";
+import {HttpErrorResponse, HttpParams, HttpStatusCode} from "@angular/common/http";
 import {AssetBalanceDto} from "../../shared/dto/asset-balance-dto";
 import {SubscriptionDto} from "../../shared/dto/subscription-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
@@ -37,7 +37,6 @@ export class AssetsComponent implements OnInit {
     assetBalance.asset = source.asset;
     assetBalance.fullName = source.fullName;
     assetBalance.iconIndex = source.iconIndex;
-    assetBalance.flagged = source.flagged;
     assetBalance.free = source.free;
     assetBalance.frozen = source.frozen;
     assetBalance.price = source.price.toFixed(2);
@@ -61,20 +60,33 @@ export class AssetsComponent implements OnInit {
     this.fetchAssetBalances(params)
   }
 
-  addSubscription(assetBalance: AssetBalance) {
-    console.log("AssetsComponent::addSubscription BEGIN");
-    this.subscriptionService.addSubscription(assetBalance)
-      .subscribe((subscription: SubscriptionDto) => {
-        if (subscription) {
-          assetBalance.flagged = !assetBalance.flagged;
-          if (assetBalance.flagged) {
-            this.registerTickerEvent(assetBalance);
+  toggleSubscription(assetBalance: AssetBalance) {
+    console.log("AssetsComponent::toggleSubscription BEGIN");
+    assetBalance.toggled = !assetBalance.toggled;
+    if (assetBalance.toggled) {
+      this.subscriptionService.addSubscription(assetBalance)
+        .subscribe((subscription: SubscriptionDto) => {
+          assetBalance.toggled = subscription !== null;
+          if (assetBalance.toggled) {
+            this.registerAssetTickerEvent(assetBalance);
           }
-        }
-      }, error => {
-        console.log(error)
-      });
-    console.log("AssetsComponent::addSubscription END");
+        }, error => {
+          console.log(error)
+        });
+    } else {
+      this.subscriptionService.removeSubscription(assetBalance.asset)
+        .subscribe((response: Response) => {
+          if (response) {
+            assetBalance.toggled = !(response.status == HttpStatusCode.NoContent);
+            this.removeAssetTickerEvent(assetBalance);
+          }
+        }, error => {
+          console.log(error)
+        }, () => {
+          console.log("removeSubscription Completed")
+        })
+    }
+    console.log("AssetsComponent::toggleSubscription END");
   }
 
   fetchOpenOrders(assetBalance: AssetBalance) {
@@ -91,6 +103,25 @@ export class AssetsComponent implements OnInit {
     console.log("AssetsComponent::fetchOpenOrders END");
   }
 
+  fetchSubscription(assetBalance: AssetBalance) {
+    console.log("AssetsComponent::fetchSubscription BEGIN");
+    const params = new HttpParams()
+    // .set('page', 0)
+    // .set('size', this.pageSize);
+    this.subscriptionService.getSubscription(assetBalance.asset)
+      .subscribe((subscriptionDto: SubscriptionDto) => {
+        assetBalance.toggled = subscriptionDto !== null;
+        if (assetBalance.toggled) {
+          this.removeAssetTickerEvent(assetBalance);
+          this.registerAssetTickerEvent(assetBalance);
+        }
+      }, (error: HttpErrorResponse) => {
+        console.log(error)
+        assetBalance.toggled = error.ok;
+      });
+    console.log("AssetsComponent::fetchSubscription END");
+  }
+
   fetchAssetBalances(httpParams: HttpParams) {
     console.log("AssetsComponent::fetchAssetBalances BEGIN");
     this.loadingIndicatorService.setLoading(true);
@@ -99,10 +130,8 @@ export class AssetsComponent implements OnInit {
         if (assetBalances) {
           this.assetBalances = assetBalances!.map(AssetsComponent.toAssetBalance)
           this.assetBalances.forEach((assetBalance: AssetBalance) => {
-            if (assetBalance.flagged) {
-              this.registerTickerEvent(assetBalance);
-            }
             this.fetchOpenOrders(assetBalance);
+            this.fetchSubscription(assetBalance);
           });
         }
         this.loadingIndicatorService.setLoading(false);
@@ -113,10 +142,10 @@ export class AssetsComponent implements OnInit {
     console.log("AssetsComponent::fetchAssetBalances END");
   }
 
-  registerTickerEvent(assetBalance: AssetBalance) {
-    console.log("AssetsComponent::registerTickerEvent BEGIN");
+  registerAssetTickerEvent(assetBalance: AssetBalance) {
+    console.log("AssetsComponent::registerAssetTickerEvent BEGIN");
     const topic = `/topic/${assetBalance.asset}-ticker`;
-    this.rxStompService
+    assetBalance.subscription = this.rxStompService
       .watch(topic)
       .subscribe((message: Message) => {
         if (message) {
@@ -124,6 +153,14 @@ export class AssetsComponent implements OnInit {
           AssetsComponent.updateAssetBalance(assetBalanceDto, assetBalance);
         }
       })
-    console.log("AssetsComponent::registerTickerEvent END");
+    console.log("AssetsComponent::registerAssetTickerEvent END");
+  }
+
+  removeAssetTickerEvent(assetBalance: AssetBalance) {
+    console.log("AssetsComponent::removeAssetTickerEvent BEGIN");
+    if (assetBalance.subscription) {
+      assetBalance.subscription.unsubscribe()
+    }
+    console.log("AssetsComponent::removeAssetTickerEvent END");
   }
 }

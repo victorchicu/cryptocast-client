@@ -2,12 +2,12 @@
   <div fxLayout="row" [ngStyle]="{'background-color': assetBalance.frozen > 0 ? 'mistyrose' : 'white'}">
     <div fxLayoutAlign="center center" style="margin-right: 8px!important;">
       <button
-        (click)="addSubscription(assetBalance)"
+        (click)="toggleSubscription(assetBalance)"
         [ngStyle]="{'visibility':assetBalance.asset === 'USDT' ? 'hidden' : 'visible'}"
         mat-icon-button aria-label="Subscriptions">
         <mat-icon
           style="width: 24px; height: 24px;"
-          svgIcon="{{assetBalance.flagged ? 'star' : 'star_outline'}}">
+          svgIcon="{{assetBalance.toggled ? 'star' : 'star_outline'}}">
         </mat-icon>
       </button>
     </div>

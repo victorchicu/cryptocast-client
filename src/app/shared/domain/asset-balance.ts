@@ -1,16 +1,18 @@
 import {Quotation} from "../enums/quotation";
+import {Subscription} from "rxjs";
 
 export class AssetBalance {
   private _asset: string;
   private _fullName: string;
   private _iconIndex: number;
-  private _flagged: boolean;
+  private _toggled: boolean;
   private _free: number;
   private _frozen: number;
   private _price: string;
   private _balance: string;
   private _quotation: Quotation;
   private _openOrders: number;
+  private _subscription: Subscription;
 
   get iconIndex(): number {
     return this._iconIndex;
@@ -36,12 +38,12 @@ export class AssetBalance {
     this._fullName = value;
   }
 
-  get flagged(): boolean {
-    return this._flagged;
+  get toggled(): boolean {
+    return this._toggled;
   }
 
-  set flagged(value: boolean) {
-    this._flagged = value;
+  set toggled(value: boolean) {
+    this._toggled = value;
   }
 
   get free(): number {
@@ -93,5 +95,14 @@ export class AssetBalance {
 
   set openOrders(value: number) {
     this._openOrders = value;
+  }
+
+
+  get subscription(): Subscription {
+    return this._subscription;
+  }
+
+  set subscription(value: Subscription) {
+    this._subscription = value;
   }
 }
