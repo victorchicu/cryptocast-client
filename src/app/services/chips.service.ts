@@ -16,10 +16,7 @@ export class ChipsService extends BaseService {
   }
 
   public addChip(chipDto: ChipDto): Observable<ChipDto> {
-    return this.httpClient.post<ChipDto>(ChipsService.API_PATH, chipDto, this.httpOptions)
-      .pipe(
-        catchError(this.handleError<ChipDto>('addChip'))
-      )
+    return this.httpClient.post<ChipDto>(ChipsService.API_PATH, chipDto, this.httpOptions);
   }
 
   public removeChip(name: string): Observable<void> {
