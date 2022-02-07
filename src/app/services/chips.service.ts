@@ -1,7 +1,6 @@
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {BaseService} from "./base-service";
 import {Observable} from "rxjs";
-import {catchError} from "rxjs/operators";
 import {ChipDto} from "../shared/dto/chip-dto";
 import {Injectable} from "@angular/core";
 
@@ -21,19 +20,13 @@ export class ChipsService extends BaseService {
 
   public removeChip(name: string): Observable<void> {
     const url: string = `${ChipsService.API_PATH}/${name}`;
-    return this.httpClient.delete<void>(url, this.httpOptions)
-      .pipe(
-        catchError(this.handleError<void>('removeChip'))
-      )
+    return this.httpClient.delete<void>(url, this.httpOptions);
   }
 
   public listChips(params: HttpParams): Observable<ChipDto[]> {
     const options = {
       params: params,
     }
-    return this.httpClient.get<ChipDto[]>(ChipsService.API_PATH, options)
-      .pipe(
-        catchError(this.handleError<ChipDto[]>('listChips'))
-      )
+    return this.httpClient.get<ChipDto[]>(ChipsService.API_PATH, options);
   }
 }

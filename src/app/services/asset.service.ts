@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable, of, Subscriber} from "rxjs";
-import {catchError} from "rxjs/operators";
 import {AssetBalanceDto} from "../shared/dto/asset-balance-dto";
 import {Page} from "../shared/paging/page";
 import {BaseService} from "./base-service";
@@ -55,10 +54,7 @@ export class AssetService extends BaseService {
     const options = {
       params: params
     };
-    return this.httpClient.get<AssetBalanceDto[]>(AssetService.API_PATH, options)
-      .pipe(
-        catchError(super.handleError<AssetBalanceDto[]>('listAssetBalances'))
-      );
+    return this.httpClient.get<AssetBalanceDto[]>(AssetService.API_PATH, options);
   }
 
   public availableAssets(params: HttpParams): Observable<ChipDto[]> {
@@ -66,9 +62,6 @@ export class AssetService extends BaseService {
     const options = {
       params: params,
     }
-    return this.httpClient.get<ChipDto[]>(url, options)
-      .pipe(
-        catchError(this.handleError<ChipDto[]>('availableAssets'))
-      )
+    return this.httpClient.get<ChipDto[]>(url, options);
   }
 }

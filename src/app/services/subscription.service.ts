@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable, of} from "rxjs";
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 import {SubscriptionDto} from "../shared/dto/subscription-dto";
-import {catchError} from "rxjs/operators";
 import {BaseService} from "./base-service";
 import {AssetBalance} from "../shared/domain/asset-balance";
 
@@ -21,8 +20,6 @@ export class SubscriptionService extends BaseService {
     return this.httpClient.get<SubscriptionDto>(
       url,
       this.httpOptions
-    ).pipe(
-      catchError(super.handleError<SubscriptionDto>('getSubscription'))
     );
   }
 
@@ -32,16 +29,11 @@ export class SubscriptionService extends BaseService {
       url,
       {},
       this.httpOptions
-    ).pipe(
-      catchError(super.handleError<SubscriptionDto>('addSubscription'))
     );
   }
 
   public removeSubscription(assetName: string): Observable<Response> {
     const url: string = `${SubscriptionService.API_PATH}/${assetName}/remove`;
-    return this.httpClient.delete<Response>(url, this.httpOptions)
-      .pipe(
-        catchError(super.handleError<Response>('removeSubscription'))
-      );
+    return this.httpClient.delete<Response>(url, this.httpOptions);
   }
 }

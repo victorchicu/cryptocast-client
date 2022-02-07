@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {BaseService} from "./base-service";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {catchError} from "rxjs/operators";
 import {TestOrderDto} from "../shared/dto/test-order-dto";
 import {OrderDto} from "../shared/dto/order-dto";
 import {Page} from "../shared/paging/page";
@@ -23,9 +22,7 @@ export class OrderService extends BaseService {
       url,
       orderDto,
       this.httpOptions
-    ).pipe(
-      catchError(this.handleError<TestOrderDto>('createOrder'))
-    )
+    );
   }
 
   public getAllOrders(assetName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
@@ -33,10 +30,7 @@ export class OrderService extends BaseService {
     const options = {
       params: params,
     }
-    return this.httpClient.get<Page<OrderDto[]>>(url, options)
-      .pipe(
-        catchError(this.handleError<Page<OrderDto[]>>('getAllOrders'))
-      )
+    return this.httpClient.get<Page<OrderDto[]>>(url, options);
   }
 
   public getOpenOrders(assetName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
@@ -44,9 +38,6 @@ export class OrderService extends BaseService {
     const options = {
       params: params,
     }
-    return this.httpClient.get<Page<OrderDto[]>>(url, options)
-      .pipe(
-        catchError(this.handleError<Page<OrderDto[]>>('getOpenOrders'))
-      )
+    return this.httpClient.get<Page<OrderDto[]>>(url, options);
   }
 }

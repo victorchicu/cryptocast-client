@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {catchError} from "rxjs/operators";
 import {SignupDto} from "../shared/dto/signup-dto";
 import {BaseService} from "./base-service";
 import {AccessTokenDto} from "../shared/dto/access-token-dto";
@@ -17,9 +16,6 @@ export class SignupService extends BaseService {
   }
 
   public signup(signupDto: SignupDto): Observable<AccessTokenDto> {
-    return this.httpClient.post<AccessTokenDto>(SignupService.API_PATH, signupDto, this.httpOptions)
-      .pipe(
-        catchError(super.handleError<AccessTokenDto>('signup'))
-      )
+    return this.httpClient.post<AccessTokenDto>(SignupService.API_PATH, signupDto, this.httpOptions);
   }
 }
