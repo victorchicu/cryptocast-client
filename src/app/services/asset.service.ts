@@ -5,6 +5,7 @@ import {AssetBalanceDto} from "../shared/dto/asset-balance-dto";
 import {Page} from "../shared/paging/page";
 import {BaseService} from "./base-service";
 import {ChipDto} from "../shared/dto/chip-dto";
+import {AssetPriceDto} from "../shared/dto/asset-price-dto";
 
 @Injectable({
   providedIn: 'root'
@@ -46,7 +47,12 @@ export class AssetService extends BaseService {
     super(AssetService.API_PATH, httpClient);
   }
 
-  public getAssetBalance(assetName: string) {
+  public getAssetPrice(assetName: string): Observable<AssetPriceDto> {
+    const url: string = `${AssetService.API_PATH}/${assetName}/price`;
+    return this.httpClient.get<AssetPriceDto>(url);
+  }
+
+  public getAssetBalance(assetName: string): Observable<AssetBalanceDto> {
     const url: string = `${AssetService.API_PATH}/${assetName}`;
     return this.httpClient.get<AssetBalanceDto>(url);
   }

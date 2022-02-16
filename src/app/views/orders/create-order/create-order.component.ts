@@ -16,6 +16,7 @@ import {ChipDto} from "../../../shared/dto/chip-dto";
 import {AssetService} from "../../../services/asset.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {AssetBalanceDto} from "../../../shared/dto/asset-balance-dto";
+import {AssetPriceDto} from "../../../shared/dto/asset-price-dto";
 
 @Component({
   selector: 'app-create-order',
@@ -86,18 +87,26 @@ export class CreateOrderComponent implements OnInit {
   }
 
   selectAsset($event: MatAutocompleteSelectedEvent) {
-    console.time('CreateOrderComponent::selectAsset')
     const assetName: string = $event.option.value;
+    this.assetService.getAssetPrice(assetName)
+      .subscribe((assetPriceDto: AssetPriceDto) => {
+        if (assetPriceDto) {
+          this.price = assetPriceDto.price;
+        }
+      }, error => {
+        console.log(error)
+      }, () => {
+        console.log('AssetService::getAssetPrice COMPLETED')
+      });
     this.assetService.getAssetBalance(assetName)
       .subscribe((assetBalance: AssetBalanceDto) => {
         if (assetBalance) {
-          console.log(assetBalance);
           this.amount = assetBalance.free;
         }
       }, error => {
         console.log(error)
       }, () => {
-        console.timeEnd('CreateOrderComponent::selectAsset')
+        console.log('AssetService::getAssetBalance COMPLETED')
       });
   }
 
