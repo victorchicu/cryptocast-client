@@ -72,6 +72,8 @@ export class AssetsComponent implements OnInit {
           }
         }, error => {
           console.log(error)
+        }, () => {
+          console.timeEnd("AssetsComponent::toggleSubscription");
         });
     } else {
       this.subscriptionService.removeSubscription(assetBalance.asset)
@@ -83,10 +85,9 @@ export class AssetsComponent implements OnInit {
         }, error => {
           console.log(error)
         }, () => {
-          console.log("removeSubscription Completed")
+          console.timeEnd("AssetsComponent::toggleSubscription");
         })
     }
-    console.timeEnd("AssetsComponent::toggleSubscription");
   }
 
   fetchOpenOrders(assetBalance: AssetBalance) {
@@ -99,8 +100,9 @@ export class AssetsComponent implements OnInit {
         assetBalance.openOrders = page.totalElements
       }, error => {
         console.log(error)
+      }, () => {
+        console.timeEnd("AssetsComponent::fetchOpenOrders");
       });
-    console.timeEnd("AssetsComponent::fetchOpenOrders");
   }
 
   fetchSubscription(assetBalance: AssetBalance) {
@@ -117,9 +119,9 @@ export class AssetsComponent implements OnInit {
         }
       }, (error: HttpErrorResponse) => {
         assetBalance.toggled = error.ok;
+      }, () => {
+        console.timeEnd("AssetsComponent::fetchSubscription");
       });
-
-    console.timeEnd("AssetsComponent::fetchSubscription");
   }
 
   fetchAssetBalances(httpParams: HttpParams) {
@@ -138,8 +140,9 @@ export class AssetsComponent implements OnInit {
       }, error => {
         console.log(error)
         this.loadingIndicatorService.setLoading(false);
+      }, () => {
+        console.timeEnd("AssetsComponent::fetchAssetBalances");
       })
-    console.timeEnd("AssetsComponent::fetchAssetBalances");
   }
 
   registerAssetTickerEvent(assetBalance: AssetBalance) {
@@ -152,8 +155,11 @@ export class AssetsComponent implements OnInit {
           const assetBalanceDto: AssetBalanceDto = JSON.parse(message.body);
           AssetsComponent.updateAssetBalance(assetBalanceDto, assetBalance);
         }
+      }, error => {
+        console.log(error)
+      }, () => {
+        console.timeEnd("AssetsComponent::registerAssetTickerEvent");
       })
-    console.timeEnd("AssetsComponent::registerAssetTickerEvent");
   }
 
   removeAssetTickerEvent(assetBalance: AssetBalance) {

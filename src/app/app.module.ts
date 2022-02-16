@@ -39,10 +39,10 @@ import {MAT_RADIO_DEFAULT_OPTIONS, MatRadioModule} from "@angular/material/radio
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatRippleModule} from "@angular/material/core";
 import {MatTreeModule} from "@angular/material/tree";
-import { OrderConfirmComponent } from './shared/dialogs/order-confirm-dialog/order-confirm.component';
-import { OpenOrdersComponent } from './views/orders/open-orders/open-orders.component';
-import { OrderHistoryComponent } from './views/orders/order-history/order-history.component';
-import { PlaceOrderComponent } from './views/orders/place-order/place-order.component';
+import {OrderConfirmComponent} from './shared/dialogs/order-confirm-dialog/order-confirm.component';
+import {OpenOrdersComponent} from './views/orders/open-orders/open-orders.component';
+import {OrderHistoryComponent} from './views/orders/order-history/order-history.component';
+import {CreateOrderComponent} from './views/orders/create-order/create-order.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
@@ -64,8 +64,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'orders/place',
-    component: PlaceOrderComponent,
+    path: 'orders/create',
+    component: CreateOrderComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -101,7 +101,7 @@ const routes: Routes = [
     OrderConfirmComponent,
     OpenOrdersComponent,
     OrderHistoryComponent,
-    PlaceOrderComponent,
+    CreateOrderComponent,
   ],
   imports: [
     FormsModule,
@@ -156,7 +156,7 @@ const routes: Routes = [
     },
     {
       provide: MAT_RADIO_DEFAULT_OPTIONS,
-      useValue: { color: 'primary' },
+      useValue: {color: 'primary'},
     }
   ],
   bootstrap: [AppComponent]
@@ -165,12 +165,12 @@ const routes: Routes = [
 export class AppModule {
   constructor(private readonly domSanitizer: DomSanitizer, private readonly iconRegistry: MatIconRegistry,) {
     const icons = [
-      ["star", "/assets/star_black_24dp.svg"],
-      ["star_outline", "/assets/star_outline_black_24dp.svg"],
-      ["icons8-bitcoin", "/assets/icons8-bitcoin.svg"],
+      ["tagged", "/assets/tagged.svg"],
+      ["untagged", "/assets/untagged.svg"],
+      ["create-order", "/assets/create-order.svg"],
       ["open-orders", "/assets/open-orders.svg"],
       ["order-history", "/assets/order-history.svg"],
-      ["place-order", "/assets/place-order.svg"]
+      ["icons8-bitcoin", "/assets/icons8-bitcoin.svg"]
     ];
     icons.forEach((entry: string[]) => {
       this.iconRegistry.addSvgIcon(

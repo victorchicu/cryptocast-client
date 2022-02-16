@@ -1,59 +1,54 @@
-<div fxLayout="column" *ngFor="let assetBalance of assetBalances" style="background: white; padding: 16px">
-  <div fxLayout="row" [ngStyle]="{'background-color': assetBalance.frozen > 0 ? 'mistyrose' : 'white'}">
-    <div fxLayoutAlign="center center" style="margin-right: 8px!important;">
-      <button
-        (click)="toggleSubscription(assetBalance)"
-        [ngStyle]="{'visibility':assetBalance.asset === 'USDT' ? 'hidden' : 'visible'}"
-        mat-icon-button aria-label="Subscriptions">
-        <mat-icon
-          style="width: 24px; height: 24px;"
-          svgIcon="{{assetBalance.toggled ? 'star' : 'star_outline'}}">
-        </mat-icon>
-      </button>
-    </div>
-    <div fxLayout="row">
-      <div fxLayoutAlign="center center" style="margin: 0px; margin-top: 10px!important; margin-right: 16px!important;">
-        <a [routerLink]="['/orders/open']" [queryParams]="{assetName: assetBalance.asset}"
-           style="text-decoration: none; color: black">
-          <mat-icon matBadge="{{assetBalance.openOrders}}"
-                    style="width: 24px; height: 24px;"
-                    svgIcon="order-history">
-          </mat-icon>
-        </a>
-      </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 10px!important;">
-        <img
-          alt="Asset icon"
-          src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{assetBalance.iconIndex}}.png"
-          class="icon24 unselectable">
-      </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
-        <a href="https://coinmarketcap.com/currencies/bitcoin/" target="_blank"
-           style="color: black; text-decoration: none">
-          <b><u>{{assetBalance.asset}}</u></b>
-        </a>
-      </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
-        {{assetBalance.fullName}}
-      </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
-        <ng-template [ngIf]="assetBalance.frozen > 0" [ngIfElse]="free">
-          FREE BALANCE: ${{assetBalance.free.toFixed(8)}} / OPEN ORDER: ${{assetBalance.frozen.toFixed(8)}}
-        </ng-template>
-        <ng-template #free>
-          ${{assetBalance.free.toFixed(8)}}
-        </ng-template>
-      </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
-        ${{assetBalance.price}}
-      </div>
-      <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 12px!important;">
-        <b
-          [ngStyle]="{color: assetBalance.quotation?.toString() === 'EQUAL' ? 'black' : assetBalance.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">
-          ${{assetBalance.balance}}
-        </b>
-      </div>
-    </div>
-  </div>
-  <mat-divider></mat-divider>
-</div>
+<mat-grid-list cols="8" rowHeight="2:1" *ngFor="let assetBalance of assetBalances">
+  <mat-grid-tile>
+    <mat-slide-toggle
+      (change)="toggleSubscription(assetBalance)"
+      color="primary"
+      checked="{{assetBalance.toggled}}"
+      [ngStyle]="{'visibility':assetBalance.asset === 'USDT' ? 'hidden' : 'visible'}"
+    >
+    </mat-slide-toggle>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <button
+      [routerLink]="['/orders/open']"
+      [queryParams]="{assetName: assetBalance.asset}"
+      mat-icon-button
+    >
+      <mat-icon
+        matBadge="{{assetBalance.openOrders}}"
+        style="width: 48px; height: 48px;"
+        svgIcon="open-orders">
+      </mat-icon>
+    </button>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <a href="https://coinmarketcap.com/currencies/bitcoin/" target="_blank"
+       style="color: black; text-decoration: none">
+      <b>
+        <u>
+          {{assetBalance.asset}}
+        </u>
+      </b>
+    </a>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    {{assetBalance.fullName}}
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <ng-template [ngIf]="assetBalance.frozen > 0" [ngIfElse]="free">
+      FREE BALANCE: ${{assetBalance.free.toFixed(8)}} / OPEN ORDER: ${{assetBalance.frozen.toFixed(8)}}
+    </ng-template>
+    <ng-template #free>
+      ${{assetBalance.free.toFixed(8)}}
+    </ng-template>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    ${{assetBalance.price}}
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <b
+      [ngStyle]="{color: assetBalance.quotation?.toString() === 'EQUAL' ? 'black' : assetBalance.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">
+      ${{assetBalance.balance}}
+    </b>
+  </mat-grid-tile>
+</mat-grid-list>

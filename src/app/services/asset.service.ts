@@ -46,6 +46,11 @@ export class AssetService extends BaseService {
     super(AssetService.API_PATH, httpClient);
   }
 
+  public getAssetBalance(assetName: string) {
+    const url: string = `${AssetService.API_PATH}/${assetName}`;
+    return this.httpClient.get<AssetBalanceDto>(url);
+  }
+
   public listAssetBalances(params: HttpParams): Observable<AssetBalanceDto[]> {
     // const assets: AssetDto[] = JSON.parse(JSON.stringify(WalletService.MOCK_DATA));
     // return new Observable<AssetDto[]>(subscriber => {

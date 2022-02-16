@@ -49,7 +49,7 @@ export class OrderHistoryComponent extends OrderComponent {
   }
 
   addChip(event: MatChipInputEvent): void {
-    console.log('OrderHistoryComponent::addChip BEGIN')
+    console.log('OrderHistoryComponent::addChip')
     const symbol = (event.value || '').trim();
     if (symbol && this.availableChips.indexOf(symbol) >= 0) {
       this.chipService.addChip(new ChipDto(symbol))
@@ -61,11 +61,11 @@ export class OrderHistoryComponent extends OrderComponent {
     event.chipInput!.clear();
     this.chipsControl.setValue(null);
     this.matAutocomplete.closePanel();
-    console.log('OrderHistoryComponent::addChip END')
+    console.log('OrderHistoryComponent::addChip')
   }
 
   removeChip(chip: string): void {
-    console.log('OrderHistoryComponent::removeChip BEGIN')
+    console.log('OrderHistoryComponent::removeChip')
     const index = this.chips.indexOf(chip);
     if (index >= 0) {
       this.chipService.removeChip(chip)
@@ -76,11 +76,11 @@ export class OrderHistoryComponent extends OrderComponent {
           this.table.renderRows();
         });
     }
-    console.log('OrderHistoryComponent::removeChip END')
+    console.log('OrderHistoryComponent::removeChip')
   }
 
   selectChip(event: MatAutocompleteSelectedEvent): void {
-    console.log('OrderHistoryComponent::selectChip BEGIN')
+    console.log('OrderHistoryComponent::selectChip')
     this.chipInput.nativeElement.value = '';
     this.chipsControl.setValue(null);
     this.chipService.addChip(new ChipDto(event.option.viewValue))
@@ -88,11 +88,11 @@ export class OrderHistoryComponent extends OrderComponent {
         this.chips.push(chip.name);
         this.fetchOrders(chip.name);
       });
-    console.log('OrderHistoryComponent::selectChip END')
+    console.log('OrderHistoryComponent::selectChip')
   }
 
   fetchOrders(assetName: string) {
-    console.log('OrderHistoryComponent::fetchOrders BEGIN')
+    console.time('OrderHistoryComponent::fetchOrders')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
@@ -110,12 +110,13 @@ export class OrderHistoryComponent extends OrderComponent {
         }
       }, error => {
         console.log(error)
+      }, () => {
+        console.timeEnd('OrderHistoryComponent::fetchOrders')
       });
-    console.log('OrderHistoryComponent::fetchOrders END')
   }
 
   fetchAvailableAssets() {
-    console.log('OrderHistoryComponent::fetchAvailableAssets BEGIN')
+    console.time('OrderHistoryComponent::fetchAvailableAssets')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
@@ -134,12 +135,13 @@ export class OrderHistoryComponent extends OrderComponent {
         }
       }, error => {
         console.log(error)
-      });
-    console.log('OrderHistoryComponent::fetchAvailableAssets END')
+      }, () => [
+        console.timeEnd('OrderHistoryComponent::fetchAvailableAssets')
+      ]);
   }
 
   fetchPersistentChips() {
-    console.log('OrderHistoryComponent::fetchPersistentChips BEGIN')
+    console.time('OrderHistoryComponent::fetchPersistentChips')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
@@ -153,8 +155,9 @@ export class OrderHistoryComponent extends OrderComponent {
         }
       }, error => {
         console.log(error);
+      }, () => {
+        console.timeEnd('OrderHistoryComponent::fetchPersistentChips')
       });
-    console.log('OrderHistoryComponent::fetchPersistentChips END')
   }
 
   private filterChips(value: string): string[] {

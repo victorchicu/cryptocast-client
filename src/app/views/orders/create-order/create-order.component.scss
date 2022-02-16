@@ -1,0 +1,16 @@
+mat-card {
+  width: 372px;
+  height: 100%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mat-card-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.mat-tab-nav-bar, .mat-tab-header {
+  border-bottom: none; //1px solid rgba(0, 0, 0, 0.12);
+}

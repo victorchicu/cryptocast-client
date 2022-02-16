@@ -29,7 +29,7 @@ export class OpenOrdersComponent extends OrderComponent {
   }
 
   fetchOrders(assetName: string) {
-    console.log('OrderHistoryComponent::fetchOrders BEGIN')
+    console.time('OrderHistoryComponent::fetchOrders BEGIN')
     const params = new HttpParams()
       .set('page', 0)
       .set('size', 10);
@@ -47,7 +47,8 @@ export class OpenOrdersComponent extends OrderComponent {
         }
       }, error => {
         console.log(error)
+      }, () => {
+        console.timeEnd('OrderHistoryComponent::fetchOrders')
       });
-    console.log('OrderHistoryComponent::fetchOrders END')
   }
 }

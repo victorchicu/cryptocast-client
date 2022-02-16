@@ -1,6 +1,13 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {OrderDto} from "../../shared/dto/order-dto";
 import {MatTable} from "@angular/material/table";
+import {HttpParams} from "@angular/common/http";
+import {ChipDto} from "../../shared/dto/chip-dto";
+import {map, startWith} from "rxjs/operators";
+import {ActivatedRoute} from "@angular/router";
+import {ChipsService} from "../../services/chips.service";
+import {OrderService} from "../../services/order.service";
+import {AssetService} from "../../services/asset.service";
 
 export class OrderElement {
   symbol: string;

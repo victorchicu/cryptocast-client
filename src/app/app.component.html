@@ -29,25 +29,55 @@
       </ng-template>
       <ng-template #loggedOut>
         <div fxLayout="row">
-          <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
-            <a [routerLink]="['/orders/place']"
-               style="text-decoration: none; color: black">
-              <mat-icon
-                style="width: 24px; height: 24px;"
-                svgIcon="place-order">
-              </mat-icon>
-            </a>
+          <div fxLayout="column">
+            <button [routerLink]="['/orders/create']" mat-flat-button>
+              TRADE
+<!--              <div fxLayoutAlign="center center" fxLayout="row">-->
+<!--                <mat-icon-->
+<!--                  style="width: 36px; height: 36px;"-->
+<!--                  svgIcon="create-order">-->
+<!--                </mat-icon>-->
+<!--              </div>-->
+<!--              <div fxLayoutAlign="center center" fxLayout="row">-->
+<!--                <span style="font-size: small">TRADE</span>-->
+<!--              </div>-->
+            </button>
           </div>
-          <div fxLayoutAlign="center center" style="margin: 8px; margin-top: 16px!important;">
-            <a [routerLink]="['/orders/history']"
-               style="text-decoration: none; color: black">
-              <mat-icon
-                style="width: 24px; height: 24px;"
-                svgIcon="open-orders">
-              </mat-icon>
-            </a>
+          <div fxLayout="column">
+            <button [routerLink]="['/orders/history']" mat-flat-button>
+              HISTORY
+<!--              <div fxLayoutAlign="center center" fxLayout="row">-->
+<!--                <mat-icon-->
+<!--                  style="width: 36px; height: 36px;"-->
+<!--                  svgIcon="order-history">-->
+<!--                </mat-icon>-->
+<!--              </div>-->
+<!--              <div fxLayoutAlign="center center" fxLayout="row">-->
+<!--                <span style="font-size: small">HISTORY</span>-->
+<!--              </div>-->
+            </button>
           </div>
         </div>
+<!--        <div fxLayout="row">-->
+<!--          <div fxLayoutAlign="center center">-->
+<!--            <button [routerLink]="['/orders/place']" mat-icon-button>-->
+<!--              <mat-icon-->
+<!--                style="width: 36px; height: 36px;"-->
+<!--                svgIcon="create-order">-->
+<!--              </mat-icon>-->
+<!--            </button>-->
+<!--            TRADE-->
+<!--          </div>-->
+<!--          <div fxLayoutAlign="center center">-->
+<!--            <button [routerLink]="['/orders/history']" mat-icon-button>-->
+<!--              <mat-icon-->
+<!--                style="width: 36px; height: 36px;"-->
+<!--                svgIcon="order-history">-->
+<!--              </mat-icon>-->
+<!--            </button>-->
+<!--            HISTORY-->
+<!--          </div>-->
+<!--        </div>-->
         <div>
           <button aria-label="Log Out"
                   [routerLink]="['/logout']"
@@ -57,10 +87,6 @@
         </div>
       </ng-template>
     </mat-toolbar-row>
-<!--    <mat-toolbar-row>-->
-<!--      <span style="flex: 1 1 auto"></span>-->
-<!--     -->
-<!--    </mat-toolbar-row>-->
   </mat-toolbar>
   <router-outlet>
   </router-outlet>
