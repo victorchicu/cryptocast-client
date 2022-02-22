@@ -125,6 +125,7 @@ export class AssetsComponent implements OnInit {
         }
       }, (httpErrorResponse: HttpErrorResponse) => {
         console.log(httpErrorResponse);
+        assetBalance.toggled = httpErrorResponse.ok;
       }, () => {
         console.timeEnd("AssetsComponent::fetchSubscription");
       });
