@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {HttpParams} from "@angular/common/http";
+import {HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {OrderService} from "../../../services/order.service";
 import {LoadingIndicatorService} from "../../../services/loading-indicator.service";
 import {OrderDto} from "../../../shared/dto/order-dto";
@@ -16,6 +16,7 @@ import {Page} from "../../../shared/paging/page";
 import {MatTable} from "@angular/material/table";
 import {AssetService} from "../../../services/asset.service";
 import {OrderComponent, OrderElement} from "../order-component";
+import {SnackService} from "../../../services/snack.service";
 
 @Component({
   selector: 'app-order-history',
@@ -37,7 +38,8 @@ export class OrderHistoryComponent extends OrderComponent {
     private route: ActivatedRoute,
     private chipService: ChipsService,
     private orderService: OrderService,
-    private assetService: AssetService
+    private assetService: AssetService,
+    private snackService: SnackService
   ) {
     super();
   }
@@ -55,6 +57,9 @@ export class OrderHistoryComponent extends OrderComponent {
         .subscribe((chip: ChipDto) => {
           this.chips.push(chip.name);
           this.fetchOrders(chip.name);
+        }, (httpErrorResponse: HttpErrorResponse) => {
+          console.log(httpErrorResponse);
+          this.snackService.error(httpErrorResponse.error.errors[0].description);
         });
     }
     event.chipInput!.clear();
@@ -68,11 +73,14 @@ export class OrderHistoryComponent extends OrderComponent {
     const index = this.chips.indexOf(chip);
     if (index >= 0) {
       this.chipService.removeChip(chip)
-        .subscribe((value: void) => {
+        .subscribe(() => {
           this.chips.splice(index, 1);
           const symbolName = `${chip}USDT`;
           this.orderElements = this.orderElements.filter(order => order.symbol !== symbolName);
           this.table.renderRows();
+        }, (httpErrorResponse: HttpErrorResponse) => {
+          console.log(httpErrorResponse);
+          this.snackService.error(httpErrorResponse.error.errors[0].description);
         });
     }
     console.log('OrderHistoryComponent::removeChip')
@@ -86,6 +94,9 @@ export class OrderHistoryComponent extends OrderComponent {
       .subscribe((chip: ChipDto) => {
         this.chips.push(chip.name);
         this.fetchOrders(chip.name);
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       });
     console.log('OrderHistoryComponent::selectChip')
   }
@@ -107,8 +118,9 @@ export class OrderHistoryComponent extends OrderComponent {
             this.table.renderRows();
           }
         }
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.timeEnd('OrderHistoryComponent::fetchOrders')
       });
@@ -132,8 +144,9 @@ export class OrderHistoryComponent extends OrderComponent {
             ))
           );
         }
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => [
         console.timeEnd('OrderHistoryComponent::fetchAvailableAssets')
       ]);
@@ -152,8 +165,9 @@ export class OrderHistoryComponent extends OrderComponent {
             this.fetchOrders(chip)
           });
         }
-      }, error => {
-        console.log(error);
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.timeEnd('OrderHistoryComponent::fetchPersistentChips')
       });

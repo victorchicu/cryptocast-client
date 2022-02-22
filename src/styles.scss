@@ -9,3 +9,16 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background-color: #f3f2ef;
 }
+
+.mat-simple-snackbar {
+  font-size: 1.2em;
+  color: white;
+}
+
+.snackbar-error {
+  background-color: red;
+}
+
+.snackbar-success {
+  background-color: green;
+}

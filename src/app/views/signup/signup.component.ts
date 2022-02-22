@@ -6,6 +6,8 @@ import {Globals} from "../../shared/globals";
 import {Router} from "@angular/router";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
 import {LoadingIndicatorService} from "../../services/loading-indicator.service";
+import {SnackService} from "../../services/snack.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-signup',
@@ -20,6 +22,7 @@ export class SignupComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
+    private snackService: SnackService,
     private signupService: SignupService,
     private loadingIndicatorService: LoadingIndicatorService
   ) {
@@ -62,8 +65,9 @@ export class SignupComponent implements OnInit {
           this.router.navigateByUrl("/");
         }
         this.loadingIndicatorService.setLoading(false)
-      }, error => {
-        console.log(error);
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
         this.loadingIndicatorService.setLoading(false)
       });
   }

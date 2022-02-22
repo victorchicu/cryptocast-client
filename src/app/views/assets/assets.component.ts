@@ -13,6 +13,7 @@ import {OrderService} from "../../services/order.service";
 import {Page} from "../../shared/paging/page";
 import {OrderComponent} from "../orders/order-component";
 import {Order} from "../../shared/domain/order";
+import {SnackService} from "../../services/snack.service";
 
 @Component({
   selector: 'app-assets',
@@ -25,6 +26,7 @@ export class AssetsComponent implements OnInit {
   constructor(
     private assetService: AssetService,
     private orderService: OrderService,
+    private snackService: SnackService,
     private rxStompService: RxStompService,
     private subscriptionService: SubscriptionService,
     private loadingIndicatorService: LoadingIndicatorService,
@@ -70,8 +72,9 @@ export class AssetsComponent implements OnInit {
           if (assetBalance.toggled) {
             this.registerAssetTickerEvent(assetBalance);
           }
-        }, error => {
-          console.log(error)
+        }, (httpErrorResponse: HttpErrorResponse) => {
+          console.log(httpErrorResponse);
+          this.snackService.error(httpErrorResponse.error.errors[0].description);
         }, () => {
           console.timeEnd("AssetsComponent::toggleSubscription");
         });
@@ -82,8 +85,9 @@ export class AssetsComponent implements OnInit {
             assetBalance.toggled = !(response.status == HttpStatusCode.NoContent);
             this.removeAssetTickerEvent(assetBalance);
           }
-        }, error => {
-          console.log(error)
+        }, (httpErrorResponse: HttpErrorResponse) => {
+          console.log(httpErrorResponse);
+          this.snackService.error(httpErrorResponse.error.errors[0].description);
         }, () => {
           console.timeEnd("AssetsComponent::toggleSubscription");
         })
@@ -98,11 +102,13 @@ export class AssetsComponent implements OnInit {
     this.orderService.getOpenOrders(assetBalance.asset, params)
       .subscribe((page: Page<OrderDto[]>) => {
         assetBalance.openOrders = page.totalElements
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.timeEnd("AssetsComponent::fetchOpenOrders");
       });
+
   }
 
   fetchSubscription(assetBalance: AssetBalance) {
@@ -117,8 +123,8 @@ export class AssetsComponent implements OnInit {
           this.removeAssetTickerEvent(assetBalance);
           this.registerAssetTickerEvent(assetBalance);
         }
-      }, (error: HttpErrorResponse) => {
-        assetBalance.toggled = error.ok;
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
       }, () => {
         console.timeEnd("AssetsComponent::fetchSubscription");
       });
@@ -132,13 +138,16 @@ export class AssetsComponent implements OnInit {
         if (assetBalances) {
           this.assetBalances = assetBalances!.map(AssetsComponent.toAssetBalance)
           this.assetBalances.forEach((assetBalance: AssetBalance) => {
-            this.fetchOpenOrders(assetBalance);
-            this.fetchSubscription(assetBalance);
+            if (!assetBalance.asset.includes("USDT")) {
+              this.fetchOpenOrders(assetBalance);
+              this.fetchSubscription(assetBalance);
+            }
           });
         }
         this.loadingIndicatorService.setLoading(false);
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
         this.loadingIndicatorService.setLoading(false);
       }, () => {
         console.timeEnd("AssetsComponent::fetchAssetBalances");
@@ -155,8 +164,9 @@ export class AssetsComponent implements OnInit {
           const assetBalanceDto: AssetBalanceDto = JSON.parse(message.body);
           AssetsComponent.updateAssetBalance(assetBalanceDto, assetBalance);
         }
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.timeEnd("AssetsComponent::registerAssetTickerEvent");
       })

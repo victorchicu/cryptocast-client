@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs"
 import {Subscription} from "rxjs";
+import {SnackService} from "../../services/snack.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-notifications',
@@ -12,7 +14,7 @@ export class NotificationsComponent implements OnInit {
   public notifications: string[] = [];
   private topicSubscription: Subscription;
 
-  constructor(private rxStompService: RxStompService) {
+  constructor(private rxStompService: RxStompService, private snackService: SnackService) {
   }
 
   onClick() {
@@ -33,6 +35,9 @@ export class NotificationsComponent implements OnInit {
       .subscribe((message: Message) => {
         console.log(message);
         this.notifications.push(message.body);
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       })
   }
 

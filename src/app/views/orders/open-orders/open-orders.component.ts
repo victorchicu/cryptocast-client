@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {OrderComponent} from "../order-component";
-import {HttpParams} from "@angular/common/http";
+import {HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {Page} from "../../../shared/paging/page";
 import {OrderDto} from "../../../shared/dto/order-dto";
 import {OrderService} from "../../../services/order.service";
 import {ActivatedRoute, Params} from "@angular/router";
+import {SnackService} from "../../../services/snack.service";
 
 @Component({
   selector: 'app-open-orders',
@@ -14,7 +15,11 @@ import {ActivatedRoute, Params} from "@angular/router";
 export class OpenOrdersComponent extends OrderComponent {
   assetName: string;
 
-  constructor(private orderService: OrderService, private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private orderService: OrderService,
+    private snackService: SnackService
+  ) {
     super();
   }
 
@@ -32,8 +37,9 @@ export class OpenOrdersComponent extends OrderComponent {
       .subscribe(() => {
         this.orderElements = this.orderElements.filter(order => order.symbol !== symbol);
         this.table.renderRows();
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.timeEnd('OpenOrdersComponent::fetchOpenOrders')
       });
@@ -56,8 +62,9 @@ export class OpenOrdersComponent extends OrderComponent {
             this.table.renderRows();
           }
         }
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.timeEnd('OpenOrdersComponent::fetchOpenOrders')
       });

@@ -3,6 +3,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Order } from '../../../shared/domain/order';
 import { OrderRequestDto } from '../../../shared/dto/order-request-dto';
+import {SnackService} from "../../../services/snack.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-order-confirm-dialog',
@@ -18,7 +20,8 @@ export class ConfirmOrderComponent implements OnInit {
       testOrder: Order
     },
     public dialogRef: MatDialogRef<ConfirmOrderComponent>,
-    public orderService: OrderService
+    public orderService: OrderService,
+    public snackService: SnackService
   ) {
     //
   }
@@ -31,12 +34,15 @@ export class ConfirmOrderComponent implements OnInit {
     console.time("ConfirmOrderComponent::createOrder");
     const orderRequestDto = this.toOrderRequestDto(this.data.assetName, this.data.testOrder);
     this.orderService.createOrder(this.data.assetName, orderRequestDto)
-      .subscribe(() => this.closeDialog(), error => {
-        console.log(error)
-        this.closeDialog();
-      }, () => {
-        console.timeEnd("ConfirmOrderComponent::createOrder");
-      });
+      .subscribe(
+        () => this.closeDialog(),
+        (httpErrorResponse: HttpErrorResponse) => {
+          console.log(httpErrorResponse);
+          this.snackService.error(httpErrorResponse.error.errors[0].description);
+          this.closeDialog();
+        }, () => {
+          console.timeEnd("ConfirmOrderComponent::createOrder");
+        });
   }
 
   closeDialog(): void {

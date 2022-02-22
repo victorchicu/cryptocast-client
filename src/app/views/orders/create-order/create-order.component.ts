@@ -1,23 +1,21 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AssetBalance} from "../../../shared/domain/asset-balance";
 import {Order} from "../../../shared/domain/order";
 import {ConfirmOrderComponent} from "../../dialogs/confirm-order/confirm-order.component";
 import {OrderType} from "../../../shared/enums/order-type";
 import {OrderSide} from "../../../shared/enums/order-side";
 import {MatDialog} from "@angular/material/dialog";
-import {OrderRequestDto} from "../../../shared/dto/order-request-dto";
-import {OrderService} from "../../../services/order.service";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
-import {HttpParams} from "@angular/common/http";
+import {HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {ChipDto} from "../../../shared/dto/chip-dto";
 import {AssetService} from "../../../services/asset.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {AssetBalanceDto} from "../../../shared/dto/asset-balance-dto";
 import {AssetPriceDto} from "../../../shared/dto/asset-price-dto";
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import {SnackService} from "../../../services/snack.service";
 
 @Component({
   selector: 'app-create-order',
@@ -39,6 +37,7 @@ export class CreateOrderComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private assetService: AssetService,
+    private snackService: SnackService
   ) {
     //
   }
@@ -53,21 +52,13 @@ export class CreateOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.route.queryParams
-    //   .subscribe(params => {
-    //       this.assetName = params.assetName;
-    //     }
-    //   );
     this.fetchAvailableAssets();
-  }
-
-  onTabChanged($event: MatTabChangeEvent) {
-    // this.price = 0;
-    // this.amount = 0;
   }
 
   openDialog(assetName: string, side: OrderSide, type: OrderType, price: number, amount: number): void {
     const testOrder: Order = CreateOrderComponent.toTestOrder(side, type, price, amount);
+
+
     const dialogRef = this.dialog.open(ConfirmOrderComponent, {
       data: {
         title: "Confirm Order",
@@ -88,8 +79,9 @@ export class CreateOrderComponent implements OnInit {
         if (assetPriceDto) {
           this.price = assetPriceDto.price;
         }
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.log('AssetService::getAssetPrice COMPLETED')
       });
@@ -98,13 +90,18 @@ export class CreateOrderComponent implements OnInit {
         if (assetBalance) {
           this.quantity = assetBalance.free;
         }
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.log('AssetService::getAssetBalance COMPLETED')
       });
   }
 
+  onTabChanged($event: MatTabChangeEvent) {
+    // this.price = 0;
+    // this.amount = 0;
+  }
 
   fetchAvailableAssets() {
     console.time('CreateOrderComponent::fetchAvailableAssets')
@@ -124,8 +121,9 @@ export class CreateOrderComponent implements OnInit {
             ))
           );
         }
-      }, error => {
-        console.log(error)
+      }, (httpErrorResponse: HttpErrorResponse) => {
+        console.log(httpErrorResponse);
+        this.snackService.error(httpErrorResponse.error.errors[0].description);
       }, () => {
         console.timeEnd('CreateOrderComponent::fetchAvailableAssets')
       });

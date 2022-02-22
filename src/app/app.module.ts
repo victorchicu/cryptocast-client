@@ -46,6 +46,8 @@ import {CreateOrderComponent} from './views/orders/create-order/create-order.com
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
+import { SnackBarComponent } from './views/snack-bar/snack-bar.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 const routes: Routes = [
   {
@@ -102,6 +104,7 @@ const routes: Routes = [
     OpenOrdersComponent,
     OrderHistoryComponent,
     CreateOrderComponent,
+    SnackBarComponent,
   ],
   imports: [
     FormsModule,
@@ -125,6 +128,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatDividerModule,
     MatSelectModule,
+    MatSnackBarModule,
     MatExpansionModule,
     Ng2LoadingSpinnerModule.forRoot({
       spinnerSize: 'xl',
