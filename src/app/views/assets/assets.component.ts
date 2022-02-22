@@ -12,7 +12,7 @@ import {OrderDto} from "../../shared/dto/order-dto";
 import {OrderService} from "../../services/order.service";
 import {Page} from "../../shared/paging/page";
 import {OrderComponent} from "../orders/order-component";
-import {TestOrder} from "../../shared/domain/test-order";
+import {Order} from "../../shared/domain/order";
 
 @Component({
   selector: 'app-assets',
@@ -132,7 +132,7 @@ export class AssetsComponent implements OnInit {
         if (assetBalances) {
           this.assetBalances = assetBalances!.map(AssetsComponent.toAssetBalance)
           this.assetBalances.forEach((assetBalance: AssetBalance) => {
-            // this.fetchOpenOrders(assetBalance);
+            this.fetchOpenOrders(assetBalance);
             this.fetchSubscription(assetBalance);
           });
         }

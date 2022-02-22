@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AssetBalance} from "../../../shared/domain/asset-balance";
-import {TestOrder} from "../../../shared/domain/test-order";
+import {Order} from "../../../shared/domain/order";
 import {ConfirmOrderComponent} from "../../dialogs/confirm-order/confirm-order.component";
 import {OrderType} from "../../../shared/enums/order-type";
 import {OrderSide} from "../../../shared/enums/order-side";
 import {MatDialog} from "@angular/material/dialog";
-import {TestOrderDto} from "../../../shared/dto/test-order-dto";
+import {OrderRequestDto} from "../../../shared/dto/order-request-dto";
 import {OrderService} from "../../../services/order.service";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl} from "@angular/forms";
@@ -18,7 +18,6 @@ import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {AssetBalanceDto} from "../../../shared/dto/asset-balance-dto";
 import {AssetPriceDto} from "../../../shared/dto/asset-price-dto";
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import {ScrollStrategyOptions} from "@angular/cdk/overlay";
 
 @Component({
   selector: 'app-create-order',
@@ -40,13 +39,12 @@ export class CreateOrderComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private assetService: AssetService,
-    private orderService: OrderService,
   ) {
     //
   }
 
-  private static toTestOrder(side: OrderSide, type: OrderType, price: number, quantity: number): TestOrder {
-    const testOrder: TestOrder = new TestOrder();
+  private static toTestOrder(side: OrderSide, type: OrderType, price: number, quantity: number): Order {
+    const testOrder: Order = new Order();
     testOrder.side = side;
     testOrder.type = type;
     testOrder.price = price;
@@ -69,7 +67,7 @@ export class CreateOrderComponent implements OnInit {
   }
 
   openDialog(assetName: string, side: OrderSide, type: OrderType, price: number, amount: number): void {
-    const testOrder: TestOrder = CreateOrderComponent.toTestOrder(side, type, price, amount);
+    const testOrder: Order = CreateOrderComponent.toTestOrder(side, type, price, amount);
     const dialogRef = this.dialog.open(ConfirmOrderComponent, {
       data: {
         title: "Confirm Order",

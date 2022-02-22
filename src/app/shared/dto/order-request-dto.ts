@@ -1,7 +1,7 @@
 import {OrderType} from "../enums/order-type";
 import {OrderSide} from "../enums/order-side";
 
-export class TestOrderDto {
+export class OrderRequestDto {
   private asset: string
   private side: OrderSide
   private type: OrderType

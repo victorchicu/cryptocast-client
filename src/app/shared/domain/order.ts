@@ -1,8 +1,7 @@
 import {OrderType} from "../enums/order-type";
 import {OrderSide} from "../enums/order-side";
-import {AssetBalance} from "./asset-balance";
 
-export class TestOrder {
+export class Order {
   private _side: OrderSide;
   private _type: OrderType;
   private _price: number;

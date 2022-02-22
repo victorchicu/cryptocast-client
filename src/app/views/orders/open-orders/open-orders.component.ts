@@ -12,6 +12,8 @@ import {ActivatedRoute, Params} from "@angular/router";
   styleUrls: ['./open-orders.component.scss']
 })
 export class OpenOrdersComponent extends OrderComponent {
+  assetName: string;
+
   constructor(private orderService: OrderService, private route: ActivatedRoute) {
     super();
   }
@@ -19,9 +21,22 @@ export class OpenOrdersComponent extends OrderComponent {
   ngOnInit() {
     this.route.queryParams
       .subscribe((params: Params) => {
-          this.fetchOpenOrders(params.assetName);
+          this.assetName = params.assetName;
+          this.fetchOpenOrders(this.assetName);
         }
       );
+  }
+
+  cancelOrder(orderId: number, symbol: string) {
+    this.orderService.cancelOrder(orderId, this.assetName)
+      .subscribe(() => {
+        this.orderElements = this.orderElements.filter(order => order.symbol !== symbol);
+        this.table.renderRows();
+      }, error => {
+        console.log(error)
+      }, () => {
+        console.timeEnd('OpenOrdersComponent::fetchOpenOrders')
+      });
   }
 
   fetchOpenOrders(assetName: string) {

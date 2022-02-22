@@ -36,7 +36,7 @@
   </mat-grid-tile>
   <mat-grid-tile>
     <ng-template [ngIf]="assetBalance.frozen > 0" [ngIfElse]="free">
-      FREE BALANCE: ${{assetBalance.free.toFixed(8)}} / OPEN ORDER: ${{assetBalance.frozen.toFixed(8)}}
+      ${{assetBalance.free.toFixed(8)}}/${{assetBalance.frozen.toFixed(8)}}
     </ng-template>
     <ng-template #free>
       ${{assetBalance.free.toFixed(8)}}

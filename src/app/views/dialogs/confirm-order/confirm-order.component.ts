@@ -1,8 +1,8 @@
 import { OrderService } from '../../../services/order.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TestOrder } from '../../../shared/domain/test-order';
-import { TestOrderDto } from '../../../shared/dto/test-order-dto';
+import { Order } from '../../../shared/domain/order';
+import { OrderRequestDto } from '../../../shared/dto/order-request-dto';
 
 @Component({
   selector: 'app-order-confirm-dialog',
@@ -15,7 +15,7 @@ export class ConfirmOrderComponent implements OnInit {
       title: string,
       subject: string,
       assetName: string,
-      testOrder: TestOrder
+      testOrder: Order
     },
     public dialogRef: MatDialogRef<ConfirmOrderComponent>,
     public orderService: OrderService
@@ -29,8 +29,8 @@ export class ConfirmOrderComponent implements OnInit {
 
   createOrder(): void {
     console.time("ConfirmOrderComponent::createOrder");
-    const testOrderDto = this.toTestOrderDto(this.data.assetName, this.data.testOrder);
-    this.orderService.createTestOrder(this.data.assetName, testOrderDto)
+    const orderRequestDto = this.toOrderRequestDto(this.data.assetName, this.data.testOrder);
+    this.orderService.createOrder(this.data.assetName, orderRequestDto)
       .subscribe(() => this.closeDialog(), error => {
         console.log(error)
         this.closeDialog();
@@ -44,8 +44,8 @@ export class ConfirmOrderComponent implements OnInit {
   }
 
 
-  private toTestOrderDto(assetName: string, testOrder: TestOrder) {
-    return new TestOrderDto(
+  private toOrderRequestDto(assetName: string, testOrder: Order) {
+    return new OrderRequestDto(
       assetName,
       testOrder.side,
       testOrder.type,

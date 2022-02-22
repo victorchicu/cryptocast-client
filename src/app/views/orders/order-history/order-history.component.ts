@@ -45,7 +45,6 @@ export class OrderHistoryComponent extends OrderComponent {
   ngOnInit() {
     this.fetchAvailableAssets();
     this.fetchPersistentChips();
-    super.ngOnInit();
   }
 
   addChip(event: MatChipInputEvent): void {

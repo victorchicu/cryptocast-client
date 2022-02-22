@@ -60,7 +60,8 @@ export abstract class OrderComponent implements OnInit {
     'time',
     // 'updateTime',
     // 'isWorking',
-    'origQuoteOrderQty'
+    'origQuoteOrderQty',
+    'actions'
   ];
 
   public static toOrderElement(orderDto: OrderDto): OrderElement {
