@@ -39,7 +39,7 @@ import {MAT_RADIO_DEFAULT_OPTIONS, MatRadioModule} from "@angular/material/radio
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatRippleModule} from "@angular/material/core";
 import {MatTreeModule} from "@angular/material/tree";
-import {OrderConfirmComponent} from './shared/dialogs/order-confirm-dialog/order-confirm.component';
+import {ConfirmOrderComponent} from './views/dialogs/confirm-order/confirm-order.component';
 import {OpenOrdersComponent} from './views/orders/open-orders/open-orders.component';
 import {OrderHistoryComponent} from './views/orders/order-history/order-history.component';
 import {CreateOrderComponent} from './views/orders/create-order/create-order.component';
@@ -98,7 +98,7 @@ const routes: Routes = [
     LogoutComponent,
     NotFoundComponent,
     AutocompleteDirective,
-    OrderConfirmComponent,
+    ConfirmOrderComponent,
     OpenOrdersComponent,
     OrderHistoryComponent,
     CreateOrderComponent,

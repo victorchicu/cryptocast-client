@@ -1,17 +1,13 @@
 <div fxLayout="column" style="background: white; padding: 16px">
-  <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+  <mat-tab-group mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="onTabChanged($event)">
     <mat-tab label="LIMIT">
       <mat-card style="box-shadow: none">
         <mat-card-title>
           <form appearance="fill">
             <mat-form-field style="width: 100%;">
               <mat-label>ASSET...</mat-label>
-              <input type="text"
-                     placeholder="Enter asset name"
-                     aria-label="Search asset"
-                     matInput
-                     [formControl]="assetsControl"
-                     [matAutocomplete]="auto">
+              <input type="text" placeholder="Enter asset name" aria-label="Search asset" matInput
+                     [formControl]="assetsControl" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selectAsset($event)">
                 <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset">
                   {{asset}}
@@ -32,23 +28,17 @@
               <div fxLayout="row">
                 <mat-form-field appearance="legacy" style="width: 100%">
                   <mat-label>AMOUNT</mat-label>
-                  <input type="number" name="amount" matInput placeholder="Please enter amount" [(ngModel)]="amount">
+                  <input type="number" name="amount" matInput placeholder="Please enter amount" [(ngModel)]="quantity">
                 </mat-form-field>
               </div>
             </div>
           </form>
         </mat-card-content>
         <mat-card-actions>
-          <button
-            mat-button
-            color="primary"
-            (click)="openDialog(OrderType.LIMIT, OrderSide.BUY,'assetBalance')">
+          <button mat-button color="primary" (click)="openDialog(assetName, OrderSide.BUY, OrderType.LIMIT, price, quantity)">
             BUY
           </button>
-          <button
-            mat-button
-            color="warn"
-            (click)="openDialog(OrderType.LIMIT, OrderSide.BUY,'assetBalance')">
+          <button mat-button color="warn" (click)="openDialog(assetName,OrderSide.SELL,OrderType.LIMIT, price, quantity)">
             SELL
           </button>
         </mat-card-actions>
@@ -60,12 +50,8 @@
           <form appearance="fill">
             <mat-form-field style="width: 100%;">
               <mat-label>ASSET...</mat-label>
-              <input type="text"
-                     placeholder="Enter asset name"
-                     aria-label="Search asset"
-                     matInput
-                     [formControl]="assetsControl"
-                     [matAutocomplete]="auto">
+              <input type="text" placeholder="Enter asset name" aria-label="Search asset" matInput
+                     [formControl]="assetsControl" [matAutocomplete]="auto">
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                 <mat-option *ngFor="let asset of filteredAssets | async" [value]="asset">
                   {{asset}}
@@ -86,23 +72,17 @@
               <div fxLayout="row">
                 <mat-form-field appearance="legacy" style="width: 100%">
                   <mat-label>AMOUNT</mat-label>
-                  <input type="number" name="amount" matInput placeholder="Please enter amount" [(ngModel)]="amount">
+                  <input type="number" name="amount" matInput placeholder="Please enter amount" [(ngModel)]="quantity">
                 </mat-form-field>
               </div>
             </div>
           </form>
         </mat-card-content>
         <mat-card-actions>
-          <button
-            mat-button
-            color="primary"
-            (click)="openDialog(OrderType.MARKET, OrderSide.BUY,'assetBalance')">
+          <button mat-button color="primary" (click)="openDialog(assetName, OrderSide.BUY, OrderType.MARKET, price, quantity)">
             BUY
           </button>
-          <button
-            mat-button
-            color="warn"
-            (click)="openDialog(OrderType.MARKET, OrderSide.BUY,'assetBalance')">
+          <button mat-button color="warn" (click)="openDialog(assetName, OrderSide.BUY, OrderType.MARKET, price, quantity)">
             SELL
           </button>
         </mat-card-actions>

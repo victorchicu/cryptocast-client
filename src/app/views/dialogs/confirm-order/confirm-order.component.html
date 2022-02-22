@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>
+  {{data.title}}
+</h1>
+<div mat-dialog-content>
+  <p>{{data.subject}}</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="createOrder()" cdkFocusInitial>CREATE</button>
+  <button mat-button color="warn" (click)="closeDialog()">CANCEL</button>
+</div>

@@ -2,15 +2,17 @@ import {OrderType} from "../enums/order-type";
 import {OrderSide} from "../enums/order-side";
 
 export class TestOrderDto {
-  private orderType: OrderType
-  private orderSide: OrderSide
-  private orderQty: number
-  private orderPrice: number
+  private asset: string
+  private side: OrderSide
+  private type: OrderType
+  private price: number
+  private quantity: number
 
-  constructor(orderType: OrderType, orderSide: OrderSide, orderQty: number, orderPrice: number) {
-    this.orderType = orderType;
-    this.orderSide = orderSide;
-    this.orderQty = orderQty;
-    this.orderPrice = orderPrice;
+  constructor(asset: string, side: OrderSide, type: OrderType, price: number, quantity: number) {
+    this.asset = asset;
+    this.side = side;
+    this.type = type;
+    this.price = price;
+    this.quantity = quantity;
   }
 }

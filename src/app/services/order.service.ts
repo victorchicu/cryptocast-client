@@ -16,15 +16,6 @@ export class OrderService extends BaseService {
     super(OrderService.API_PATH, httpClient);
   }
 
-  public createOrder(assetName: string, orderDto: TestOrderDto): Observable<TestOrderDto> {
-    const url: string = `${OrderService.API_PATH}/${assetName}`;
-    return this.httpClient.post<TestOrderDto>(
-      url,
-      orderDto,
-      this.httpOptions
-    );
-  }
-
   public getAllOrders(assetName: string, params: HttpParams): Observable<Page<OrderDto[]>> {
     const url: string = `${OrderService.API_PATH}/${assetName}`;
     const options = {
@@ -39,5 +30,14 @@ export class OrderService extends BaseService {
       params: params,
     }
     return this.httpClient.get<Page<OrderDto[]>>(url, options);
+  }
+
+  public createTestOrder(assetName: string, testOrderDto: TestOrderDto): Observable<void> {
+    const url: string = `${OrderService.API_PATH}/${assetName}`;
+    return this.httpClient.post<void>(
+      url,
+      testOrderDto,
+      this.httpOptions
+    );
   }
 }

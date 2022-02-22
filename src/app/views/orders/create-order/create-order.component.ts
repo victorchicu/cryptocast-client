@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {AssetBalance} from "../../../shared/domain/asset-balance";
-import {Order} from "../../../shared/domain/order";
-import {OrderConfirmComponent} from "../../../shared/dialogs/order-confirm-dialog/order-confirm.component";
+import {TestOrder} from "../../../shared/domain/test-order";
+import {ConfirmOrderComponent} from "../../dialogs/confirm-order/confirm-order.component";
 import {OrderType} from "../../../shared/enums/order-type";
 import {OrderSide} from "../../../shared/enums/order-side";
 import {MatDialog} from "@angular/material/dialog";
@@ -17,6 +17,8 @@ import {AssetService} from "../../../services/asset.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {AssetBalanceDto} from "../../../shared/dto/asset-balance-dto";
 import {AssetPriceDto} from "../../../shared/dto/asset-price-dto";
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import {ScrollStrategyOptions} from "@angular/cdk/overlay";
 
 @Component({
   selector: 'app-create-order',
@@ -26,13 +28,13 @@ import {AssetPriceDto} from "../../../shared/dto/asset-price-dto";
 })
 export class CreateOrderComponent implements OnInit {
   price: number;
-  amount: number;
+  quantity: number;
   assetName: string;
   assetsControl = new FormControl();
   availableAssets: string[] = [];
   filteredAssets: Observable<string[]>;
-  readonly OrderType: typeof OrderType = OrderType;
   readonly OrderSide: typeof OrderSide = OrderSide;
+  readonly OrderType: typeof OrderType = OrderType;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,43 +45,38 @@ export class CreateOrderComponent implements OnInit {
     //
   }
 
-  private static toOrder(orderType: OrderType, orderSide: OrderSide, assetName: string): Order {
-    const order: Order = new Order();
-    order.orderType = orderType;
-    order.orderSide = orderSide;
-    order.assetName = assetName;
-    return order;
+  private static toTestOrder(side: OrderSide, type: OrderType, price: number, quantity: number): TestOrder {
+    const testOrder: TestOrder = new TestOrder();
+    testOrder.side = side;
+    testOrder.type = type;
+    testOrder.price = price;
+    testOrder.quantity = quantity;
+    return testOrder;
   }
 
   ngOnInit(): void {
-    this.route.queryParams
-      .subscribe(params => {
-          this.assetName = params.assetName;
-        }
-      );
+    // this.route.queryParams
+    //   .subscribe(params => {
+    //       this.assetName = params.assetName;
+    //     }
+    //   );
     this.fetchAvailableAssets();
   }
 
-  createOrder(assetBalance: AssetBalance, orderType: OrderType, orderSide: OrderSide) {
-    console.time("CreateOrderComponent::createOrder");
-    this.orderService.createOrder(
-      assetBalance.asset,
-      new TestOrderDto(orderType, orderSide, this.amount, this.price)
-    ).subscribe((orderDto: TestOrderDto) => {
-      if (orderDto) {
-        console.log(orderDto)
-      }
-    }, error => {
-      console.log(error)
-    }, () => {
-      console.timeEnd("CreateOrderComponent::createOrder");
-    });
+  onTabChanged($event: MatTabChangeEvent) {
+    // this.price = 0;
+    // this.amount = 0;
   }
 
-  openDialog(orderType: OrderType, orderSide: OrderSide, assetName: string): void {
-    const order: Order = CreateOrderComponent.toOrder(orderType, orderSide, assetName);
-    const dialogRef = this.dialog.open(OrderConfirmComponent, {
-      data: order,
+  openDialog(assetName: string, side: OrderSide, type: OrderType, price: number, amount: number): void {
+    const testOrder: TestOrder = CreateOrderComponent.toTestOrder(side, type, price, amount);
+    const dialogRef = this.dialog.open(ConfirmOrderComponent, {
+      data: {
+        title: "Confirm Order",
+        subject: `Are you sure you want to create ${testOrder.side} order by ${testOrder.type}?`,
+        assetName: assetName,
+        testOrder: testOrder,
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
@@ -87,8 +84,8 @@ export class CreateOrderComponent implements OnInit {
   }
 
   selectAsset($event: MatAutocompleteSelectedEvent) {
-    const assetName: string = $event.option.value;
-    this.assetService.getAssetPrice(assetName)
+    this.assetName = $event.option.value;
+    this.assetService.getAssetPrice(this.assetName)
       .subscribe((assetPriceDto: AssetPriceDto) => {
         if (assetPriceDto) {
           this.price = assetPriceDto.price;
@@ -98,10 +95,10 @@ export class CreateOrderComponent implements OnInit {
       }, () => {
         console.log('AssetService::getAssetPrice COMPLETED')
       });
-    this.assetService.getAssetBalance(assetName)
+    this.assetService.getAssetBalance(this.assetName)
       .subscribe((assetBalance: AssetBalanceDto) => {
         if (assetBalance) {
-          this.amount = assetBalance.free;
+          this.quantity = assetBalance.free;
         }
       }, error => {
         console.log(error)
@@ -109,6 +106,7 @@ export class CreateOrderComponent implements OnInit {
         console.log('AssetService::getAssetBalance COMPLETED')
       });
   }
+
 
   fetchAvailableAssets() {
     console.time('CreateOrderComponent::fetchAvailableAssets')
