@@ -4,23 +4,15 @@ import {Subscription} from "rxjs";
 export class AssetBalance {
   private _asset: string;
   private _fullName: string;
-  private _iconIndex: number;
   private _toggled: boolean;
   private _free: number;
   private _frozen: number;
   private _price: string;
+  private _priceChange: string;
   private _balance: string;
   private _quotation: Quotation;
   private _openOrders: number;
   private _subscription: Subscription;
-
-  get iconIndex(): number {
-    return this._iconIndex;
-  }
-
-  set iconIndex(value: number) {
-    this._iconIndex = value;
-  }
 
   get asset(): string {
     return this._asset;
@@ -60,6 +52,14 @@ export class AssetBalance {
 
   set price(value: string) {
     this._price = value;
+  }
+
+  get priceChange(): string {
+    return this._priceChange;
+  }
+
+  set priceChange(value: string) {
+    this._priceChange = value;
   }
 
   get frozen(): number {

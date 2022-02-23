@@ -2,21 +2,8 @@ table {
   width: 100%;
 }
 
-.my-card {
-  width: 100%;
-  margin-left: 8px;
-  margin-right: 8px;
-  margin-bottom: 0px;
-}
-
-th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
-  padding-left: 0px;
-}
-
-.cm_icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+.mat-elevation-z8 {
+  box-shadow: none;
 }
 
 .unselectable {
@@ -26,8 +13,4 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   -moz-user-select: none;
   -webkit-user-drag: none;
   -webkit-user-select: none;
-}
-
-.mat-radio-button ~ .mat-radio-button {
-  margin-left: 16px;
 }

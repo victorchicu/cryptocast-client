@@ -11,7 +11,7 @@ import {LoadingIndicatorService} from "../../services/loading-indicator.service"
 import {OrderDto} from "../../shared/dto/order-dto";
 import {OrderService} from "../../services/order.service";
 import {Page} from "../../shared/paging/page";
-import {OrderComponent} from "../orders/order-component";
+import {OrderComponent, OrderElement} from "../orders/order-component";
 import {Order} from "../../shared/domain/order";
 import {SnackService} from "../../services/snack.service";
 
@@ -22,6 +22,7 @@ import {SnackService} from "../../services/snack.service";
 })
 export class AssetsComponent implements OnInit {
   assetBalances: AssetBalance[] = [];
+  public displayedColumns: string[] = ['name', 'priceChange', 'price', 'amount', 'total', 'action'];
 
   constructor(
     private assetService: AssetService,
@@ -38,10 +39,10 @@ export class AssetsComponent implements OnInit {
     const assetBalance: AssetBalance = new AssetBalance();
     assetBalance.asset = source.asset;
     assetBalance.fullName = source.fullName;
-    assetBalance.iconIndex = source.iconIndex;
     assetBalance.free = source.free;
     assetBalance.frozen = source.frozen;
     assetBalance.price = source.price.toFixed(2);
+    assetBalance.priceChange = source.priceChange.toFixed(2);
     assetBalance.balance = source.balance.toFixed(2);
     assetBalance.quotation = source.quotation;
     return assetBalance;
@@ -51,6 +52,7 @@ export class AssetsComponent implements OnInit {
     target.free = source.free;
     target.frozen = source.frozen;
     target.price = source.price.toFixed(2);
+    target.priceChange = source.priceChange.toFixed(2);
     target.balance = source.balance.toFixed(2);
     target.quotation = source.quotation;
   }
