@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AssetBalance} from "../../shared/domain/asset-balance";
 import {SubscriptionService} from "../../services/subscription.service";
 import {AssetService} from "../../services/asset.service";
@@ -11,8 +11,6 @@ import {LoadingIndicatorService} from "../../services/loading-indicator.service"
 import {OrderDto} from "../../shared/dto/order-dto";
 import {OrderService} from "../../services/order.service";
 import {Page} from "../../shared/paging/page";
-import {OrderComponent, OrderElement} from "../orders/order-component";
-import {Order} from "../../shared/domain/order";
 import {SnackService} from "../../services/snack.service";
 
 @Component({
