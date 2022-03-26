@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable, of, Subscriber} from "rxjs";
 import {AssetBalanceDto} from "../shared/dto/asset-balance-dto";
 import {Page} from "../shared/paging/page";
-import {BaseService} from "./base-service";
+import {BaseService} from "./base.service";
 import {ChipDto} from "../shared/dto/chip-dto";
 import {AssetPriceDto} from "../shared/dto/asset-price-dto";
 

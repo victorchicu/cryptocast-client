@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BaseService} from "./base-service";
+import {BaseService} from "./base.service";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {OrderRequestDto} from "../shared/dto/order-request-dto";

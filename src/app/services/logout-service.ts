@@ -1,6 +1,6 @@
 import {catchError, tap} from "rxjs/operators";
 import {Injectable} from "@angular/core";
-import {BaseService} from "./base-service";
+import {BaseService} from "./base.service";
 import {HttpClient} from "@angular/common/http";
 import {Globals} from "../shared/globals";
 

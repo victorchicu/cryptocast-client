@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {SignupDto} from "../shared/dto/signup-dto";
-import {BaseService} from "./base-service";
+import {BaseService} from "./base.service";
 import {AccessTokenDto} from "../shared/dto/access-token-dto";
 
 @Injectable({

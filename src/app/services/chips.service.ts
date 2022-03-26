@@ -1,5 +1,5 @@
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {BaseService} from "./base-service";
+import {BaseService} from "./base.service";
 import {Observable} from "rxjs";
 import {ChipDto} from "../shared/dto/chip-dto";
 import {Injectable} from "@angular/core";

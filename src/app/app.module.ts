@@ -46,8 +46,9 @@ import {CreateOrderComponent} from './views/orders/create-order/create-order.com
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
-import { SnackBarComponent } from './views/snack-bar/snack-bar.component';
+import {SnackBarComponent} from './views/snack-bar/snack-bar.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {NgApexchartsModule} from "ng-apexcharts";
 
 const routes: Routes = [
   {
@@ -141,7 +142,8 @@ const routes: Routes = [
     MatTreeModule,
     MatBadgeModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
+    NgApexchartsModule
   ],
   providers: [
     {

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {SubscriptionDto} from "../shared/dto/subscription-dto";
-import {BaseService} from "./base-service";
+import {BaseService} from "./base.service";
 import {AssetBalance} from "../shared/domain/asset-balance";
 
 @Injectable({

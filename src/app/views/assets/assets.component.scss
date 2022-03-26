@@ -14,3 +14,16 @@ table {
   -webkit-user-drag: none;
   -webkit-user-select: none;
 }
+
+#chart {
+  width: 100%;
+  margin: 35px auto;
+}
+
+.mat-row:hover .mat-cell {
+  background-color: #f3f2ef;
+}
+
+//.demo-row-is-clicked {
+//  background-color: darkgrey;
+//}
