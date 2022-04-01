@@ -43,12 +43,13 @@ import {ConfirmOrderComponent} from './views/dialogs/confirm-order/confirm-order
 import {OpenOrdersComponent} from './views/orders/open-orders/open-orders.component';
 import {OrderHistoryComponent} from './views/orders/order-history/order-history.component';
 import {CreateOrderComponent} from './views/orders/create-order/create-order.component';
+import {StocksComponent} from './views/stocks/stocks.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
 import {SnackBarComponent} from './views/snack-bar/snack-bar.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {NgApexchartsModule} from "ng-apexcharts";
+import {HighchartsChartModule} from "highcharts-angular";
 
 const routes: Routes = [
   {
@@ -69,6 +70,11 @@ const routes: Routes = [
   {
     path: 'orders/create',
     component: CreateOrderComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'trade',
+    component: StocksComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -106,6 +112,7 @@ const routes: Routes = [
     OrderHistoryComponent,
     CreateOrderComponent,
     SnackBarComponent,
+    StocksComponent
   ],
   imports: [
     FormsModule,
@@ -143,7 +150,7 @@ const routes: Routes = [
     MatBadgeModule,
     MatAutocompleteModule,
     MatChipsModule,
-    NgApexchartsModule
+    HighchartsChartModule
   ],
   providers: [
     {
@@ -165,7 +172,7 @@ const routes: Routes = [
       useValue: {color: 'primary'},
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 
 export class AppModule {

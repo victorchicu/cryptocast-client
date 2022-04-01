@@ -1,4 +1,4 @@
-export class AxisChartSeries {
+export class ChartSeries {
   private _x: Date;
   private _y: number[];
 

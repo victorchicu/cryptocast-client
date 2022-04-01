@@ -3,8 +3,9 @@
     <table mat-table [dataSource]="assetBalances" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
-        <td mat-cell *matCellDef="let element"> {{element.fullName}} ({{element.asset}})</td>
-
+        <td mat-cell *matCellDef="let element">
+          <a href="/trade?assetName={{element.asset}}"> {{element.fullName}} ({{element.asset}}) </a>
+        </td>
       </ng-container>
       <ng-container matColumnDef="priceChange">
         <th mat-header-cell *matHeaderCellDef>Change %</th>
@@ -59,20 +60,8 @@
         </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onClickAssetBalance(row)"
-      >
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
       </tr>
     </table>
-  </div>
-  <div fxLayout="row" style="width: 100%">
-    <div id="chart">
-      <apx-chart
-        [series]="chartOptions.series"
-        [chart]="chartOptions.chart"
-        [xaxis]="chartOptions.xaxis"
-        [yaxis]="chartOptions.yaxis"
-        [title]="chartOptions.title"
-      ></apx-chart>
-    </div>
   </div>
 </div>
