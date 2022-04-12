@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {SubscriptionDto} from "../shared/dto/subscription-dto";
 import {BaseService} from "./base.service";
-import {AssetBalance} from "../shared/domain/asset-balance";
+import {Asset} from "../shared/domain/asset";
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class SubscriptionService extends BaseService {
     );
   }
 
-  public addSubscription(assetBalance: AssetBalance): Observable<SubscriptionDto> {
+  public addSubscription(assetBalance: Asset): Observable<SubscriptionDto> {
     const url: string = `${SubscriptionService.API_PATH}/${assetBalance.asset}/add`;
     return this.httpClient.post<SubscriptionDto>(
       url,

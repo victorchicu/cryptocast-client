@@ -1,7 +1,7 @@
 import {Quotation} from "../enums/quotation";
 import {Subscription} from "rxjs";
 
-export class AssetBalance {
+export class Asset {
   private _asset: string;
   private _fullName: string;
   private _toggled: boolean;
@@ -12,6 +12,7 @@ export class AssetBalance {
   private _balance: string;
   private _quotation: Quotation;
   private _openOrders: number;
+  private _iconIndex: number;
   private _subscription: Subscription;
 
   get asset(): string {
@@ -97,6 +98,13 @@ export class AssetBalance {
     this._openOrders = value;
   }
 
+  get iconIndex(): number {
+    return this._iconIndex;
+  }
+
+  set iconIndex(value: number) {
+    this._iconIndex = value;
+  }
 
   get subscription(): Subscription {
     return this._subscription;

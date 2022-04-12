@@ -1,6 +1,6 @@
 import {Quotation} from "../enums/quotation";
 
-export interface AssetBalanceDto {
+export interface AssetDto {
   asset: string;
   fullName: string;
   free: number;
@@ -8,5 +8,6 @@ export interface AssetBalanceDto {
   price: number;
   priceChange: number;
   balance: number;
+  iconIndex: number;
   quotation: Quotation;
 }

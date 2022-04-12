@@ -67,7 +67,6 @@ export class StocksComponent implements OnInit {
     this.stocksService.listOhlc(assetName, params)
       .subscribe((ohlc: OhlcDto[]) => {
         const data: Array<Array<number>> = ohlc!.map(value => [value.openTime, value.open, value.high, value.low, value.close]);
-        console.log(data);
         // @ts-ignore
         this.chartOptions.series[0] = {
           type: "ohlc",

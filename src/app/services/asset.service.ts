@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable, of, Subscriber} from "rxjs";
-import {AssetBalanceDto} from "../shared/dto/asset-balance-dto";
-import {Page} from "../shared/paging/page";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {AssetDto} from "../shared/dto/asset-dto";
 import {BaseService} from "./base.service";
 import {ChipDto} from "../shared/dto/chip-dto";
 import {AssetPriceDto} from "../shared/dto/asset-price-dto";
@@ -47,17 +46,12 @@ export class AssetService extends BaseService {
     super(AssetService.API_PATH, httpClient);
   }
 
-  public getAssetPrice(assetName: string): Observable<AssetPriceDto> {
-    const url: string = `${AssetService.API_PATH}/${assetName}/price`;
-    return this.httpClient.get<AssetPriceDto>(url);
-  }
-
-  public getAssetBalance(assetName: string): Observable<AssetBalanceDto> {
+  public getAsset(assetName: string): Observable<AssetDto> {
     const url: string = `${AssetService.API_PATH}/${assetName}`;
-    return this.httpClient.get<AssetBalanceDto>(url);
+    return this.httpClient.get<AssetDto>(url);
   }
 
-  public listAssetBalances(params: HttpParams): Observable<AssetBalanceDto[]> {
+  public listAssets(params: HttpParams): Observable<AssetDto[]> {
     // const assets: AssetDto[] = JSON.parse(JSON.stringify(WalletService.MOCK_DATA));
     // return new Observable<AssetDto[]>(subscriber => {
     //   subscriber.next(assets);
@@ -65,7 +59,12 @@ export class AssetService extends BaseService {
     const options = {
       params: params
     };
-    return this.httpClient.get<AssetBalanceDto[]>(AssetService.API_PATH, options);
+    return this.httpClient.get<AssetDto[]>(AssetService.API_PATH, options);
+  }
+
+  public getAssetPrice(assetName: string): Observable<AssetPriceDto> {
+    const url: string = `${AssetService.API_PATH}/${assetName}/price`;
+    return this.httpClient.get<AssetPriceDto>(url);
   }
 
   public availableAssets(params: HttpParams): Observable<ChipDto[]> {

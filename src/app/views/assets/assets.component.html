@@ -1,10 +1,46 @@
 <div fxLayout="column" style="background: white; padding: 16px">
   <div fxLayout="row">
+    <mat-form-field class="chip-list" appearance="fill" style="width: 100%">
+      <mat-label>SEARCH...</mat-label>
+      <mat-chip-list #chipList aria-label="Search">
+        <mat-chip
+          *ngFor="let chip of chips"
+          (removed)="removeChip(chip)">
+          {{chip}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input
+          placeholder="Enter asset name"
+          #chipInput
+          [formControl]="chipsControl"
+          [matAutocomplete]="matAutocomplete"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="addChip($event)"
+        >
+      </mat-chip-list>
+      <mat-autocomplete #matAutocomplete="matAutocomplete" (optionSelected)="selectChip($event)">
+        <mat-option *ngFor="let chip of filteredChips | async" [value]="chip">
+          {{chip}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row">
     <table mat-table [dataSource]="assetBalances" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
         <td mat-cell *matCellDef="let element">
-          <a href="/trade?assetName={{element.asset}}"> {{element.fullName}} ({{element.asset}}) </a>
+          <div fxLayout="row">
+            <div fxLayoutAlign="center center" style="margin-right: 8px;">
+              <img class="coin-logo" src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{element.iconIndex}}.png" style="max-width: 32px; max-height: 32px; border-radius: 50%" loading="lazy" alt="BTC logo">
+            </div>
+            <div fxLayoutAlign="center center">
+              <a href="/trade?assetName={{element.asset}}"> {{element.fullName}} ({{element.asset}}) </a>
+            </div>
+          </div>
         </td>
       </ng-container>
       <ng-container matColumnDef="priceChange">
@@ -15,16 +51,16 @@
         <th mat-header-cell *matHeaderCellDef>Amount</th>
         <td mat-cell *matCellDef="let element">
           <ng-template [ngIf]="element.frozen > 0" [ngIfElse]="free">
-            ${{element.free.toFixed(8)}}/${{element.frozen.toFixed(8)}}
+            {{element.free.toFixed(8)}}/{{element.frozen.toFixed(8)}}
           </ng-template>
           <ng-template #free>
-            ${{element.free.toFixed(8)}}
+            {{element.free.toFixed(8)}}
           </ng-template>
         </td>
       </ng-container>
       <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef>Price</th>
-        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+        <td mat-cell *matCellDef="let element"> ${{element.price}} </td>
       </ng-container>
       <ng-container matColumnDef="total">
         <th mat-header-cell *matHeaderCellDef>Total</th>

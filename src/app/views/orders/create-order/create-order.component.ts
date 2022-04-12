@@ -12,7 +12,7 @@ import {HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {ChipDto} from "../../../shared/dto/chip-dto";
 import {AssetService} from "../../../services/asset.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
-import {AssetBalanceDto} from "../../../shared/dto/asset-balance-dto";
+import {AssetDto} from "../../../shared/dto/asset-dto";
 import {AssetPriceDto} from "../../../shared/dto/asset-price-dto";
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {SnackService} from "../../../services/snack.service";
@@ -85,8 +85,8 @@ export class CreateOrderComponent implements OnInit {
       }, () => {
         console.log('AssetService::getAssetPrice COMPLETED')
       });
-    this.assetService.getAssetBalance(this.assetName)
-      .subscribe((assetBalance: AssetBalanceDto) => {
+    this.assetService.getAsset(this.assetName)
+      .subscribe((assetBalance: AssetDto) => {
         if (assetBalance) {
           this.quantity = assetBalance.free;
         }
