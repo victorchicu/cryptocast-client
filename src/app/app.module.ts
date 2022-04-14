@@ -43,13 +43,15 @@ import {ConfirmOrderComponent} from './views/dialogs/confirm-order/confirm-order
 import {OpenOrdersComponent} from './views/orders/open-orders/open-orders.component';
 import {OrderHistoryComponent} from './views/orders/order-history/order-history.component';
 import {CreateOrderComponent} from './views/orders/create-order/create-order.component';
-import {StocksComponent} from './views/stocks/stocks.component';
+import {ChartComponent} from './views/charts/chart.component';
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatChipsModule} from "@angular/material/chips";
 import {SnackBarComponent} from './views/snack-bar/snack-bar.component';
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {HighchartsChartModule} from "highcharts-angular";
+import {MatProgressSpinnerModule, MatSpinner} from "@angular/material/progress-spinner";
+import {MatListModule} from "@angular/material/list";
 
 const routes: Routes = [
   {
@@ -74,7 +76,7 @@ const routes: Routes = [
   },
   {
     path: 'trade',
-    component: StocksComponent,
+    component: ChartComponent,
     canActivate: [AuthGuard]
   },
   {
@@ -112,7 +114,7 @@ const routes: Routes = [
     OrderHistoryComponent,
     CreateOrderComponent,
     SnackBarComponent,
-    StocksComponent
+    ChartComponent
   ],
   imports: [
     FormsModule,
@@ -150,7 +152,8 @@ const routes: Routes = [
     MatBadgeModule,
     MatAutocompleteModule,
     MatChipsModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    MatListModule
   ],
   providers: [
     {
@@ -180,6 +183,7 @@ export class AppModule {
     const icons = [
       ["tagged", "/assets/tagged.svg"],
       ["untagged", "/assets/untagged.svg"],
+      ["remove", "/assets/remove.svg"],
       ["create-order", "/assets/create-order.svg"],
       ["open-orders", "/assets/open-orders.svg"],
       ["order-history", "/assets/order-history.svg"],

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {OhlcDto} from "../../shared/dto/ohlc-dto";
 import {HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {StocksService} from "../../services/stocks.service";
+import {OhlcService} from "../../services/ohlc.service";
 import {ActivatedRoute, Params} from "@angular/router";
 
 import * as Highcharts from "highcharts/highstock";
@@ -15,10 +15,10 @@ IndicatorZigzag(Highcharts);
 
 @Component({
   selector: 'app-trade',
-  templateUrl: './stocks.component.html',
-  styleUrls: ['./stocks.component.scss']
+  templateUrl: './chart.component.html',
+  styleUrls: ['./chart.component.scss']
 })
-export class StocksComponent implements OnInit {
+export class ChartComponent implements OnInit {
   assetName: string;
 
   highcharts: typeof Highcharts = Highcharts;
@@ -46,7 +46,7 @@ export class StocksComponent implements OnInit {
   runOutsideAngular: boolean = false;
 
   constructor(
-    private stocksService: StocksService,
+    private ohlcService: OhlcService,
     private activatedRoute: ActivatedRoute,
   ) {
     //
@@ -64,9 +64,9 @@ export class StocksComponent implements OnInit {
     console.time("AssetsComponent::fetchOhlc");
     const params = new HttpParams()
       .set('interval', "FIVE_MINUTES");
-    this.stocksService.listOhlc(assetName, params)
+    this.ohlcService.list(assetName, params)
       .subscribe((ohlc: OhlcDto[]) => {
-        const data: Array<Array<number>> = ohlc!.map(value => [value.openTime, value.open, value.high, value.low, value.close]);
+        const data: Array<Array<number>> = ohlc!.map(value => [value.time, value.open, value.high, value.low, value.close]);
         // @ts-ignore
         this.chartOptions.series[0] = {
           type: "ohlc",

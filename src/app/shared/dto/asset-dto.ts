@@ -1,7 +1,7 @@
 import {Quotation} from "../enums/quotation";
 
 export interface AssetDto {
-  asset: string;
+  name: string;
   fullName: string;
   free: number;
   frozen: number;

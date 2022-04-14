@@ -2,7 +2,7 @@ import {Quotation} from "../enums/quotation";
 import {Subscription} from "rxjs";
 
 export class Asset {
-  private _asset: string;
+  private _name: string;
   private _fullName: string;
   private _toggled: boolean;
   private _free: number;
@@ -15,12 +15,12 @@ export class Asset {
   private _iconIndex: number;
   private _subscription: Subscription;
 
-  get asset(): string {
-    return this._asset;
+  get name(): string {
+    return this._name;
   }
 
-  set asset(value: string) {
-    this._asset = value;
+  set name(value: string) {
+    this._name = value;
   }
 
   get fullName(): string {

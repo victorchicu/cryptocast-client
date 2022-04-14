@@ -24,7 +24,7 @@ export class SubscriptionService extends BaseService {
   }
 
   public addSubscription(assetBalance: Asset): Observable<SubscriptionDto> {
-    const url: string = `${SubscriptionService.API_PATH}/${assetBalance.asset}/add`;
+    const url: string = `${SubscriptionService.API_PATH}/${assetBalance.name}/add`;
     return this.httpClient.post<SubscriptionDto>(
       url,
       {},

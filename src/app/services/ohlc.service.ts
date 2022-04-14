@@ -8,18 +8,18 @@ import {OhlcDto} from "../shared/dto/ohlc-dto";
 @Injectable({
   providedIn: 'root'
 })
-export class StocksService extends BaseService {
-  static readonly API_PATH: string = "/api/stocks"
+export class OhlcService extends BaseService {
+  static readonly API_PATH: string = "/api/ohlc"
 
   constructor(protected httpClient: HttpClient) {
-    super(StocksService.API_PATH, httpClient);
+    super(OhlcService.API_PATH, httpClient);
   }
 
-  public listOhlc(assetName: string, params: HttpParams): Observable<OhlcDto[]> {
+  public list(assetName: string, params: HttpParams): Observable<OhlcDto[]> {
     const options = {
       params: params,
     }
-    const url: string = `${StocksService.API_PATH}/${assetName}`;
+    const url: string = `${OhlcService.API_PATH}/${assetName}`;
     return this.httpClient.get<OhlcDto[]>(url, options);
   }
 }
