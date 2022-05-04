@@ -36,7 +36,7 @@ export class OpenOrdersComponent extends OrderComponent {
     this.orderService.cancelOrder(orderId, this.assetName)
       .subscribe(() => {
         this.orderElements = this.orderElements.filter(order => order.symbol !== symbol);
-        this.table.renderRows();
+        // this.table.renderRows();
       }, (httpErrorResponse: HttpErrorResponse) => {
         console.log(httpErrorResponse);
         this.snackService.error(httpErrorResponse.error.errors[0].description);
@@ -59,7 +59,7 @@ export class OpenOrdersComponent extends OrderComponent {
             this.orderElements.unshift(OrderComponent.toOrderElement(orderDto))
           })
           if (orders.length > 0) {
-            this.table.renderRows();
+            // this.table.renderRows();
           }
         }
       }, (httpErrorResponse: HttpErrorResponse) => {

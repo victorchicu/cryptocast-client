@@ -5,7 +5,7 @@ import {LoginService} from "../../services/login.service";
 import {Router} from "@angular/router";
 import {Globals} from "../../shared/globals";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
-import {SubscriptionService} from "../../services/subscription.service";
+import {AssetTrackerService} from "../../services/asset-tracker.service";
 import {LoadingIndicatorService} from "../../services/loading-indicator.service";
 import {SnackService} from "../../services/snack.service";
 import {HttpErrorResponse} from "@angular/common/http";

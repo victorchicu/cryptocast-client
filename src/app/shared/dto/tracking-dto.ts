@@ -1,4 +1,4 @@
-export interface SubscriptionDto {
+export interface TrackingDto {
   id: string;
   assetName: string
 }

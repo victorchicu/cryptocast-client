@@ -1,24 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body {
-  height: 100%;
-}
+//html, body {
+//  height: 100% !important;
+//}
+//
 
 body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  background-color: #f3f2ef;
+  background-color: var(--surface-ground) !important;
 }
 
-.mat-simple-snackbar {
-  font-size: 1.2em;
-  color: white;
+.ml-2 {
+  margin-left: 2px;
 }
 
-.snackbar-error {
-  background-color: red;
+.font-bold {
+  font-weight: bold;
 }
 
-.snackbar-success {
-  background-color: green;
+a {
+  color: var(--text-color) !important;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary-color) !important;
 }

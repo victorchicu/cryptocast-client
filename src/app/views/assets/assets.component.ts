@@ -1,10 +1,10 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Asset} from "../../shared/domain/asset";
-import {SubscriptionService} from "../../services/subscription.service";
+import {AssetTrackerService} from "../../services/asset-tracker.service";
 import {AssetService} from "../../services/asset.service";
 import {HttpErrorResponse, HttpParams, HttpStatusCode} from "@angular/common/http";
 import {AssetDto} from "../../shared/dto/asset-dto";
-import {SubscriptionDto} from "../../shared/dto/subscription-dto";
+import {TrackingDto} from "../../shared/dto/tracking-dto";
 import {RxStompService} from "@stomp/ng2-stompjs";
 import {Message} from "@stomp/stompjs";
 import {LoadingIndicatorService} from "../../services/loading-indicator.service";
@@ -13,36 +13,20 @@ import {OrderService} from "../../services/order.service";
 import {Page} from "../../shared/paging/page";
 import {SnackService} from "../../services/snack.service";
 import {Router} from "@angular/router";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs";
-import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
-import {MatChipInputEvent} from "@angular/material/chips";
 import {ChipDto} from "../../shared/dto/chip-dto";
 import {ChipsService} from "../../services/chips.service";
-import {map, startWith} from "rxjs/operators";
-import {MatTable} from "@angular/material/table";
-import {OrderElement} from "../orders/order-component";
-
 @Component({
   selector: 'app-assets',
   templateUrl: './assets.component.html',
   styleUrls: ['./assets.component.scss']
 })
 export class AssetsComponent implements OnInit {
-  chips: string[] = [];
-  availableChips: string[] = [];
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  chipsControl = new FormControl();
-  filteredChips: Observable<string[]>;
+  selectedChips: ChipDto[] = [];
+  filteredChips: any[] = [];
+  availableChips: ChipDto[] = [];
 
-  @ViewChild(MatTable) table: MatTable<Asset>;
-  @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
-  @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
-
+  selectedAsset: Asset;
   public assets: Asset[] = [];
-  public selectedIndex: number;
-  public displayedColumns: string[] = ['name', 'priceChange', 'price', 'amount', 'total', 'action'];
 
   constructor(
     private router: Router,
@@ -51,7 +35,7 @@ export class AssetsComponent implements OnInit {
     private orderService: OrderService,
     private snackService: SnackService,
     private rxStompService: RxStompService,
-    private subscriptionService: SubscriptionService,
+    private subscriptionService: AssetTrackerService,
     private loadingIndicatorService: LoadingIndicatorService,
   ) {
     //
@@ -89,61 +73,68 @@ export class AssetsComponent implements OnInit {
     this.fetchPersistentChips();
   }
 
-  addChip(event: MatChipInputEvent): void {
-    console.log('AssetsComponent::addChip')
-    const symbol = (event.value || '').trim();
-    if (symbol && this.availableChips.indexOf(symbol) >= 0) {
-      this.chipService.addChip(new ChipDto(symbol))
-        .subscribe((chip: ChipDto) => {
-          this.chips.push(chip.name);
-          this.fetchAssetByName(chip.name);
-        }, (httpErrorResponse: HttpErrorResponse) => {
-          console.log(httpErrorResponse);
-          this.snackService.error(httpErrorResponse.error.errors[0].description);
-        });
-    }
-    event.chipInput!.clear();
-    this.chipsControl.setValue(null);
-    this.matAutocomplete.closePanel();
-    console.log('AssetsComponent::addChip')
+  addChip(/*event: MatChipInputEvent */): void {
+    // console.log('AssetsComponent::addChip')
+    // const symbol = (event.value || '').trim();
+    // if (symbol && this.availableChips.indexOf(symbol) >= 0) {
+    //   this.chipService.addChip(new ChipDto(symbol))
+    //     .subscribe((chip: ChipDto) => {
+    //       this.chips.push(chip.name);
+    //       this.fetchAssetByName(chip.name);
+    //     }, (httpErrorResponse: HttpErrorResponse) => {
+    //       console.log(httpErrorResponse);
+    //       this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //     });
+    // }
+    // event.chipInput!.clear();
+    // this.chipsControl.setValue(null);
+    // this.matAutocomplete.closePanel();
+    // console.log('AssetsComponent::addChip')
   }
 
   removeChip(chip: string): void {
-    console.log('AssetsComponent::removeChip')
-    const index = this.chips.indexOf(chip);
-    if (index >= 0) {
-      this.chipService.removeChip(chip)
-        .subscribe(() => {
-          this.chips.splice(index, 1);
-          this.assets = this.assets.filter(asset => asset.name !== chip);
-          this.table.renderRows();
-        }, (httpErrorResponse: HttpErrorResponse) => {
-          console.log(httpErrorResponse);
-          this.snackService.error(httpErrorResponse.error.errors[0].description);
-        });
+    // console.log('AssetsComponent::removeChip')
+    // const index = this.chips.indexOf(chip);
+    // if (index >= 0) {
+    //   this.chipService.removeChip(chip)
+    //     .subscribe(() => {
+    //       this.chips.splice(index, 1);
+    //       this.assets = this.assets.filter(asset => asset.name !== chip);
+    //       this.table.renderRows();
+    //     }, (httpErrorResponse: HttpErrorResponse) => {
+    //       console.log(httpErrorResponse);
+    //       this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //     });
+    // }
+    // console.log('AssetsComponent::removeChip')
+  }
+
+  selectChip(/* event: MatAutocompleteSelectedEvent */): void {
+    // console.time("AssetsComponent::selectChip");
+    // this.chipInput.nativeElement.value = '';
+    // this.chipsControl.setValue(null);
+    // this.chipService.addChip(new ChipDto(event.option.viewValue))
+    //   .subscribe((chip: ChipDto) => {
+    //     this.chips.push(chip.name);
+    //     this.fetchAssetByName(chip.name);
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   }, () => {
+    //     console.timeEnd('AssetsComponent::selectChip')
+    //   });
+  }
+
+  filterChips(value: any) {
+    let query = value.query;
+    let filtered: any[] = [];
+    for (let i = 0; i < this.availableChips.length; i++) {
+      let selectedChip = this.availableChips[i];
+      if (selectedChip.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+        filtered.push(selectedChip);
+      }
     }
-    console.log('AssetsComponent::removeChip')
-  }
-
-  selectChip(event: MatAutocompleteSelectedEvent): void {
-    console.time("AssetsComponent::selectChip");
-    this.chipInput.nativeElement.value = '';
-    this.chipsControl.setValue(null);
-    this.chipService.addChip(new ChipDto(event.option.viewValue))
-      .subscribe((chip: ChipDto) => {
-        this.chips.push(chip.name);
-        this.fetchAssetByName(chip.name);
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      }, () => {
-        console.timeEnd('AssetsComponent::selectChip')
-      });
-  }
-
-  filterChips(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.availableChips.filter(chip => chip.toLowerCase().includes(filterValue));
+    this.filteredChips = filtered;
   }
 
   onClickAsset(assetName: string) {
@@ -192,8 +183,8 @@ export class AssetsComponent implements OnInit {
 
   fetchSubscription(asset: Asset) {
     console.time("AssetsComponent::fetchSubscription");
-    this.subscriptionService.getSubscription(asset.name)
-      .subscribe((subscriptionDto: SubscriptionDto) => {
+    this.subscriptionService.getAssetTracker(asset.name)
+      .subscribe((subscriptionDto: TrackingDto) => {
         console.log(subscriptionDto);
         asset.toggled = subscriptionDto !== null;
         if (asset.toggled) {
@@ -216,15 +207,7 @@ export class AssetsComponent implements OnInit {
     this.assetService.availableAssets(params)
       .subscribe((chips: ChipDto[]) => {
         if (chips) {
-          this.availableChips = chips!.map((chip: ChipDto) => chip.name)
-          this.filteredChips = this.chipsControl.valueChanges.pipe(
-            startWith(null),
-            map((chip: string | null) => (
-              chip
-                ? this.filterChips(chip)
-                : this.availableChips.slice()
-            ))
-          );
+          this.availableChips = chips; //!.map((chip: ChipDto) => chip.name)
         }
       }, (httpErrorResponse: HttpErrorResponse) => {
         console.log(httpErrorResponse);
@@ -242,9 +225,10 @@ export class AssetsComponent implements OnInit {
     this.chipService.listChips(chipsParams)
       .subscribe((chips: ChipDto[]) => {
         if (chips) {
-          this.chips = chips.map(value => value.name);
+          this.selectedChips = chips;
+          console.log(this.selectedChips);
           const assetParams = new HttpParams()
-            .set('assets', this.chips.join(","))
+            .set('assets', this.selectedChips.map(value => value.name).join(","))
           this.fetchAssets(assetParams);
         }
       }, (httpErrorResponse: HttpErrorResponse) => {
@@ -259,8 +243,8 @@ export class AssetsComponent implements OnInit {
     console.time("AssetsComponent::toggleSubscription");
     asset.toggled = !asset.toggled;
     if (asset.toggled) {
-      this.subscriptionService.addSubscription(asset)
-        .subscribe((subscription: SubscriptionDto) => {
+      this.subscriptionService.addAssetTracker(asset)
+        .subscribe((subscription: TrackingDto) => {
           asset.toggled = subscription !== null;
           if (asset.toggled) {
             this.addAssetTickerEvent(asset);
@@ -272,7 +256,7 @@ export class AssetsComponent implements OnInit {
           console.timeEnd("AssetsComponent::toggleSubscription");
         });
     } else {
-      this.subscriptionService.removeSubscription(asset.name)
+      this.subscriptionService.removeAssetTracker(asset.name)
         .subscribe((response: Response) => {
           if (response) {
             asset.toggled = !(response.status == HttpStatusCode.NoContent);
@@ -315,22 +299,22 @@ export class AssetsComponent implements OnInit {
 
 
   private fetchAssetByName(assetName: string) {
-    console.time("AssetsComponent::fetchAssetByName");
-    this.assetService.getAsset(assetName)
-      .subscribe((assetDto: AssetDto) => {
-        const asset: Asset = AssetsComponent.toAsset(assetDto);
-        console.log(asset);
-        if (!asset.name.includes("USDT")) {
-          this.fetchOpenOrders(asset);
-          this.fetchSubscription(asset);
-        }
-        this.assets.push(AssetsComponent.toAsset(assetDto))
-        this.table.renderRows();
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      }, () => {
-        console.timeEnd("AssetsComponent::fetchAssetByName");
-      })
+    // console.time("AssetsComponent::fetchAssetByName");
+    // this.assetService.getAsset(assetName)
+    //   .subscribe((assetDto: AssetDto) => {
+    //     const asset: Asset = AssetsComponent.toAsset(assetDto);
+    //     console.log(asset);
+    //     if (!asset.name.includes("USDT")) {
+    //       this.fetchOpenOrders(asset);
+    //       this.fetchSubscription(asset);
+    //     }
+    //     this.assets.push(AssetsComponent.toAsset(assetDto))
+    //     this.table.renderRows();
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   }, () => {
+    //     console.timeEnd("AssetsComponent::fetchAssetByName");
+    //   })
   }
 }

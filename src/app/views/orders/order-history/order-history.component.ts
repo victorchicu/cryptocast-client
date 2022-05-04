@@ -6,8 +6,6 @@ import {OrderDto} from "../../../shared/dto/order-dto";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
 import {map, startWith} from "rxjs/operators";
-import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material/autocomplete";
-import {MatChipInputEvent} from "@angular/material/chips";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
 import {ChipsService} from "../../../services/chips.service";
 import {ChipDto} from "../../../shared/dto/chip-dto";
@@ -30,7 +28,7 @@ export class OrderHistoryComponent extends OrderComponent {
   filteredChips: Observable<string[]>;
 
   @ViewChild('chipInput') chipInput: ElementRef<HTMLInputElement>;
-  @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
+  // @ViewChild(MatAutocompleteTrigger) matAutocomplete: MatAutocompleteTrigger;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,23 +45,23 @@ export class OrderHistoryComponent extends OrderComponent {
     this.fetchPersistentChips();
   }
 
-  addChip(event: MatChipInputEvent): void {
-    console.log('OrderHistoryComponent::addChip')
-    const symbol = (event.value || '').trim();
-    if (symbol && this.availableChips.indexOf(symbol) >= 0) {
-      this.chipService.addChip(new ChipDto(symbol))
-        .subscribe((chip: ChipDto) => {
-          this.chips.push(chip.name);
-          this.fetchOrders(chip.name);
-        }, (httpErrorResponse: HttpErrorResponse) => {
-          console.log(httpErrorResponse);
-          this.snackService.error(httpErrorResponse.error.errors[0].description);
-        });
-    }
-    event.chipInput!.clear();
-    this.chipsControl.setValue(null);
-    this.matAutocomplete.closePanel();
-    console.log('OrderHistoryComponent::addChip')
+  addChip(/* event: MatChipInputEvent */): void {
+    // console.log('OrderHistoryComponent::addChip')
+    // const symbol = (event.value || '').trim();
+    // if (symbol && this.availableChips.indexOf(symbol) >= 0) {
+    //   this.chipService.addChip(new ChipDto(symbol))
+    //     .subscribe((chip: ChipDto) => {
+    //       this.chips.push(chip.name);
+    //       this.fetchOrders(chip.name);
+    //     }, (httpErrorResponse: HttpErrorResponse) => {
+    //       console.log(httpErrorResponse);
+    //       this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //     });
+    // }
+    // event.chipInput!.clear();
+    // this.chipsControl.setValue(null);
+    // this.matAutocomplete.closePanel();
+    // console.log('OrderHistoryComponent::addChip')
   }
 
   removeChip(chip: string): void {
@@ -75,7 +73,7 @@ export class OrderHistoryComponent extends OrderComponent {
           this.chips.splice(index, 1);
           const symbolName = `${chip}USDT`;
           this.orderElements = this.orderElements.filter(order => order.symbol !== symbolName);
-          this.table.renderRows();
+          // this.table.renderRows();
         }, (httpErrorResponse: HttpErrorResponse) => {
           console.log(httpErrorResponse);
           this.snackService.error(httpErrorResponse.error.errors[0].description);
@@ -84,19 +82,19 @@ export class OrderHistoryComponent extends OrderComponent {
     console.log('OrderHistoryComponent::removeChip')
   }
 
-  selectChip(event: MatAutocompleteSelectedEvent): void {
-    console.log('OrderHistoryComponent::selectChip')
-    this.chipInput.nativeElement.value = '';
-    this.chipsControl.setValue(null);
-    this.chipService.addChip(new ChipDto(event.option.viewValue))
-      .subscribe((chip: ChipDto) => {
-        this.chips.push(chip.name);
-        this.fetchOrders(chip.name);
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      });
-    console.log('OrderHistoryComponent::selectChip')
+  selectChip(/* event: MatAutocompleteSelectedEvent */): void {
+    // console.log('OrderHistoryComponent::selectChip')
+    // this.chipInput.nativeElement.value = '';
+    // this.chipsControl.setValue(null);
+    // this.chipService.addChip(new ChipDto(event.option.viewValue))
+    //   .subscribe((chip: ChipDto) => {
+    //     this.chips.push(chip.name);
+    //     this.fetchOrders(chip.name);
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   });
+    // console.log('OrderHistoryComponent::selectChip')
   }
 
   fetchOrders(assetName: string) {
@@ -113,7 +111,7 @@ export class OrderHistoryComponent extends OrderComponent {
             this.orderElements.unshift(OrderHistoryComponent.toOrderElement(orderDto))
           })
           if (orders.length > 0) {
-            this.table.renderRows();
+            // this.table.renderRows();
           }
         }
       }, (httpErrorResponse: HttpErrorResponse) => {
