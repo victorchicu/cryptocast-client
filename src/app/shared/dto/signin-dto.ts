@@ -1,6 +1,6 @@
 import {ExchangeProvider} from "../enums/exchange-provider";
 
-export class LoginRequestDto {
+export class SigninDto {
   private email: string
   private password: string
   private exchangeProvider: ExchangeProvider

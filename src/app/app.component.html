@@ -1,70 +1,18 @@
-<p-toolbar [style]="{'border': 'none'}">
+<p-toolbar styleClass="toolbar">
   <div class="p-toolbar-group-left">
-    <a href="/">
+    <a href="/" class="text-2xl">
       <span class="font-bold">C</span>OINBANK
     </a>
   </div>
   <div class="p-toolbar-group-right">
-    <button pButton pRipple type="button" icon="pi" class="p-button-rounded p-button-text" (click)="menu.toggle($event)">
-      <p-avatar image="assets/amyelsner.png" styleClass="mr-2" size="large" shape="circle"></p-avatar>
-    </button>
+    <ng-template [ngIf]="isLoggedIn()">
+      <button pButton pRipple type="button" icon="pi" class="p-button-rounded p-button-text"
+              (click)="menu.toggle($event)">
+        <p-avatar image="assets/amyelsner.png" styleClass="mr-2" size="large" shape="circle"></p-avatar>
+      </button>
+    </ng-template>
     <p-menu #menu [popup]="true" [model]="dropdown"></p-menu>
   </div>
 </p-toolbar>
 <router-outlet>
 </router-outlet>
-<!--<div [ng2-loading]="loading" style="height: 100%; background-color: white">-->
-<!--  <mat-toolbar class="mat-elevation-z2" style="margin-bottom: 8px; background-color: white;">-->
-<!--    <mat-toolbar-row>-->
-<!--      <a [routerLink]="['/']">-->
-<!--        <button mat-flat-button aria-label="Home">-->
-<!--          <mat-icon style="width: 48px; height: 48px;" svgIcon="icons8-bitcoin"></mat-icon>-->
-<!--          <span style="position: relative; top: 0.1rem"> TRADER</span>-->
-<!--        </button>-->
-<!--      </a>-->
-<!--      <span style="flex: 1 1 auto"></span>-->
-<!--      <ng-template [ngIf]="!isLoggedIn()" [ngIfElse]="loggedOut">-->
-<!--        <div style="margin-left: 8px">-->
-<!--          <button class="example-icon favorite-icon"-->
-<!--                  aria-label="Log in"-->
-<!--                  mat-button-->
-<!--                  [routerLink]="['/login']">-->
-<!--            LOG IN-->
-<!--          </button>-->
-<!--        </div>-->
-<!--        <div style="margin-left: 8px">-->
-<!--          <button color="primary"-->
-<!--                  class="example-icon"-->
-<!--                  aria-label="Create an account"-->
-<!--                  [routerLink]="['/signup']"-->
-<!--                  mat-raised-button>-->
-<!--            SIGN UP-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--      <ng-template #loggedOut>-->
-<!--&lt;!&ndash;        <div fxLayout="row">&ndash;&gt;-->
-<!--&lt;!&ndash;          <div fxLayout="column">&ndash;&gt;-->
-<!--&lt;!&ndash;            <button [routerLink]="['/orders/create']" mat-flat-button>&ndash;&gt;-->
-<!--&lt;!&ndash;              BUY/SELL&ndash;&gt;-->
-<!--&lt;!&ndash;            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;          <div fxLayout="column">&ndash;&gt;-->
-<!--&lt;!&ndash;            <button [routerLink]="['/orders/history']" mat-flat-button>&ndash;&gt;-->
-<!--&lt;!&ndash;              <span>ORDER HISTORY</span>&ndash;&gt;-->
-<!--&lt;!&ndash;            </button>&ndash;&gt;-->
-<!--&lt;!&ndash;          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--        <div>-->
-<!--          <button aria-label="Log Out"-->
-<!--                  [routerLink]="['/logout']"-->
-<!--                  mat-button class="example-icon favorite-icon">-->
-<!--            LOG OUT-->
-<!--          </button>-->
-<!--        </div>-->
-<!--      </ng-template>-->
-<!--    </mat-toolbar-row>-->
-<!--  </mat-toolbar>-->
-<!--  <router-outlet>-->
-<!--  </router-outlet>-->
-<!--</div>-->

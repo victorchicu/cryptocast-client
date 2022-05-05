@@ -12,7 +12,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NumberFormatPipe} from './shared/pipes/number-format.pipe';
 import {AssetsComponent} from './views/assets/assets.component';
-import {LoginComponent} from './views/login/login.component';
+import {SigninComponent} from './views/signin/signin.component';
 import {SignupComponent} from './views/signup/signup.component';
 import {OAuth2TokenHttpInterceptor} from "./shared/interceptors/o-auth2-token-http-interceptor";
 import {LogoutComponent} from './views/logout/logout.component';
@@ -35,6 +35,11 @@ import {MenuModule} from "primeng/menu";
 import {DividerModule} from "primeng/divider";
 import {ChipsModule} from "primeng/chips";
 import {AutoCompleteModule} from "primeng/autocomplete";
+import {CardModule} from "primeng/card";
+import {CheckboxModule} from "primeng/checkbox";
+import {PasswordModule} from "primeng/password";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {CarouselModule} from "primeng/carousel";
 
 const routes: Routes = [
   {
@@ -63,8 +68,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'login',
-    component: LoginComponent
+    path: 'signin',
+    component: SigninComponent
   },
   {
     path: 'signup',
@@ -84,7 +89,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    SigninComponent,
     SignupComponent,
     NumberFormatPipe,
     AssetsComponent,
@@ -99,26 +104,31 @@ const routes: Routes = [
     SnackBarComponent,
     ChartComponent
   ],
-  imports: [
-    FormsModule,
-    RouterModule.forRoot(routes),
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    HighchartsChartModule,
-    TableModule,
-    ButtonModule,
-    ToolbarModule,
-    SplitButtonModule,
-    AvatarModule,
-    MenuModule,
-    DividerModule,
-    ChipsModule,
-    AutoCompleteModule
-  ],
+    imports: [
+        FormsModule,
+        RouterModule.forRoot(routes),
+        CommonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        HighchartsChartModule,
+        TableModule,
+        ButtonModule,
+        ToolbarModule,
+        SplitButtonModule,
+        AvatarModule,
+        MenuModule,
+        DividerModule,
+        ChipsModule,
+        AutoCompleteModule,
+        CardModule,
+        CheckboxModule,
+        PasswordModule,
+        InputSwitchModule,
+        CarouselModule
+    ],
   providers: [
     {
       multi: true,

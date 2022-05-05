@@ -1,23 +1,19 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Globals} from "./shared/globals";
 import {Preconditions} from "./shared/preconditions";
-import {Subscription} from "rxjs";
-import {LoadingIndicatorService} from "./services/loading-indicator.service";
 import {MenuItem} from 'primeng/api';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
-  loading = false;
-  subscription: Subscription;
-  loadingIndicatorService: LoadingIndicatorService;
+export class AppComponent implements OnInit {
   dropdown: MenuItem[];
 
-  constructor(loadingIndicatorService: LoadingIndicatorService) {
-    this.loadingIndicatorService = loadingIndicatorService;
+  constructor(public router: Router) {
+    //
   }
 
   ngOnInit(): void {
@@ -28,7 +24,10 @@ export class AppComponent implements OnInit, OnDestroy {
           label: 'Subscriptions',
           icon: 'pi pi-star',
           command: () => {
-            // this.update();
+            this.router.navigate(['/logout'])
+              .finally(() => {
+                console.log("User logged out")
+              })
           }
         }]
       },
@@ -49,14 +48,6 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         ]
       }]
-
-    this.subscription = this.loadingIndicatorService.subscribe(loading => {
-      setTimeout(() => this.loading = loading, 100);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   isLoggedIn(): boolean {
