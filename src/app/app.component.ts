@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Globals} from "./shared/globals";
 import {Preconditions} from "./shared/preconditions";
-import {MenuItem} from 'primeng/api';
+import {MenuItem, MessageService} from 'primeng/api';
 import {Router} from "@angular/router";
 
 @Component({
@@ -21,29 +21,27 @@ export class AppComponent implements OnInit {
       {
         label: "Account",
         items: [{
-          label: 'Subscriptions',
-          icon: 'pi pi-star',
+          label: 'My Exchanges',
+          icon: 'pi pi-briefcase',
           command: () => {
-            this.router.navigate(['/logout'])
+            this.router.navigate(['/my-exchanges'])
               .finally(() => {
-                console.log("User logged out")
+                console.log("Log out")
               })
           }
         }]
       },
       {
-        separator: true
-      },
-      {
+        separator: true,
         items: [
           {
             label: 'Log Out',
             icon: 'pi pi-power-off',
             command: () => {
-              // this.update();
-            },
-            tooltipOptions: {
-              disabled: true
+              this.router.navigate(['/logout'])
+                .finally(() => {
+                  console.log("Log out")
+                })
             }
           }
         ]

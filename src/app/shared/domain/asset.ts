@@ -1,19 +1,12 @@
-import {Quotation} from "../enums/quotation";
-import {Subscription} from "rxjs";
+import {ExchangeProvider} from "../enums/exchange-provider";
 
 export class Asset {
   private _name: string;
   private _fullName: string;
-  private _toggled: boolean;
-  private _free: number;
-  private _frozen: number;
-  private _price: string;
-  private _priceChange: string;
-  private _balance: string;
-  private _quotation: Quotation;
-  private _openOrders: number;
-  private _iconIndex: number;
-  private _subscription: Subscription;
+  private _provider: ExchangeProvider;
+  private _totalFunds: string;
+  private _fundsAvailable: string;
+  private _usedInAnyOutstandingOrders: string;
 
   get name(): string {
     return this._name;
@@ -31,86 +24,35 @@ export class Asset {
     this._fullName = value;
   }
 
-  get toggled(): boolean {
-    return this._toggled;
+  get provider(): ExchangeProvider {
+    return this._provider;
   }
 
-  set toggled(value: boolean) {
-    this._toggled = value;
+  set provider(value: ExchangeProvider) {
+    this._provider = value;
   }
 
-  get free(): number {
-    return this._free;
+  get totalFunds(): string {
+    return this._totalFunds;
   }
 
-  set free(value: number) {
-    this._free = value;
+  set totalFunds(value: string) {
+    this._totalFunds = value;
   }
 
-  get price(): string {
-    return this._price;
+  get fundsAvailable(): string {
+    return this._fundsAvailable;
   }
 
-  set price(value: string) {
-    this._price = value;
+  set fundsAvailable(value: string) {
+    this._fundsAvailable = value;
   }
 
-  get priceChange(): string {
-    return this._priceChange;
+  get usedInAnyOutstandingOrders(): string {
+    return this._usedInAnyOutstandingOrders;
   }
 
-  set priceChange(value: string) {
-    this._priceChange = value;
-  }
-
-  get frozen(): number {
-    return this._frozen;
-  }
-
-  set frozen(value: number) {
-    this._frozen = value;
-  }
-
-
-  get balance(): string {
-    return this._balance;
-  }
-
-  set balance(value: string) {
-    this._balance = value;
-  }
-
-
-  get quotation(): Quotation {
-    return this._quotation;
-  }
-
-  set quotation(value: Quotation) {
-    this._quotation = value;
-  }
-
-
-  get openOrders(): number {
-    return this._openOrders;
-  }
-
-  set openOrders(value: number) {
-    this._openOrders = value;
-  }
-
-  get iconIndex(): number {
-    return this._iconIndex;
-  }
-
-  set iconIndex(value: number) {
-    this._iconIndex = value;
-  }
-
-  get subscription(): Subscription {
-    return this._subscription;
-  }
-
-  set subscription(value: Subscription) {
-    this._subscription = value;
+  set usedInAnyOutstandingOrders(value: string) {
+    this._usedInAnyOutstandingOrders = value;
   }
 }

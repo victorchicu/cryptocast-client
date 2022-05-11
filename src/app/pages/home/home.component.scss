@@ -1,0 +1,12 @@
+:host ::ng-deep .p-card .p-card-content {
+  padding: 0rem 0;
+}
+
+:host ::ng-deep .p-panel .p-panel-content {
+  border: none;
+  background: transparent !important;
+}
+
+.p-listbox {
+  border: none !important;
+}

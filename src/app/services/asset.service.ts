@@ -5,41 +5,12 @@ import {AssetDto} from "../shared/dto/asset-dto";
 import {BaseService} from "./base.service";
 import {ChipDto} from "../shared/dto/chip-dto";
 import {AssetPriceDto} from "../shared/dto/asset-price-dto";
+import {Asset} from "../shared/domain/asset";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssetService extends BaseService {
-  static readonly MOCK_DATA = [{
-    "coin": "XLM",
-    "name": "Stellar Lumens",
-    "icon": 512,
-    "flagged": false,
-    "balance": 133,
-    "fiatBalance": null
-  }, {
-    "coin": "USDT",
-    "name": "TetherUS",
-    "icon": 825,
-    "flagged": false,
-    "balance": 0.46065993,
-    "fiatBalance": null
-  }, {
-    "coin": "BNB",
-    "name": "BNB",
-    "icon": 1839,
-    "flagged": false,
-    "balance": 0.00236037,
-    "fiatBalance": null
-  }, {
-    "coin": "SOL",
-    "name": "Solana",
-    "icon": 5426,
-    "flagged": false,
-    "balance": 2E-8,
-    "fiatBalance": null
-  }];
-
   static readonly API_PATH: string = "/api/assets"
 
   constructor(protected httpClient: HttpClient) {
@@ -52,14 +23,14 @@ export class AssetService extends BaseService {
   }
 
   public listAssets(params: HttpParams): Observable<AssetDto[]> {
-    // const assets: AssetDto[] = JSON.parse(JSON.stringify(WalletService.MOCK_DATA));
-    // return new Observable<AssetDto[]>(subscriber => {
-    //   subscriber.next(assets);
-    // })
     const options = {
       params: params
     };
-    return this.httpClient.get<AssetDto[]>(AssetService.API_PATH, options);
+    return this.httpClient.get<AssetDto[]>(
+      'assets/assets.json',
+      // AssetService.API_PATH,
+      options
+    );
   }
 
   public getAssetPrice(assetName: string): Observable<AssetPriceDto> {

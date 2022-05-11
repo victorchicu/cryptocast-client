@@ -1,0 +1,44 @@
+<p-card>
+  <div class="shadow-2 flex flex-wrap justify-content-between align-content-center px-4 md:px-8" style="background: linear-gradient(90deg, #263238 0%, #526A76 100%); border-radius: 8px;"><div class="flex align-items-start py-3"><div><span class="inline-flex border-circle justify-content-center align-items-center text-white bg-green-500 mr-4" style="width: 38px; height: 38px;"><i class="pi pi-check-circle text-xl"></i></span></div><div><div class="text-white font-bold mb-1">Account Verification</div><span class="text-bluegray-200">Libero voluptatum atque exercitationem praesentium provident odit aperiam.</span></div></div><a pripple="" class="p-ripple p-element cursor-pointer bg-bluegray-500 text-white px-3 py-2 line-height-3 my-3 hover:bg-bluegray-400 transition-colors transition-duration-150" style="border-radius: 35px;"><span>Confirm Email</span><i class="ml-2 pi pi-arrow-right"></i><span class="p-ink"></span></a></div>
+  <p-table [value]="assets" [scrollable]="false" rowGroupMode="subheader" groupRowsBy="provider"
+           responsiveLayout="scroll">
+    <ng-template pTemplate="groupheader" let-asset>
+      <tr pRowGroupHeader>
+        <td colspan="12">
+          <img [alt]="asset.provider" src="../../../assets/exchanges/{{asset.provider}}.svg" width="32" style="vertical-align: middle"/>
+          <span class="font-bold ml-2">{{asset.provider}}</span>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Name</th>
+        <th>Total funds</th>
+        <th>Funds available</th>
+        <th>Used in any outstanding orders</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-asset let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          <div class="mt-2 md:mt-0 flex flex-nowrap">
+            <a href="#" class="flex align-items-center justify-content-center">
+              <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/{{1831}}.png" class="mr-2" loading="lazy" alt="BTC logo">
+              <span class="font-bold mr-2">{{asset.fullName}}</span>
+              <span class="font-light">{{asset.name}}</span>
+            </a>
+          </div>
+        </td>
+        <td>
+          {{asset.totalFunds}}
+        </td>
+        <td>
+          {{asset.fundsAvailable}}
+        </td>
+        <td>
+          {{asset.usedInAnyOutstandingOrders}}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

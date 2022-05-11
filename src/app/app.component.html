@@ -8,7 +8,7 @@
     <ng-template [ngIf]="isLoggedIn()">
       <button pButton pRipple type="button" icon="pi" class="p-button-rounded p-button-text"
               (click)="menu.toggle($event)">
-        <p-avatar image="assets/amyelsner.png" styleClass="mr-2" size="large" shape="circle"></p-avatar>
+        <p-avatar icon="pi pi-user" size="large" shape="circle"></p-avatar>
       </button>
     </ng-template>
     <p-menu #menu [popup]="true" [model]="dropdown"></p-menu>

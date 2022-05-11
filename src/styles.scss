@@ -1,13 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body {
-  margin: 0px;
+  margin: 0;
   height: 100% !important;
   font-size: large;
-}
-
-body {
-  //background-color: var(--surface-ground) !important;
 }
 
 a {
@@ -17,11 +13,4 @@ a {
 
 a:hover {
   color: var(--primary-color) !important;
-}
-
-.toolbar {
-  border: 0px;
-  box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
-  border-radius: 0px;
-  background-color: var(--surface-0);
 }

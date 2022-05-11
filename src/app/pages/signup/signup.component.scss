@@ -1,0 +1,14 @@
+:host {
+  ::ng-deep .p-card {
+    box-shadow: none;
+  }
+  ::ng-deep .p-card .p-card-content {
+    padding: 0rem 0;
+  }
+  ::ng-deep .p-divider.p-divider-horizontal {
+    margin: 0rem 0;
+  }
+  ::ng-deep .p-divider.p-divider-horizontal .p-divider-content {
+    padding: 0 0rem;
+  }
+}

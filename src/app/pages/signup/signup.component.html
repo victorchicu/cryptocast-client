@@ -1,0 +1,49 @@
+<p-card styleClass="card">
+  <div class="flex flex-wrap justify-content-center">
+    <div class="w-full lg:w-6 p-4 lg:p-7">
+      <div class="p-fluid mb-3">
+        <span class="text-2xl font-medium text-900">WELCOME TO COINBANK!</span>
+      </div>
+      <div class="p-fluid mb-3">
+        <p-messages severity="warn">
+          <ng-template pTemplate>
+            <span style="font-size: medium">By signing in or creating an account, you agree with our <a href="#" class="font-bold">Terms & Conditions</a> and <a
+              href="#" class="font-bold">Privacy Statement</a>.</span>
+          </ng-template>
+        </p-messages>
+      </div>
+      <input [(ngModel)]="email" id="email" type="text" placeholder="Email or phone number" pinputtext=""
+             class="p-inputtext p-component p-element w-full mb-3 p-3"/>
+      <input [(ngModel)]="password" id="password" type="password" placeholder="Password" pinputtext=""
+             class="p-inputtext p-component p-element w-full mb-3 p-3"/>
+      <button pbutton="" pripple="" label="Sign In"
+              class="p-element p-ripple w-full py-3 font-medium p-button p-component" (click)="signup()">
+        <span class="p-button-label">CONTINUE</span>
+        <span class="p-ink"></span>
+      </button>
+      <p-divider align="center" styleclass="my-4" class="p-element">
+        <div role="separator" class="my-4 p-divider p-component p-divider-horizontal p-divider-solid p-divider-center">
+          <div class="p-divider-content">
+            <span class="text-600 font-normal text-sm">OR</span>
+          </div>
+        </div>
+      </p-divider>
+      <div class="flex justify-content-between">
+        <button
+          pripple=""
+          class="p-ripple p-element mr-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center"
+        >
+          <i class="pi pi-facebook text-indigo-400 mr-2"></i>
+          <span>Continue with Facebook</span>
+          <span class="p-ink"></span>
+        </button>
+        <button
+          pripple=""
+          class="p-ripple p-element ml-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center"
+        >
+          <i class="pi pi-google text-pink-400 mr-2"></i><span>Continue with Google</span><span class="p-ink"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</p-card>

@@ -1,13 +1,10 @@
-import {Quotation} from "../enums/quotation";
+import {ExchangeProvider} from "../enums/exchange-provider";
 
 export interface AssetDto {
   name: string;
   fullName: string;
-  free: number;
-  frozen: number;
-  price: number;
-  priceChange: number;
-  balance: number;
-  iconIndex: number;
-  quotation: Quotation;
+  provider: ExchangeProvider;
+  totalFunds: string;
+  fundsAvailable: string;
+  usedInAnyOutstandingOrders: string;
 }

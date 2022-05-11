@@ -1,4 +1,4 @@
 export enum ExchangeProvider {
-  BINANCE = "BINANCE",
-  GATE = "GATE"
+  GATE = "Gate",
+  BINANCE = "Binance"
 }
