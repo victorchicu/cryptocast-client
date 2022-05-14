@@ -1,73 +1,12 @@
-<p-dialog [(visible)]="isExchangeShown" [draggable]="false" [modal]="true"
-          [breakpoints]="{'960px': '75vw', '640px': '100vw'}" appendTo="body" [style]="{width: '50vw'}">
-  <ng-template pTemplate="content">
-    <div class="grid formgrid ng-tns-c48-2">
-      <div class="col-12 field mb-4 ng-tns-c48-2">
-        <span class="text-900 text-2xl block font-medium mb-5 ng-tns-c48-2">Connect a new Exchange</span>
-        <p-dropdown placeholder="Country / Region" optionlabel="name" styleclass="w-full"
-                    class="p-fluid w-full p-element p-inputwrapper ng-pristine ng-valid ng-star-inserted ng-touched">
-          <div class="p-dropdown p-component p-dropdown-clearable">
-            <div class="p-hidden-accessible ng-tns-c40-4">
-              <input type="text" readonly="" aria-haspopup="listbox" role="combobox" class="ng-tns-c40-4"
-                     placeholder="Country / Region" aria-expanded="false">
-            </div>
-            <
-            <span
-              class="ng-tns-c40-4 p-dropdown-label p-inputtext p-placeholder ng-star-inserted">Country / Region</span>
-            <div role="button" aria-label="dropdown trigger" aria-haspopup="listbox"
-                 class="p-dropdown-trigger ng-tns-c40-4" aria-expanded="false">
-              <span class="p-dropdown-trigger-icon ng-tns-c40-4 pi pi-chevron-down"></span>
-            </div>
-          </div>
-        </p-dropdown>
-      </div>
-      <div class="col-12 field mb-4 ng-tns-c48-2">
-        <input id="address" placeholder="Address" type="text" class="p-inputtext w-full ng-tns-c48-2">
-      </div>
-      <div class="col-12 lg:col-6 field mb-4 ng-tns-c48-2">
-        <input id="name" placeholder="Name" type="text" class="p-inputtext w-full ng-tns-c48-2">
-      </div>
-      <div class="col-12 lg:col-6 field mb-4 ng-tns-c48-2">
-        <input id="lastname" placeholder="Last Name" type="text" class="p-inputtext w-full ng-tns-c48-2">
-      </div>
-    </div>
-    <!--    <div class="flex flex-wrap">-->
-    <!--      <div class="font-medium text-2xl text-900 mb-3">Connect a new crypto exchange</div>-->
-    <!--      <div class="text-500 mb-5">Configure the connection to your crypto exchange</div>-->
-    <!--      <ul class="list-none p-0 m-0 w-full">-->
-    <!--        <li class="flex align-items-center py-2 px-1 surface-border flex-wrap">-->
-    <!--          <p-dropdown class="p-fluid w-full" [options]="exchanges" [(ngModel)]="selectedExchange" optionLabel="name">-->
-    <!--          </p-dropdown>-->
-    <!--        </li>-->
-    <!--        <p-divider type="dashed"></p-divider>-->
-    <!--        <li class="flex align-items-center py-2 px-1 surface-border flex-wrap">-->
-    <!--          <div class="text-500 w-6 md:w-2 font-medium">Name</div>-->
-    <!--          <input type="text" pInputText class="w-full"/>-->
-    <!--        </li>-->
-    <!--        <li class="flex align-items-center py-2 px-1 surface-border flex-wrap">-->
-    <!--          <div class="text-500 w-6 md:w-2 font-medium">API Key</div>-->
-    <!--          <input type="text" pInputText class="w-full"/>-->
-    <!--        </li>-->
-    <!--        <li class="flex align-items-center py-2 px-1 surface-border flex-wrap">-->
-    <!--          <div class="text-500 w-6 md:w-2 font-medium">Secret Key</div>-->
-    <!--          <input type="text" pInputText class="w-full"/>-->
-    <!--        </li>-->
-    <!--      </ul>-->
-    <!--    </div>-->
-  </ng-template>
-  <ng-template pTemplate="footer">
-    <button type="button" pButton icon="pi pi-times" label="Cancel"></button>
-    <button type="button" pButton icon="pi pi-check" label="Connect"></button>
-  </ng-template>
-</p-dialog>
+<app-connect-dialog [display]="display" (eventEmitter)="onDialogClose($event)"></app-connect-dialog>
 <p-card styleClass="shadow-1">
   <div class="shadow-2 flex flex-wrap justify-content-between align-content-center px-4 md:px-8 mb-3"
        style="background: linear-gradient(90deg, #263238 0%, #526A76 100%); border-radius: 8px;">
     <div class="flex align-items-start py-3">
       <div>
         <span class="inline-flex border-circle justify-content-center align-items-center text-white bg-green-500 mr-4"
-              style="width: 38px; height: 38px;">
-        <i class="pi pi-check-circle text-xl"></i>
+              style="width: 48px; height: 48px;">
+        <i class="pi pi-link text-xl"></i>
       </span>
       </div>
       <div>
@@ -76,44 +15,30 @@
           class="text-bluegray-200">Configure the connection to your crypto exchange</span>
       </div>
     </div>
-    <a pripple="" (click)="openExchangeDialog()"
-       class="p-ripple p-element cursor-pointer bg-bluegray-500 text-white px-3 py-2 line-height-3 my-3 hover:bg-bluegray-400 transition-colors transition-duration-150"
+    <a (click)="showDialog()"
+       class="flex align-items-center justify-content-center p-ripple p-element cursor-pointer bg-bluegray-500 text-white px-3 py-2 line-height-3 my-3 hover:bg-bluegray-400 transition-colors transition-duration-150"
        style="border-radius: 35px;">
       <span>CONNECT</span>
       <i class="ml-2 pi pi-arrow-right"></i>
       <span class="p-ink"></span>
     </a>
   </div>
-  <p-table [value]="assets" [scrollable]="false" rowGroupMode="subheader" groupRowsBy="provider"
-           responsiveLayout="scroll">
+  <p-table [value]="assets" [scrollable]="true" class="z-5" rowGroupMode="subheader" groupRowsBy="apiKeyName"
+           responsiveLayout="scroll" scrollHeight="100%">
     <ng-template pTemplate="groupheader" let-asset>
       <tr pRowGroupHeader>
         <td colspan="12">
           <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between">
             <div class="flex align-items-center">
-              <img [alt]="asset.provider" src="../../../assets/{{asset.provider.toLowerCase()}}.svg" width="32"
-                   style="vertical-align: middle"/>
-              <span class="font-bold ml-2 mr-2">{{asset.provider}}</span>
+              <img [alt]="asset.exchange" src="../../../assets/{{asset.exchange.toLowerCase()}}.svg" width="32" style="vertical-align: middle"/>
+              <span class="font-bold ml-2 mr-2">{{asset.apiKeyName}}</span>
             </div>
             <div class="mt-2 md:mt-0 flex flex-nowrap">
-              <p-overlayPanel #op>
-                <div>
-                  <p-listbox [filter]="true" [options]="products" [(ngModel)]="selectedProduct" optionLabel="name"
-                             [listStyle]="{'max-height':'250px', 'border': 'none; !important'}"
-                             [style]="{'width':'15rem'}">
-                    <ng-template pTemplate="body" let-product>
-                      {{product.name}}
-                    </ng-template>
-                  </p-listbox>
-                </div>
-              </p-overlayPanel>
-              <button pbutton="" pripple="" label="Follow" icon="pi pi-plus-circle"
-                      class="p-element p-ripple p-button-outlined mr-2 p-button p-component"
-                      (click)="op.toggle($event)">
-                <span class="p-button-icon p-button-icon-left pi pi-plus-circle" aria-hidden="true"></span>
-                <span class="p-button-label">ADD ASSET</span>
-                <span class="p-ink" style="height: 117px; width: 117px; top: -28.25px; left: 8.21094px;"></span>
-              </button>
+              <p-confirmPopup></p-confirmPopup>
+              <button (click)="onExchangeDelete($event, asset.apiKeyName)" pbutton="" pripple="" icon="pi pi-facebook" class="p-element p-ripple p-button-text p-button-plain p-button-rounded mr-1 p-button p-component p-button-icon-only">
+                <span class="p-button-icon pi pi-times" aria-hidden="true"></span>
+                <span aria-hidden="true" class="p-button-label">&nbsp;</span>
+                <span class="p-ink"></span></button>
             </div>
           </div>
         </td>
@@ -140,13 +65,13 @@
           </div>
         </td>
         <td>
-          {{asset.totalFunds}}
+          {{asset.totalFunds.toFixed(8)}}
         </td>
         <td>
-          {{asset.fundsAvailable}}
+          {{asset.fundsAvailable.toFixed(8)}}
         </td>
         <td>
-          {{asset.usedInAnyOutstandingOrders}}
+          {{asset.usedInAnyOutstandingOrders.toFixed(8)}}
         </td>
       </tr>
     </ng-template>

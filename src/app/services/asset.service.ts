@@ -27,8 +27,7 @@ export class AssetService extends BaseService {
       params: params
     };
     return this.httpClient.get<AssetDto[]>(
-      'assets/assets.json',
-      // AssetService.API_PATH,
+      AssetService.API_PATH,
       options
     );
   }

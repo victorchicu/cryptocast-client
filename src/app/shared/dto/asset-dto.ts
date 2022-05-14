@@ -1,10 +1,11 @@
-import {ExchangeProvider} from "../enums/exchange-provider";
+import {Exchange} from "../enums/exchange";
 
 export interface AssetDto {
   name: string;
   fullName: string;
-  provider: ExchangeProvider;
-  totalFunds: string;
-  fundsAvailable: string;
-  usedInAnyOutstandingOrders: string;
+  apiKeyName: string;
+  exchange: Exchange;
+  totalFunds: number;
+  fundsAvailable: number;
+  usedInAnyOutstandingOrders: number;
 }

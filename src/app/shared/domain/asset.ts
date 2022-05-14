@@ -1,12 +1,13 @@
-import {ExchangeProvider} from "../enums/exchange-provider";
+import {Exchange} from "../enums/exchange";
 
 export class Asset {
   private _name: string;
   private _fullName: string;
-  private _provider: ExchangeProvider;
-  private _totalFunds: string;
-  private _fundsAvailable: string;
-  private _usedInAnyOutstandingOrders: string;
+  private _apiKeyName: string;
+  private _exchange: Exchange;
+  private _totalFunds: number;
+  private _fundsAvailable: number;
+  private _usedInAnyOutstandingOrders: number;
 
   get name(): string {
     return this._name;
@@ -24,35 +25,43 @@ export class Asset {
     this._fullName = value;
   }
 
-  get provider(): ExchangeProvider {
-    return this._provider;
+  get apiKeyName(): string {
+    return this._apiKeyName;
   }
 
-  set provider(value: ExchangeProvider) {
-    this._provider = value;
+  set apiKeyName(value: string) {
+    this._apiKeyName = value;
   }
 
-  get totalFunds(): string {
+  get exchange(): Exchange {
+    return this._exchange;
+  }
+
+  set exchange(value: Exchange) {
+    this._exchange = value;
+  }
+
+  get totalFunds(): number {
     return this._totalFunds;
   }
 
-  set totalFunds(value: string) {
+  set totalFunds(value: number) {
     this._totalFunds = value;
   }
 
-  get fundsAvailable(): string {
+  get fundsAvailable(): number {
     return this._fundsAvailable;
   }
 
-  set fundsAvailable(value: string) {
+  set fundsAvailable(value: number) {
     this._fundsAvailable = value;
   }
 
-  get usedInAnyOutstandingOrders(): string {
+  get usedInAnyOutstandingOrders(): number {
     return this._usedInAnyOutstandingOrders;
   }
 
-  set usedInAnyOutstandingOrders(value: string) {
+  set usedInAnyOutstandingOrders(value: number) {
     this._usedInAnyOutstandingOrders = value;
   }
 }

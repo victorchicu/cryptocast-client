@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {BaseService} from "./base.service";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ChipDto} from "../shared/dto/chip-dto";
 import {OhlcDto} from "../shared/dto/ohlc-dto";
 
 @Injectable({

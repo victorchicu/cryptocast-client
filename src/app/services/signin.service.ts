@@ -17,8 +17,8 @@ export class SigninService extends BaseService {
     super(SigninService.API_PATH, httpClient);
   }
 
-  public signin(signinRequestDto: SigninDto): Observable<AccessTokenDto> {
-    return this.httpClient.post<AccessTokenDto>(SigninService.API_PATH, signinRequestDto, this.httpOptions)
+  public signin(signinDto: SigninDto): Observable<AccessTokenDto> {
+    return this.httpClient.post<AccessTokenDto>(SigninService.API_PATH, signinDto, this.httpOptions)
       .pipe(
         tap((accessTokenResponseDto: AccessTokenDto) => {
           localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenResponseDto.accessToken);
