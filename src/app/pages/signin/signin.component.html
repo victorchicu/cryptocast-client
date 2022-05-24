@@ -6,7 +6,7 @@
       </div>
       <input [(ngModel)]="email" id="email" type="text" placeholder="Email or phone number" pinputtext="" class="p-inputtext p-component p-element w-full mb-3 p-3"/>
       <input [(ngModel)]="password" id="password" type="password" placeholder="Password" pinputtext="" class="p-inputtext p-component p-element w-full mb-3 p-3"/>
-      <button pbutton="" pripple="" label="Sign In" class="p-element p-ripple w-full py-3 font-medium p-button p-component" (click)="signin()">
+      <button pbutton="" pripple="" label="Sign In" class="p-element p-ripple w-full py-3 font-medium p-button p-component" (click)="signIn()">
         <span class="p-button-label">CONTINUE</span>
         <span class="p-ink"></span>
       </button>
@@ -19,6 +19,7 @@
       </p-divider>
       <div class="flex justify-content-between">
         <button
+          (click)="signInByProvider('facebook')"
           pripple=""
           class="p-ripple p-element mr-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center"
         >
@@ -27,6 +28,7 @@
           <span class="p-ink"></span>
         </button>
         <button
+          (click)="signInByProvider('google')"
           pripple=""
           class="p-ripple p-element ml-2 w-6 font-medium border-1 surface-border surface-100 py-3 px-2 p-component hover:surface-200 active:surface-300 text-900 cursor-pointer transition-colors transition-duration-150 inline-flex align-items-center justify-content-center"
         >

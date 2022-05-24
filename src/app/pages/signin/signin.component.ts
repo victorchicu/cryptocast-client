@@ -1,29 +1,29 @@
 import {Component, OnInit} from '@angular/core';
 import {SigninDto} from "../../shared/dto/signin-dto";
 import {SigninService} from "../../services/signin.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Globals} from "../../shared/globals";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
 import {HttpErrorResponse} from "@angular/common/http";
-import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'signin-component',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss']
 })
-export class SigninComponent {
+export class SigninComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(
-    private readonly router: Router,
-    private readonly signinService: SigninService
-  ) {
+  constructor(private readonly router: Router, private readonly signinService: SigninService) {
     //
   }
 
-  signin(): void {
+  ngOnInit(): void {
+    //
+  }
+
+  signIn(): void {
     const signinDto: SigninDto = new SigninDto(this.email, this.password)
     this.signinService.signin(signinDto)
       .subscribe((accessTokenDto: AccessTokenDto) => {
@@ -37,5 +37,9 @@ export class SigninComponent {
       }, (httpErrorResponse: HttpErrorResponse) => {
         console.log(httpErrorResponse);
       });
+  }
+
+  signInByProvider(provider: string) {
+    window.location.href = 'http://localhost:4200/oauth2/authorize/' + provider + '?redirect_uri=http://localhost:4200/%23/oauth2/redirect'
   }
 }

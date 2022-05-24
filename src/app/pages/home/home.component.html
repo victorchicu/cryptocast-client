@@ -1,4 +1,7 @@
-<app-connect-dialog [display]="display" (eventEmitter)="onDialogClose($event)"></app-connect-dialog>
+<app-connect-dialog
+  [display]="display"
+  (eventEmitter)="onCloseDialog($event)">
+</app-connect-dialog>
 <p-card styleClass="shadow-1">
   <div class="shadow-2 flex flex-wrap justify-content-between align-content-center px-4 md:px-8 mb-3"
        style="background: linear-gradient(90deg, #263238 0%, #526A76 100%); border-radius: 8px;">
@@ -15,7 +18,7 @@
           class="text-bluegray-200">Configure the connection to your crypto exchange</span>
       </div>
     </div>
-    <a (click)="showDialog()"
+    <a (click)="onOpenDialog()"
        class="flex align-items-center justify-content-center p-ripple p-element cursor-pointer bg-bluegray-500 text-white px-3 py-2 line-height-3 my-3 hover:bg-bluegray-400 transition-colors transition-duration-150"
        style="border-radius: 35px;">
       <span>CONNECT</span>
@@ -35,7 +38,7 @@
             </div>
             <div class="mt-2 md:mt-0 flex flex-nowrap">
               <p-confirmPopup></p-confirmPopup>
-              <button (click)="onExchangeDelete($event, asset.apiKeyName)" pbutton="" pripple="" icon="pi pi-facebook" class="p-element p-ripple p-button-text p-button-plain p-button-rounded mr-1 p-button p-component p-button-icon-only">
+              <button (click)="handleDeleteExchange($event, asset.apiKeyName)" pbutton="" pripple="" icon="pi pi-facebook" class="p-element p-ripple p-button-text p-button-plain p-button-rounded mr-1 p-button p-component p-button-icon-only">
                 <span class="p-button-icon pi pi-times" aria-hidden="true"></span>
                 <span aria-hidden="true" class="p-button-label">&nbsp;</span>
                 <span class="p-ink"></span></button>

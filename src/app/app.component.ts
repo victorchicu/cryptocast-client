@@ -1,8 +1,7 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {Globals} from "./shared/globals";
-import {Preconditions} from "./shared/preconditions";
-import {MenuItem, MessageService} from 'primeng/api';
+import {Component, OnInit} from '@angular/core';
+import {MenuItem} from 'primeng/api';
 import {Router} from "@angular/router";
+import {Globals} from "./shared/globals";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +11,7 @@ import {Router} from "@angular/router";
 export class AppComponent implements OnInit {
   dropdown: MenuItem[];
 
-  constructor(public router: Router) {
+  constructor(private  readonly router: Router) {
     //
   }
 
@@ -48,7 +47,7 @@ export class AppComponent implements OnInit {
       }]
   }
 
-  isLoggedIn(): boolean {
-    return Preconditions.isDefined(localStorage.getItem(Globals.ACCESS_TOKEN));
+  isLoggedIn() {
+    return localStorage.getItem(Globals.ACCESS_TOKEN);
   }
 }

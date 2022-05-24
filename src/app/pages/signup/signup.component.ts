@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {SignupService} from "../../services/signup.service";
 import {SignupDto} from "../../shared/dto/signup-dto";
 import {Router} from "@angular/router";

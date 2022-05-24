@@ -1,11 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {BrowserModule, DomSanitizer} from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from "@stomp/ng2-stompjs";
-import {rxStompConfig} from "./rx-stomp.config";
 import {NotificationsComponent} from './pages/notifications/notifications.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {RouterModule, Routes} from "@angular/router";
@@ -54,13 +52,15 @@ import {ListboxModule} from "primeng/listbox";
 import {AccordionModule} from "primeng/accordion";
 import {PanelModule} from "primeng/panel";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
-import { MyExchangesComponent } from './pages/my-exchanges/my-exchanges.component';
+import {MyExchangesComponent} from './pages/my-exchanges/my-exchanges.component';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {DialogModule} from "primeng/dialog";
 import {ChipModule} from "primeng/chip";
 import {FieldsetModule} from "primeng/fieldset";
 import {FileUploadModule} from "primeng/fileupload";
-import { ConnectDialogComponent } from './pages/dialogs/connect-dialog/connect-dialog.component';
+import {ApiConnectDialogComponent} from './pages/dialogs/connect-dialog/api-connect-dialog.component';
+import {OAuth2RedirectComponent} from './pages/oauth2/oauth2-redirect/o-auth2-redirect.component';
+import {CookieModule} from "ngx-cookie";
 
 const routes: Routes = [
   {
@@ -80,6 +80,14 @@ const routes: Routes = [
   {
     path: 'signup',
     component: SignupComponent
+  },
+  {
+    path: 'oauth2/redirect',
+    component: OAuth2RedirectComponent
+  },
+  {
+    path: '#/oauth2/redirect',
+    component: OAuth2RedirectComponent
   },
   {
     path: 'logout',
@@ -110,54 +118,55 @@ const routes: Routes = [
     SnackBarComponent,
     ChartComponent,
     MyExchangesComponent,
-    ConnectDialogComponent
+    ApiConnectDialogComponent,
+    OAuth2RedirectComponent,
   ],
-    imports: [
-        FormsModule,
-        RouterModule.forRoot(routes),
-        CommonModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        HighchartsChartModule,
-        TableModule,
-        ButtonModule,
-        ToolbarModule,
-        SplitButtonModule,
-        AvatarModule,
-        MenuModule,
-        DividerModule,
-        ChipsModule,
-        AutoCompleteModule,
-        CardModule,
-        CheckboxModule,
-        PasswordModule,
-        InputSwitchModule,
-        CarouselModule,
-        MessagesModule,
-        ToastModule,
-        OverlayPanelModule,
-        RatingModule,
-        ToggleButtonModule,
-        StepsModule,
-        InputMaskModule,
-        DropdownModule,
-        SelectButtonModule,
-        RadioButtonModule,
-        ListboxModule,
-        AccordionModule,
-        PanelModule,
-        ConfirmPopupModule,
-        ConfirmDialogModule,
-        DialogModule,
-        ChipModule,
-        FieldsetModule,
-        FileUploadModule
-    ],
-  providers: [
-    {
+  imports: [
+    FormsModule,
+    RouterModule.forRoot(routes, {useHash: true}),
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    HighchartsChartModule,
+    TableModule,
+    ButtonModule,
+    ToolbarModule,
+    SplitButtonModule,
+    AvatarModule,
+    MenuModule,
+    DividerModule,
+    ChipsModule,
+    AutoCompleteModule,
+    CardModule,
+    CheckboxModule,
+    PasswordModule,
+    InputSwitchModule,
+    CarouselModule,
+    MessagesModule,
+    ToastModule,
+    OverlayPanelModule,
+    RatingModule,
+    ToggleButtonModule,
+    StepsModule,
+    InputMaskModule,
+    DropdownModule,
+    SelectButtonModule,
+    RadioButtonModule,
+    ListboxModule,
+    AccordionModule,
+    PanelModule,
+    ConfirmPopupModule,
+    ConfirmDialogModule,
+    DialogModule,
+    ChipModule,
+    FieldsetModule,
+    FileUploadModule,
+    CookieModule.withOptions()
+  ],
+  providers: [{
       multi: true,
       provide: HTTP_INTERCEPTORS,
       useClass: OAuth2TokenHttpInterceptor
