@@ -1,0 +1,44 @@
+<p-dialog [(visible)]="display" [draggable]="false" [modal]="true" [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+          appendTo="body" [style]="{width: '50vw'}">
+  <ng-template pTemplate="content">
+    <div class="lg:px-4 md:px-3 px-2 py-4 surface-section ng-star-inserted">
+      <div class="surface-section">
+        <ul class="list-none p-0 m-0">
+          <li class="flex align-items-center py-3 px-2 surface-border flex-wrap">
+            <div class="w-6 md:w-2 font-medium">Exchange</div>
+            <div class="text-900 w-full p-fluid md:w-10 md:flex-order-0 flex-order-1 mb-2">
+              <p-dropdown [options]="exchanges" [(ngModel)]="selectedExchange" optionLabel="name"></p-dropdown>
+            </div>
+            <div class="text-500 font-light">Select a supported exchange from the drop down list</div>
+          </li>
+          <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="w-6 md:w-2 font-medium">Name</div>
+            <div class="text-900 w-full p-fluid md:w-10 md:flex-order-0 flex-order-1 mb-2">
+              <input type="text" pInputText [(ngModel)]="label"/>
+            </div>
+            <div class="text-500 font-light">Enter a label/name for your API key</div>
+          </li>
+          <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="w-6 md:w-2 font-medium">API Key</div>
+            <div class="text-900 w-full p-fluid md:w-10 md:flex-order-0 flex-order-1 mb-2">
+              <input type="password" pPassword [(ngModel)]="apiKey"/>
+            </div>
+            <div class="text-500 font-light">Please keep your API Key securely. Do not share this key with anyone</div>
+          </li>
+          <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+            <div class="w-6 md:w-2 font-medium">Secret Key</div>
+            <div class="text-900 w-full p-fluid md:w-10 md:flex-order-0 flex-order-1 mb-2">
+              <input type="password" pPassword [(ngModel)]="secretKey"/>
+            </div>
+            <div class="text-500 font-light">Please keep your Secret Key securely. Do not share this key with anyone
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button type="button" pButton icon="pi pi-times" label="Cancel" (click)="onClose()"></button>
+    <button type="button" pButton icon="pi pi-link" label="Connect" (click)="handleConnect()"></button>
+  </ng-template>
+</p-dialog>

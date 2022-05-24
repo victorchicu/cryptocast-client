@@ -1,0 +1,123 @@
+<!--<p-card styleClass="shadow-1">-->
+<!--  <div class="w-full">-->
+<!--    <div class="font-medium mb-1 font-bold">Connect a new crypto exchange</div>-->
+<!--&lt;!&ndash;    <span class="text-sm">Join the world's largest crypto gateway</span>&ndash;&gt;-->
+<!--    <p-panel [showHeader]="false" [collapsed]="false" [toggleable]="true">-->
+<!--      <div class="flex flex-column">-->
+<!--        <div class="flex align-content-center justify-content-start m-2">-->
+<!--          <p-dropdown class="w-24rem" [options]="exchanges" [(ngModel)]="selectedExchange" optionLabel="name"></p-dropdown>-->
+<!--        </div>-->
+<!--        <div class="flex align-content-center justify-content-start m-2">-->
+<!--          <input pInputText type="text" class="w-24rem" placeholder="Name" [(ngModel)]="name">-->
+<!--        </div>-->
+<!--        <div class="flex align-content-center justify-content-start m-2">-->
+<!--          <input pInputText type="text" class="w-24rem mr-2" placeholder="API Key" [(ngModel)]="apiKey">-->
+<!--        </div>-->
+<!--        <div class="flex align-content-center justify-content-start m-2">-->
+<!--          <input id="secretKey" pInputText type="text" class="w-24rem" placeholder="API Secret" [(ngModel)]="secretKey">-->
+<!--        </div>-->
+<!--        <div class="flex align-content-center justify-content-start m-2">-->
+<!--          <p-toggleButton onLabel="DISCONNECT" offLabel="CONNECT" onIcon="pi pi-sign-out"-->
+<!--                          offIcon="pi pi-sign-in"-->
+<!--                          [(ngModel)]="plugged"-->
+<!--                          (click)="toggleConnect('BINANCE')">-->
+<!--          </p-toggleButton>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </p-panel>-->
+<!--  </div>-->
+<!--</p-card>-->
+
+<!--<p-card styleClass="shadow-1">-->
+<!--  <p-listbox styleClass="border-0" [options]="exchanges" optionLabel="name" [readonly]="true">-->
+<!--    <ng-template let-exchange pTemplate="item">-->
+<!--      <div class="w-full">-->
+<!--        <div class="font-medium mb-1 font-bold">{{exchange.name}}</div>-->
+<!--        <span class="text-sm">{{exchange.description}}</span>-->
+<!--        <p-panel [showHeader]="false" [collapsed]="exchange.collapsed" [toggleable]="true">-->
+<!--          <div class="flex flex-column">-->
+<!--            <div class="flex align-content-center justify-content-start m-2">-->
+<!--              <p-dropdown class="w-24rem" [options]="exchanges" [(ngModel)]="selectedExchange" optionLabel="name"></p-dropdown>-->
+<!--            </div>-->
+<!--            <div class="flex align-content-center justify-content-start m-2">-->
+<!--              <input pInputText type="text" class="w-24rem" placeholder="Name" [(ngModel)]="name">-->
+<!--            </div>-->
+<!--            <div class="flex align-content-center justify-content-start m-2">-->
+<!--              <input pInputText type="text" class="w-24rem mr-2" placeholder="API Key" [(ngModel)]="apiKey">-->
+<!--            </div>-->
+<!--            <div class="flex align-content-center justify-content-start m-2">-->
+<!--              <input id="secretKey" pInputText type="text" class="w-24rem" placeholder="API Secret" [(ngModel)]="secretKey">-->
+<!--            </div>-->
+<!--            <div class="flex align-content-center justify-content-start m-2">-->
+<!--              <p-toggleButton onLabel="DISCONNECT" offLabel="CONNECT" onIcon="pi pi-sign-out"-->
+<!--                              offIcon="pi pi-sign-in"-->
+<!--                              [(ngModel)]="exchange.plugged"-->
+<!--                              (click)="toggleConnect(exchange)">-->
+<!--              </p-toggleButton>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </p-panel>-->
+<!--      </div>-->
+<!--    </ng-template>-->
+<!--  </p-listbox>-->
+<!--</p-card>-->
+
+<!--<p-card>-->
+<!--  <ul class="list-none p-0 m-0">-->
+<!--    <li class="flex w-full relative align-items-center justify-content-between my-3 px-4">-->
+<!--      <div class="border-top-1 border-300 top-50 left-0 absolute w-full"></div>-->
+<!--      <div class="px-2 z-1 surface-0 flex align-items-center">-->
+<!--        <p-avatar image="assets/logos/binance.svg" size="large" shape="circle" class="mr-2"></p-avatar>-->
+<!--        <span class="text-900 font-medium font-bold text-2xl">Binance</span>-->
+<!--      </div>-->
+<!--      <p-toggleButton onLabel="DISCONNECT" offLabel="CONNECT" onIcon="pi pi-sign-out" offIcon="pi pi-sign-in" [(ngModel)]="plugged" (click)="toggle()">-->
+<!--      </p-toggleButton>-->
+<!--    </li>-->
+<!--  </ul>-->
+<!--</p-card>-->
+<!--<p-divider align="left" type="dashed">-->
+<!--  <div class="inline-flex align-items-center">-->
+<!--    <b>ASSETS</b>-->
+<!--  </div>-->
+<!--</p-divider>-->
+<!--<span class="p-card">-->
+<!--  <p-autoComplete [(ngModel)]="selectedChips" [suggestions]="filteredChips" (completeMethod)="filterChips($event)"-->
+<!--                  field="name" [multiple]="true">-->
+<!--  </p-autoComplete>-->
+<!--</span>-->
+<!--<div class="card">-->
+<!--  <p-table [value]="assets" selectionMode="single" [(selection)]="selectedAsset" dataKey="code"-->
+<!--           responsiveLayout="scroll">-->
+<!--    <ng-template pTemplate="header">-->
+<!--      <tr>-->
+<!--        <th>Name</th>-->
+<!--        <th>Price change</th>-->
+<!--        <th>Amount</th>-->
+<!--        <th>Price</th>-->
+<!--        <th>Total</th>-->
+<!--      </tr>-->
+<!--    </ng-template>-->
+<!--    <ng-template pTemplate="body" let-asset>-->
+<!--      &lt;!&ndash; [pSelectableRow]="asset" &ndash;&gt;-->
+<!--      <tr>-->
+<!--        <td>{{asset.fullName}} ({{asset.name}})</td>-->
+<!--        <td>{{asset.priceChange}}%</td>-->
+<!--        <td>-->
+<!--          <ng-template [ngIf]="asset.frozen > 0" [ngIfElse]="free">-->
+<!--            {{asset.free.toFixed(8)}}/{{asset.frozen.toFixed(8)}}-->
+<!--          </ng-template>-->
+<!--          <ng-template #free>-->
+<!--            {{asset.free.toFixed(8)}}-->
+<!--          </ng-template>-->
+<!--        </td>-->
+<!--        <td>{{asset.price}}</td>-->
+<!--        <td>-->
+<!--          <b>-->
+<!--            &lt;!&ndash;          [ngStyle]="{color: asset.quotation?.toString() === 'RISE' ? 'seagreen' : 'red'}">&ndash;&gt;-->
+<!--            ${{asset.balance}}-->
+<!--          </b>-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--    </ng-template>-->
+<!--  </p-table>-->
+<!--</div>-->
