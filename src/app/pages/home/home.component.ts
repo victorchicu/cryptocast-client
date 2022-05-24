@@ -28,14 +28,8 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      console.log(params);
-    });
     const httpParams = new HttpParams();
-    this.assetService.listAssets(httpParams)
-      .subscribe((assets: AssetDto[]) => {
-        this.assets = assets!.map(value => this.toAsset(value));
-      });
+    this.fetchListAssets(httpParams);
   }
 
   toAsset(assetDto: AssetDto): Asset {
@@ -56,6 +50,7 @@ export class HomeComponent implements OnInit {
 
   onCloseDialog(display: any) {
     this.display = display;
+    this.fetchListAssets(new HttpParams());
   }
 
   handleDeleteExchange($event: any, label: string) {
@@ -75,5 +70,12 @@ export class HomeComponent implements OnInit {
         //reject action
       }
     });
+  }
+
+  private fetchListAssets(httpParams: HttpParams) {
+    this.assetService.listAssets(httpParams)
+      .subscribe((assets: AssetDto[]) => {
+        this.assets = assets!.map(value => this.toAsset(value));
+      });
   }
 }

@@ -14,9 +14,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate() {
     const accessToken: string | null = localStorage.getItem(Globals.ACCESS_TOKEN);
-    console.log("Access token: " + accessToken)
     const isLoggedIn = !this.isEmpty(accessToken);
-    console.log("Is logged in: " + isLoggedIn)
     if (!isLoggedIn) {
       this.router.navigateByUrl("/signin");
     }
