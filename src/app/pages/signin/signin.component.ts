@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SigninDto} from "../../shared/dto/signin-dto";
-import {SigninService} from "../../services/signin.service";
+import {SignInService} from "../../services/sign-in.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Globals} from "../../shared/globals";
 import {AccessTokenDto} from "../../shared/dto/access-token-dto";
@@ -15,7 +15,7 @@ export class SigninComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(private readonly router: Router, private readonly signinService: SigninService) {
+  constructor(private readonly router: Router, private readonly signinService: SignInService) {
     //
   }
 

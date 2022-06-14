@@ -1,4 +1,4 @@
-export enum Exchange {
+export enum ExchangeType {
   GATE = "GATE",
   BINANCE = "BINANCE"
 }

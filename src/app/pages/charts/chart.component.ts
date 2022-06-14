@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {OhlcDto} from "../../shared/dto/ohlc-dto";
+import {CandlestickDto} from "../../shared/dto/candlestick-dto";
 import {HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {OhlcService} from "../../services/ohlc.service";
 import {ActivatedRoute, Params} from "@angular/router";
 
 import * as Highcharts from "highcharts/highstock";
@@ -46,7 +45,6 @@ export class ChartComponent implements OnInit {
   runOutsideAngular: boolean = false;
 
   constructor(
-    private ohlcService: OhlcService,
     private activatedRoute: ActivatedRoute,
   ) {
     //
@@ -61,22 +59,22 @@ export class ChartComponent implements OnInit {
   }
 
   fetchOhlc(assetName: string) {
-    console.time("AssetsComponent::fetchOhlc");
-    const params = new HttpParams()
-      .set('interval', "FIVE_MINUTES");
-    this.ohlcService.list(assetName, params)
-      .subscribe((ohlc: OhlcDto[]) => {
-        const data: Array<Array<number>> = ohlc!.map(value => [value.time, value.open, value.high, value.low, value.close]);
-        // @ts-ignore
-        this.chartOptions.series[0] = {
-          type: "ohlc",
-          data: data
-        }
-        this.updateFlag = true;
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-      }, () => {
-        console.timeEnd("AssetsComponent::fetchOhlc");
-      });
+    // console.time("AssetsComponent::fetchOhlc");
+    // const params = new HttpParams()
+    //   .set('interval', "FIVE_MINUTES");
+    // this.ohlcService.list(assetName, params)
+    //   .subscribe((ohlc: OhlcDto[]) => {
+    //     const data: Array<Array<number>> = ohlc!.map(value => [value.time, value.open, value.high, value.low, value.close]);
+    //     // @ts-ignore
+    //     this.chartOptions.series[0] = {
+    //       type: "ohlc",
+    //       data: data
+    //     }
+    //     this.updateFlag = true;
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //   }, () => {
+    //     console.timeEnd("AssetsComponent::fetchOhlc");
+    //   });
   }
 }

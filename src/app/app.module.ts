@@ -58,14 +58,20 @@ import {DialogModule} from "primeng/dialog";
 import {ChipModule} from "primeng/chip";
 import {FieldsetModule} from "primeng/fieldset";
 import {FileUploadModule} from "primeng/fileupload";
-import {ApiConnectDialogComponent} from './pages/dialogs/connect-dialog/api-connect-dialog.component';
+import {ConnectDialogComponent} from './pages/dialogs/connect-dialog/connect-dialog.component';
 import {OAuth2RedirectComponent} from './pages/oauth2/oauth2-redirect/o-auth2-redirect.component';
 import {CookieModule} from "ngx-cookie";
+import { AssetsComponent } from './pages/assets/assets/assets.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'assets',
+    component: AssetsComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -118,8 +124,9 @@ const routes: Routes = [
     SnackBarComponent,
     ChartComponent,
     MyExchangesComponent,
-    ApiConnectDialogComponent,
+    ConnectDialogComponent,
     OAuth2RedirectComponent,
+    AssetsComponent,
   ],
   imports: [
     FormsModule,

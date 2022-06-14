@@ -5,7 +5,6 @@ import {Page} from "../../../shared/paging/page";
 import {OrderDto} from "../../../shared/dto/order-dto";
 import {OrderService} from "../../../services/order.service";
 import {ActivatedRoute, Params} from "@angular/router";
-import {SnackService} from "../../../services/snack.service";
 
 @Component({
   selector: 'app-open-orders',
@@ -18,7 +17,6 @@ export class OpenOrdersComponent extends OrderComponent {
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private snackService: SnackService
   ) {
     super();
   }
@@ -33,40 +31,40 @@ export class OpenOrdersComponent extends OrderComponent {
   }
 
   cancelOrder(orderId: number, symbol: string) {
-    this.orderService.cancelOrder(orderId, this.assetName)
-      .subscribe(() => {
-        this.orderElements = this.orderElements.filter(order => order.symbol !== symbol);
-        // this.table.renderRows();
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      }, () => {
-        console.timeEnd('OpenOrdersComponent::fetchOpenOrders')
-      });
+    // this.orderService.cancelOrder(orderId, this.assetName)
+    //   .subscribe(() => {
+    //     this.orderElements = this.orderElements.filter(order => order.symbol !== symbol);
+    //     // this.table.renderRows();
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   }, () => {
+    //     console.timeEnd('OpenOrdersComponent::fetchOpenOrders')
+    //   });
   }
 
   fetchOpenOrders(assetName: string) {
-    console.time('OpenOrdersComponent::fetchOpenOrders')
-    const params = new HttpParams()
-      .set('page', 0)
-      .set('size', 10);
-    this.orderService.getOpenOrders(assetName, params)
-      .subscribe((page: Page<OrderDto[]>) => {
-        console.log(page)
-        if (page && page.content) {
-          const orders: OrderDto[] = page.content;
-          orders!.forEach((orderDto: OrderDto) => {
-            this.orderElements.unshift(OrderComponent.toOrderElement(orderDto))
-          })
-          if (orders.length > 0) {
-            // this.table.renderRows();
-          }
-        }
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      }, () => {
-        console.timeEnd('OpenOrdersComponent::fetchOpenOrders')
-      });
+    // console.time('OpenOrdersComponent::fetchOpenOrders')
+    // const params = new HttpParams()
+    //   .set('page', 0)
+    //   .set('size', 10);
+    // this.orderService.getOpenOrders(assetName, params)
+    //   .subscribe((page: Page<OrderDto[]>) => {
+    //     console.log(page)
+    //     if (page && page.content) {
+    //       const orders: OrderDto[] = page.content;
+    //       orders!.forEach((orderDto: OrderDto) => {
+    //         this.orderElements.unshift(OrderComponent.toOrderElement(orderDto))
+    //       })
+    //       if (orders.length > 0) {
+    //         // this.table.renderRows();
+    //       }
+    //     }
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   }, () => {
+    //     console.timeEnd('OpenOrdersComponent::fetchOpenOrders')
+    //   });
   }
 }

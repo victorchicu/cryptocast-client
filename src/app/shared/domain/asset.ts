@@ -1,10 +1,9 @@
-import {Exchange} from "../enums/exchange";
+import {ExchangeType} from "../enums/exchangeType";
 
 export class Asset {
   private _name: string;
   private _fullName: string;
-  private _apiKeyName: string;
-  private _exchange: Exchange;
+  private _exchange: ExchangeType;
   private _totalFunds: number;
   private _fundsAvailable: number;
   private _usedInAnyOutstandingOrders: number;
@@ -25,19 +24,11 @@ export class Asset {
     this._fullName = value;
   }
 
-  get apiKeyName(): string {
-    return this._apiKeyName;
-  }
-
-  set apiKeyName(value: string) {
-    this._apiKeyName = value;
-  }
-
-  get exchange(): Exchange {
+  get exchange(): ExchangeType {
     return this._exchange;
   }
 
-  set exchange(value: Exchange) {
+  set exchange(value: ExchangeType) {
     this._exchange = value;
   }
 

@@ -1,5 +1,3 @@
-import {Exchange} from "../enums/exchange";
-
 export class SignupDto {
   private email: string
   private password: string

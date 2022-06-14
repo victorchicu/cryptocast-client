@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Globals} from "../../../shared/globals";
-import {SigninService} from "../../../services/signin.service";
+import {SignInService} from "../../../services/sign-in.service";
 
 @Component({
   selector: 'app-oauth2-redirect',
@@ -12,7 +12,7 @@ export class OAuth2RedirectComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private readonly signinService: SigninService,
+    private readonly signInService: SignInService,
     private readonly activatedRoute: ActivatedRoute
   ) {
     //

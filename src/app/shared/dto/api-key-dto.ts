@@ -1,12 +1,12 @@
-import {Exchange} from "../enums/exchange";
+import {ExchangeType} from "../enums/exchangeType";
 
 export class ApiKeyDto {
   private label: string;
   private apiKey: string;
   private secretKey: string
-  private exchange: Exchange
+  private exchange: ExchangeType
 
-  constructor(label: string, apiKey: string, secretKey: string, exchange: Exchange) {
+  constructor(label: string, apiKey: string, secretKey: string, exchange: ExchangeType) {
     this.label = label;
     this.apiKey = apiKey;
     this.secretKey = secretKey;

@@ -1,4 +1,4 @@
-export interface OhlcDto {
+export interface CandlestickDto {
   time: number;
   open: number;
   high: number;

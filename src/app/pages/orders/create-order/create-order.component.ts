@@ -1,18 +1,11 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Order} from "../../../shared/domain/order";
-import {ConfirmOrderComponent} from "../../dialogs/confirm-order/confirm-order.component";
 import {OrderType} from "../../../shared/enums/order-type";
 import {OrderSide} from "../../../shared/enums/order-side";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
-import {map, startWith} from "rxjs/operators";
-import {HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {ChipDto} from "../../../shared/dto/chip-dto";
-import {AssetService} from "../../../services/asset.service";
-import {AssetDto} from "../../../shared/dto/asset-dto";
-import {AssetPriceDto} from "../../../shared/dto/asset-price-dto";
-import {SnackService} from "../../../services/snack.service";
+import {ExchangeAssetsService} from "../../../services/exchange-assets.service";
 
 @Component({
   selector: 'app-create-order',
@@ -32,9 +25,7 @@ export class CreateOrderComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    // private dialog: MatDialog,
-    private assetService: AssetService,
-    private snackService: SnackService
+    private assetService: ExchangeAssetsService,
   ) {
     //
   }
@@ -99,29 +90,29 @@ export class CreateOrderComponent implements OnInit {
   }
 
   fetchAvailableAssets() {
-    console.time('CreateOrderComponent::fetchAvailableAssets')
-    const params = new HttpParams()
-      .set('page', 0)
-      .set('size', 10);
-    this.assetService.availableAssets(params)
-      .subscribe((chips: ChipDto[]) => {
-        if (chips) {
-          this.availableAssets = chips!.map((chip: ChipDto) => chip.name)
-          this.filteredAssets = this.assetsControl.valueChanges.pipe(
-            startWith(null),
-            map((chip: string | null) => (
-              chip
-                ? this._filter(chip)
-                : this.availableAssets.slice()
-            ))
-          );
-        }
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      }, () => {
-        console.timeEnd('CreateOrderComponent::fetchAvailableAssets')
-      });
+    // console.time('CreateOrderComponent::fetchAvailableAssets')
+    // const params = new HttpParams()
+    //   .set('page', 0)
+    //   .set('size', 10);
+    // this.assetService.availableAssets(params)
+    //   .subscribe((chips: ChipDto[]) => {
+    //     if (chips) {
+    //       this.availableAssets = chips!.map((chip: ChipDto) => chip.name)
+    //       this.filteredAssets = this.assetsControl.valueChanges.pipe(
+    //         startWith(null),
+    //         map((chip: string | null) => (
+    //           chip
+    //             ? this._filter(chip)
+    //             : this.availableAssets.slice()
+    //         ))
+    //       );
+    //     }
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   }, () => {
+    //     console.timeEnd('CreateOrderComponent::fetchAvailableAssets')
+    //   });
   }
 
   private _filter(value: string): string[] {

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {LogoutService} from "../../services/logout-service";
-import {LoadingIndicatorService} from "../../services/loading-indicator.service";
-import {SnackService} from "../../services/snack.service";
 import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
@@ -13,8 +11,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 export class LogoutComponent implements OnInit {
   constructor(
     private router: Router,
-    private snackService: SnackService,
-  private logoutService: LogoutService
+    private logoutService: LogoutService
   ) {
     //
   }
@@ -25,7 +22,6 @@ export class LogoutComponent implements OnInit {
         () => this.router.navigateByUrl("/"),
         (httpErrorResponse: HttpErrorResponse) => {
           console.log(httpErrorResponse);
-          this.snackService.error(httpErrorResponse.error.errors[0].description);
         }
       )
   }

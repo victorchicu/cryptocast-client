@@ -1,82 +1,87 @@
-<app-connect-dialog
+<connect-dialog
   [display]="display"
   (eventEmitter)="onCloseDialog($event)">
-</app-connect-dialog>
+</connect-dialog>
 <p-card styleClass="shadow-1">
-  <div class="shadow-2 flex flex-wrap justify-content-between align-content-center px-4 md:px-8 mb-3"
-       style="background: linear-gradient(90deg, #263238 0%, #526A76 100%); border-radius: 8px;">
-    <div class="flex align-items-start py-3">
-      <div>
-        <span class="inline-flex border-circle justify-content-center align-items-center text-white bg-green-500 mr-4"
-              style="width: 48px; height: 48px;">
-        <i class="pi pi-link text-xl"></i>
-      </span>
-      </div>
-      <div>
-        <div class="text-white font-bold mb-1">Connect a new Exchange</div>
-        <span
-          class="text-bluegray-200">Configure the connection to your crypto exchange</span>
-      </div>
+  <div class="bg-bluegray-900 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap">
+    <div class="align-items-center hidden lg:flex"><span class="line-height-3">Configure the connection to your crypto exchange</span>
     </div>
-    <a (click)="onOpenDialog()"
-       class="flex align-items-center justify-content-center p-ripple p-element cursor-pointer bg-bluegray-500 text-white px-3 py-2 line-height-3 my-3 hover:bg-bluegray-400 transition-colors transition-duration-150"
-       style="border-radius: 35px;">
-      <span>CONNECT</span>
-      <i class="ml-2 pi pi-arrow-right"></i>
-      <span class="p-ink"></span>
+    <a class="flex align-items-center ml-2 mr-8">
+      <a href="#" (click)="onOpenDialog()" class="text-white">
+        <span class="underline font-bold">CONNECT</span>
+      </a>
     </a>
   </div>
-  <p-table [value]="assets" [scrollable]="true" class="z-5" rowGroupMode="subheader" groupRowsBy="apiKeyName"
-           responsiveLayout="scroll" scrollHeight="100%">
-    <ng-template pTemplate="groupheader" let-asset>
-      <tr pRowGroupHeader>
-        <td colspan="12">
-          <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between">
-            <div class="flex align-items-center">
-              <img [alt]="asset.exchange" src="../../../assets/{{asset.exchange.toLowerCase()}}.svg" width="32" style="vertical-align: middle"/>
-              <span class="font-bold ml-2 mr-2">{{asset.apiKeyName}}</span>
+  <div class="px-4 py-5 md:px-6 lg:px-8">
+    <div class="grid">
+        <div class="col-12 md:col-6 lg:col-3" *ngFor="let exchange of exchanges" (click)="openExchange(exchange.label)">
+          <div class="surface-card shadow-2 border-round hover:bg-gray-50">
+            <div class="p-3 flex align-items-start">
+              <img src="assets/binance.svg" class="mr-2" style="width: 32px; height: 32px;">
+              <div><span class="text-700">{{exchange.label}}</span>
+                <div class="text-green-500 text-xl mt-2">+0.53%</div>
+              </div>
+              <div class="p-2 bg-indigo-50 text-indigo-500 border-round ml-auto">0.0045 BTC</div>
             </div>
-            <div class="mt-2 md:mt-0 flex flex-nowrap">
-              <p-confirmPopup></p-confirmPopup>
-              <button (click)="handleDeleteExchange($event, asset.apiKeyName)" pbutton="" pripple="" icon="pi pi-facebook" class="p-element p-ripple p-button-text p-button-plain p-button-rounded mr-1 p-button p-component p-button-icon-only">
-                <span class="p-button-icon pi pi-times" aria-hidden="true"></span>
-                <span aria-hidden="true" class="p-button-label">&nbsp;</span>
-                <span class="p-ink"></span></button>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Name</th>
-        <th>Total funds</th>
-        <th>Funds available</th>
-        <th>Used in any outstanding orders</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-asset let-rowIndex="rowIndex">
-      <tr>
-        <td>
-          <div class="mt-2 md:mt-0 flex flex-nowrap">
-            <a href="#" class="flex align-items-center justify-content-center">
-              <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/{{1831}}.png" class="mr-2" loading="lazy"
-                   alt="BTC logo">
-              <span class="font-bold mr-2">{{asset.fullName}}</span>
-              <span class="font-light">{{asset.name}}</span>
-            </a>
-          </div>
-        </td>
-        <td>
-          {{asset.totalFunds.toFixed(8)}}
-        </td>
-        <td>
-          {{asset.fundsAvailable.toFixed(8)}}
-        </td>
-        <td>
-          {{asset.usedInAnyOutstandingOrders.toFixed(8)}}
-        </td>
-      </tr>
-    </ng-template>
-  </p-table>
+            <img src="assets/graph-1.svg" class="w-full"></div>
+        </div>
+    </div>
+  </div>
+
+  <!--  <p-table [value]="assets" [scrollable]="true" class="z-5" rowGroupMode="subheader" groupRowsBy="apiKeyName"-->
+  <!--           responsiveLayout="scroll" scrollHeight="100%">-->
+  <!--    <ng-template pTemplate="groupheader" let-asset>-->
+  <!--      <tr pRowGroupHeader>-->
+  <!--        <td colspan="12">-->
+  <!--          <div class="flex flex-column md:flex-row md:align-items-center md:justify-content-between">-->
+  <!--            <div class="flex align-items-center">-->
+  <!--              <img [alt]="asset.exchange" src="../../../assets/{{asset.exchange.toLowerCase()}}.svg" width="32"-->
+  <!--                   style="vertical-align: middle"/>-->
+  <!--              <span class="font-bold ml-2 mr-2">{{asset.apiKeyName}}</span>-->
+  <!--            </div>-->
+  <!--            <div class="mt-2 md:mt-0 flex flex-nowrap">-->
+  <!--              <p-confirmPopup></p-confirmPopup>-->
+  <!--              <button (click)="handleDeleteExchange($event, asset.apiKeyName)" pbutton="" pripple=""-->
+  <!--                      icon="pi pi-facebook"-->
+  <!--                      class="p-element p-ripple p-button-text p-button-plain p-button-rounded mr-1 p-button p-component p-button-icon-only">-->
+  <!--                <span class="p-button-icon pi pi-times" aria-hidden="true"></span>-->
+  <!--                <span aria-hidden="true" class="p-button-label">&nbsp;</span>-->
+  <!--                <span class="p-ink"></span></button>-->
+  <!--            </div>-->
+  <!--          </div>-->
+  <!--        </td>-->
+  <!--      </tr>-->
+  <!--    </ng-template>-->
+  <!--    <ng-template pTemplate="header">-->
+  <!--      <tr>-->
+  <!--        <th>Name</th>-->
+  <!--        <th>Total funds</th>-->
+  <!--        <th>Funds available</th>-->
+  <!--        <th>Used in any outstanding orders</th>-->
+  <!--      </tr>-->
+  <!--    </ng-template>-->
+  <!--    <ng-template pTemplate="body" let-asset let-rowIndex="rowIndex">-->
+  <!--      <tr>-->
+  <!--        <td>-->
+  <!--          <div class="mt-2 md:mt-0 flex flex-nowrap">-->
+  <!--            <a href="#" class="flex align-items-center justify-content-center">-->
+  <!--              <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/{{1831}}.png" class="mr-2" loading="lazy"-->
+  <!--                   alt="BTC logo">-->
+  <!--              <span class="font-bold mr-2">{{asset.fullName}}</span>-->
+  <!--              <span class="font-light">{{asset.name}}</span>-->
+  <!--            </a>-->
+  <!--          </div>-->
+  <!--        </td>-->
+  <!--        <td>-->
+  <!--          {{asset.totalFunds.toFixed(8)}}-->
+  <!--        </td>-->
+  <!--        <td>-->
+  <!--          {{asset.fundsAvailable.toFixed(8)}}-->
+  <!--        </td>-->
+  <!--        <td>-->
+  <!--          {{asset.usedInAnyOutstandingOrders.toFixed(8)}}-->
+  <!--        </td>-->
+  <!--      </tr>-->
+  <!--    </ng-template>-->
+  <!--  </p-table>-->
 </p-card>

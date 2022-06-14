@@ -1,18 +1,11 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {OrderService} from "../../../services/order.service";
-import {OrderDto} from "../../../shared/dto/order-dto";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
-import {map, startWith} from "rxjs/operators";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {ChipsService} from "../../../services/chips.service";
-import {ChipDto} from "../../../shared/dto/chip-dto";
-import {Page} from "../../../shared/paging/page";
-import {AssetService} from "../../../services/asset.service";
-import {OrderComponent, OrderElement} from "../order-component";
-import {SnackService} from "../../../services/snack.service";
+import {ExchangeAssetsService} from "../../../services/exchange-assets.service";
+import {OrderComponent} from "../order-component";
 
 @Component({
   selector: 'app-order-history',
@@ -32,10 +25,8 @@ export class OrderHistoryComponent extends OrderComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private chipService: ChipsService,
     private orderService: OrderService,
-    private assetService: AssetService,
-    private snackService: SnackService
+    private assetService: ExchangeAssetsService,
   ) {
     super();
   }
@@ -65,21 +56,21 @@ export class OrderHistoryComponent extends OrderComponent {
   }
 
   removeChip(chip: string): void {
-    console.log('OrderHistoryComponent::removeChip')
-    const index = this.chips.indexOf(chip);
-    if (index >= 0) {
-      this.chipService.removeChip(chip)
-        .subscribe(() => {
-          this.chips.splice(index, 1);
-          const symbolName = `${chip}USDT`;
-          this.orderElements = this.orderElements.filter(order => order.symbol !== symbolName);
-          // this.table.renderRows();
-        }, (httpErrorResponse: HttpErrorResponse) => {
-          console.log(httpErrorResponse);
-          this.snackService.error(httpErrorResponse.error.errors[0].description);
-        });
-    }
-    console.log('OrderHistoryComponent::removeChip')
+    // console.log('OrderHistoryComponent::removeChip')
+    // const index = this.chips.indexOf(chip);
+    // if (index >= 0) {
+    //   this.chipService.removeChip(chip)
+    //     .subscribe(() => {
+    //       this.chips.splice(index, 1);
+    //       const symbolName = `${chip}USDT`;
+    //       this.orderElements = this.orderElements.filter(order => order.symbol !== symbolName);
+    //       // this.table.renderRows();
+    //     }, (httpErrorResponse: HttpErrorResponse) => {
+    //       console.log(httpErrorResponse);
+    //       this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //     });
+    // }
+    // console.log('OrderHistoryComponent::removeChip')
   }
 
   selectChip(/* event: MatAutocompleteSelectedEvent */): void {
@@ -98,75 +89,75 @@ export class OrderHistoryComponent extends OrderComponent {
   }
 
   fetchOrders(assetName: string) {
-    console.time('OrderHistoryComponent::fetchOrders')
-    const params = new HttpParams()
-      .set('page', 0)
-      .set('size', 10);
-    this.orderService.getAllOrders(assetName, params)
-      .subscribe((page: Page<OrderDto[]>) => {
-        console.log(page)
-        if (page && page.content) {
-          const orders: OrderDto[] = page.content;
-          orders!.forEach((orderDto: OrderDto) => {
-            this.orderElements.unshift(OrderHistoryComponent.toOrderElement(orderDto))
-          })
-          if (orders.length > 0) {
-            // this.table.renderRows();
-          }
-        }
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      }, () => {
-        console.timeEnd('OrderHistoryComponent::fetchOrders')
-      });
+    // console.time('OrderHistoryComponent::fetchOrders')
+    // const params = new HttpParams()
+    //   .set('page', 0)
+    //   .set('size', 10);
+    // this.orderService.getAllOrders(assetName, params)
+    //   .subscribe((page: Page<OrderDto[]>) => {
+    //     console.log(page)
+    //     if (page && page.content) {
+    //       const orders: OrderDto[] = page.content;
+    //       orders!.forEach((orderDto: OrderDto) => {
+    //         this.orderElements.unshift(OrderHistoryComponent.toOrderElement(orderDto))
+    //       })
+    //       if (orders.length > 0) {
+    //         // this.table.renderRows();
+    //       }
+    //     }
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   }, () => {
+    //     console.timeEnd('OrderHistoryComponent::fetchOrders')
+    //   });
   }
 
   fetchAvailableAssets() {
-    console.time('OrderHistoryComponent::fetchAvailableAssets')
-    const params = new HttpParams()
-      .set('page', 0)
-      .set('size', 10);
-    this.assetService.availableAssets(params)
-      .subscribe((chips: ChipDto[]) => {
-        if (chips) {
-          this.availableChips = chips!.map((chip: ChipDto) => chip.name)
-          this.filteredChips = this.chipsControl.valueChanges.pipe(
-            startWith(null),
-            map((chip: string | null) => (
-              chip
-                ? this.filterChips(chip)
-                : this.availableChips.slice()
-            ))
-          );
-        }
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      }, () => [
-        console.timeEnd('OrderHistoryComponent::fetchAvailableAssets')
-      ]);
+    // console.time('OrderHistoryComponent::fetchAvailableAssets')
+    // const params = new HttpParams()
+    //   .set('page', 0)
+    //   .set('size', 10);
+    // this.assetService.availableAssets(params)
+    //   .subscribe((chips: ChipDto[]) => {
+    //     if (chips) {
+    //       this.availableChips = chips!.map((chip: ChipDto) => chip.name)
+    //       this.filteredChips = this.chipsControl.valueChanges.pipe(
+    //         startWith(null),
+    //         map((chip: string | null) => (
+    //           chip
+    //             ? this.filterChips(chip)
+    //             : this.availableChips.slice()
+    //         ))
+    //       );
+    //     }
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   }, () => [
+    //     console.timeEnd('OrderHistoryComponent::fetchAvailableAssets')
+    //   ]);
   }
 
   fetchPersistentChips() {
-    console.time('OrderHistoryComponent::fetchPersistentChips')
-    const params = new HttpParams()
-      .set('page', 0)
-      .set('size', 10);
-    this.chipService.listChips(params)
-      .subscribe((chips: ChipDto[]) => {
-        if (chips) {
-          this.chips = chips.map(value => value.name);
-          this.chips.forEach((chip: string) => {
-            this.fetchOrders(chip)
-          });
-        }
-      }, (httpErrorResponse: HttpErrorResponse) => {
-        console.log(httpErrorResponse);
-        this.snackService.error(httpErrorResponse.error.errors[0].description);
-      }, () => {
-        console.timeEnd('OrderHistoryComponent::fetchPersistentChips')
-      });
+    // console.time('OrderHistoryComponent::fetchPersistentChips')
+    // const params = new HttpParams()
+    //   .set('page', 0)
+    //   .set('size', 10);
+    // this.chipService.listChips(params)
+    //   .subscribe((chips: ChipDto[]) => {
+    //     if (chips) {
+    //       this.chips = chips.map(value => value.name);
+    //       this.chips.forEach((chip: string) => {
+    //         this.fetchOrders(chip)
+    //       });
+    //     }
+    //   }, (httpErrorResponse: HttpErrorResponse) => {
+    //     console.log(httpErrorResponse);
+    //     this.snackService.error(httpErrorResponse.error.errors[0].description);
+    //   }, () => {
+    //     console.timeEnd('OrderHistoryComponent::fetchPersistentChips')
+    //   });
   }
 
   private filterChips(value: string): string[] {

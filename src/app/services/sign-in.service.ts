@@ -10,15 +10,15 @@ import {Globals} from "../shared/globals";
 @Injectable({
   providedIn: 'root'
 })
-export class SigninService extends BaseService {
+export class SignInService extends BaseService {
   static readonly API_PATH: string = "/api/signin"
 
   constructor(protected httpClient: HttpClient) {
-    super(SigninService.API_PATH, httpClient);
+    super(SignInService.API_PATH, httpClient);
   }
 
   public signin(signinDto: SigninDto): Observable<AccessTokenDto> {
-    return this.httpClient.post<AccessTokenDto>(SigninService.API_PATH, signinDto, this.httpOptions)
+    return this.httpClient.post<AccessTokenDto>(SignInService.API_PATH, signinDto, this.httpOptions)
       .pipe(
         tap((accessTokenResponseDto: AccessTokenDto) => {
           localStorage.setItem(Globals.ACCESS_TOKEN, accessTokenResponseDto.accessToken);

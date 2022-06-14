@@ -2,8 +2,6 @@ import { OrderService } from '../../../services/order.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Order } from '../../../shared/domain/order';
 import { OrderRequestDto } from '../../../shared/dto/order-request-dto';
-import {SnackService} from "../../../services/snack.service";
-import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-order-confirm-dialog',
@@ -20,7 +18,6 @@ export class ConfirmOrderComponent implements OnInit {
     // },
     // public dialogRef: MatDialogRef<ConfirmOrderComponent>,
     public orderService: OrderService,
-    public snackService: SnackService
   ) {
     //
   }
