@@ -1,6 +1,6 @@
 import {ExchangeType} from "../enums/exchangeType";
 
-export interface AssetDto {
+export interface AssetBalanceDto {
   name: string;
   fullName: string;
   exchange: ExchangeType;

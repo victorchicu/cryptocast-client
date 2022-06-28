@@ -9,7 +9,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {RouterModule, Routes} from "@angular/router";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NumberFormatPipe} from './shared/pipes/number-format.pipe';
-import {HomeComponent} from './pages/home/home.component';
+import {WalletsOverviewComponent} from './pages/wallets/wallets-overview.component';
 import {SigninComponent} from './pages/signin/signin.component';
 import {SignupComponent} from './pages/signup/signup.component';
 import {OAuth2TokenHttpInterceptor} from "./shared/interceptors/o-auth2-token-http-interceptor";
@@ -58,20 +58,20 @@ import {DialogModule} from "primeng/dialog";
 import {ChipModule} from "primeng/chip";
 import {FieldsetModule} from "primeng/fieldset";
 import {FileUploadModule} from "primeng/fileupload";
-import {ConnectDialogComponent} from './pages/dialogs/connect-dialog/connect-dialog.component';
+import {ApiManagementDialogComponent} from './pages/dialogs/api-management-dialog/api-management-dialog.component';
 import {OAuth2RedirectComponent} from './pages/oauth2/oauth2-redirect/o-auth2-redirect.component';
 import {CookieModule} from "ngx-cookie";
-import { AssetsComponent } from './pages/assets/assets/assets.component';
+import { WalletComponent } from './pages/wallets/wallet/wallet.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: WalletsOverviewComponent,
     canActivate: [AuthGuard],
   },
   {
-    path: 'assets',
-    component: AssetsComponent,
+    path: 'wallets',
+    component: WalletComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -112,7 +112,7 @@ const routes: Routes = [
     SigninComponent,
     SignupComponent,
     NumberFormatPipe,
-    HomeComponent,
+    WalletsOverviewComponent,
     NotificationsComponent,
     LogoutComponent,
     NotFoundComponent,
@@ -124,9 +124,9 @@ const routes: Routes = [
     SnackBarComponent,
     ChartComponent,
     MyExchangesComponent,
-    ConnectDialogComponent,
+    ApiManagementDialogComponent,
     OAuth2RedirectComponent,
-    AssetsComponent,
+    WalletComponent,
   ],
   imports: [
     FormsModule,

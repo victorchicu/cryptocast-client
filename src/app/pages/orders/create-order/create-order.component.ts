@@ -5,7 +5,7 @@ import {OrderSide} from "../../../shared/enums/order-side";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
-import {ExchangeAssetsService} from "../../../services/exchange-assets.service";
+import {WalletsOverviewService} from "../../../services/wallets-overview.service";
 
 @Component({
   selector: 'app-create-order',
@@ -25,7 +25,7 @@ export class CreateOrderComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private assetService: ExchangeAssetsService,
+    private assetService: WalletsOverviewService,
   ) {
     //
   }

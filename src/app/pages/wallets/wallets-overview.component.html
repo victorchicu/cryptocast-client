@@ -1,0 +1,29 @@
+<api-management-dialog [display]="isOpened" (closeDialog)="onCloseDialog()"></api-management-dialog>
+<p-card styleClass="shadow-1 h-22rem">
+  <div
+    class="bg-bluegray-900 text-gray-100 p-3 flex justify-content-between lg:justify-content-center align-items-center flex-wrap">
+    <div class="align-items-center hidden lg:flex"><span class="line-height-3">Configure the connection to your crypto exchange</span>
+    </div>
+    <a class="flex align-items-center ml-2 mr-8">
+      <a href="#" (click)="onOpenDialog()" class="text-white">
+        <span class="underline font-bold">CONNECT</span>
+      </a>
+    </a>
+  </div>
+  <div class="px-4 py-5 md:px-6 lg:px-8">
+    <div class="grid">
+      <div class="col-12 md:col-6 lg:col-3" *ngFor="let apiKey of apiKeys" (click)="openWallet(apiKey.label)">
+        <div class="surface-card shadow-2 border-round hover:bg-gray-50 cursor-pointer">
+          <div class="p-3 flex align-items-start">
+            <img src="assets/binance.svg" class="mr-2" style="width: 32px; height: 32px;">
+            <div><span class="text-700">{{apiKey.label}}</span>
+              <div class="text-green-500 text-xl mt-2">+0.53%</div>
+            </div>
+            <div class="p-2 bg-indigo-50 text-indigo-500 border-round ml-auto">0.0045 BTC</div>
+          </div>
+          <img src="assets/graph-1.svg" class="w-full">
+        </div>
+      </div>
+    </div>
+  </div>
+</p-card>
