@@ -60,7 +60,6 @@ import {FieldsetModule} from "primeng/fieldset";
 import {FileUploadModule} from "primeng/fileupload";
 import {ApiManagementDialogComponent} from './pages/dialogs/api-management-dialog/api-management-dialog.component';
 import {OAuth2RedirectComponent} from './pages/oauth2/oauth2-redirect/o-auth2-redirect.component';
-import {CookieModule} from "ngx-cookie";
 import { WalletComponent } from './pages/wallets/wallet/wallet.component';
 
 const routes: Routes = [
@@ -70,7 +69,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'wallets',
+    path: 'wallet-balance',
     component: WalletComponent,
     canActivate: [AuthGuard],
   },
@@ -171,7 +170,6 @@ const routes: Routes = [
     ChipModule,
     FieldsetModule,
     FileUploadModule,
-    CookieModule.withOptions()
   ],
   providers: [{
       multi: true,

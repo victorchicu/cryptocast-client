@@ -18,7 +18,7 @@ export class WalletsOverviewService extends BaseService {
     const options = {
       params: params
     };
-    const url: string = `${WalletsOverviewService.API_PATH}/${exchange}/overview`;
+    const url: string = `${WalletsOverviewService.API_PATH}/${exchange}/balance`;
     return this.httpClient.get<AssetBalanceDto[]>(url, options);
   }
 }

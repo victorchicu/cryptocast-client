@@ -24,7 +24,7 @@ export class WalletsOverviewComponent implements OnInit {
   }
 
   openWallet(label: string) {
-    this.router.navigate(['/wallets'], {queryParams: {'label': label}})
+    this.router.navigate(['/wallet-balance'], {queryParams: {'label': label}})
       .finally(() => {
         console.log("Go to wallet " + label)
       })
