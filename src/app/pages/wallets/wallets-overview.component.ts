@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ConfirmationService} from "primeng/api";
-import {ApiManagementService} from "../../services/api-management.service";
+import {WalletService} from "../../services/wallet.service";
 import {Router} from "@angular/router";
-import {ApiKeyDto} from "../../shared/dto/api-key-dto";
+import {WalletDto} from "../../shared/dto/wallet-dto";
 import {ApiKeyCreateEvent} from "../../shared/domain/api-key-create-event";
 
 @Component({
@@ -12,15 +12,15 @@ import {ApiKeyCreateEvent} from "../../shared/domain/api-key-create-event";
   providers: [ConfirmationService]
 })
 export class WalletsOverviewComponent implements OnInit {
-  apiKeys: ApiKeyDto[] = [];
+  wallets: WalletDto[] = [];
   isOpened: boolean;
 
-  constructor(private readonly router: Router, private readonly apiManagementService: ApiManagementService) {
+  constructor(private readonly router: Router, private readonly walletService: WalletService) {
     //
   }
 
   ngOnInit(): void {
-    this.fetchApiKeys();
+    this.fetchWallets();
   }
 
   openWallet(label: string) {
@@ -38,13 +38,13 @@ export class WalletsOverviewComponent implements OnInit {
     console.log("Close dialog from parent");
     this.isOpened = false;
     // this.apiKeys.push(new ApiKeyDto(apiKeyCreateEvent.apiKey?.label, null, null, null))
-    this.fetchApiKeys();
+    this.fetchWallets();
   }
 
-  private fetchApiKeys() {
-    this.apiManagementService.list()
-      .subscribe((value: ApiKeyDto[]) => {
-        this.apiKeys = value;
+  private fetchWallets() {
+    this.walletService.list()
+      .subscribe((value: WalletDto[]) => {
+        this.wallets = value;
       })
   }
 }

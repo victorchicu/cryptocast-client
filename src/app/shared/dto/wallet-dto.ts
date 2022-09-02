@@ -1,6 +1,6 @@
 import {ExchangeType} from "../enums/exchangeType";
 
-export class ApiKeyDto {
+export class WalletDto {
   public label: string;
   public apiKey: string;
   public secretKey: string

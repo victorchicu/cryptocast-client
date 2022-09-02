@@ -58,7 +58,7 @@ import {DialogModule} from "primeng/dialog";
 import {ChipModule} from "primeng/chip";
 import {FieldsetModule} from "primeng/fieldset";
 import {FileUploadModule} from "primeng/fileupload";
-import {ApiManagementDialogComponent} from './pages/dialogs/api-management-dialog/api-management-dialog.component';
+import {WalletDialogComponent} from './pages/dialogs/wallet-dialog/wallet-dialog.component';
 import {OAuth2RedirectComponent} from './pages/oauth2/oauth2-redirect/o-auth2-redirect.component';
 import { WalletComponent } from './pages/wallets/wallet/wallet.component';
 
@@ -123,7 +123,7 @@ const routes: Routes = [
     SnackBarComponent,
     ChartComponent,
     MyExchangesComponent,
-    ApiManagementDialogComponent,
+    WalletDialogComponent,
     OAuth2RedirectComponent,
     WalletComponent,
   ],

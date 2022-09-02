@@ -12,11 +12,11 @@
   </div>
   <div class="px-4 py-5 md:px-6 lg:px-8">
     <div class="grid">
-      <div class="col-12 md:col-6 lg:col-3" *ngFor="let apiKey of apiKeys" (click)="openWallet(apiKey.label)">
+      <div class="col-12 md:col-6 lg:col-3" *ngFor="let wallet of wallets" (click)="openWallet(wallet.label)">
         <div class="surface-card shadow-2 border-round hover:bg-gray-50 cursor-pointer">
           <div class="p-3 flex align-items-start">
             <img src="assets/binance.svg" class="mr-2" style="width: 32px; height: 32px;">
-            <div><span class="text-700">{{apiKey.label}}</span>
+            <div><span class="text-700">{{wallet.label}}</span>
               <div class="text-green-500 text-xl mt-2">+0.53%</div>
             </div>
             <div class="p-2 bg-indigo-50 text-indigo-500 border-round ml-auto">0.0045 BTC</div>

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ApiManagementService} from "../../../services/api-management.service";
-import {ApiKeyDto} from "../../../shared/dto/api-key-dto";
+import {WalletService} from "../../../services/wallet.service";
+import {WalletDto} from "../../../shared/dto/wallet-dto";
 import {ExchangeType} from "../../../shared/enums/exchangeType";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ApiKeyCreateEvent} from "../../../shared/domain/api-key-create-event";
@@ -8,10 +8,10 @@ import { ApiKey } from 'src/app/shared/domain/api-key';
 
 @Component({
   selector: 'api-management-dialog',
-  templateUrl: './api-management-dialog.component.html',
-  styleUrls: ['./api-management-dialog.component.scss']
+  templateUrl: './wallet-dialog.component.html',
+  styleUrls: ['./wallet-dialog.component.scss']
 })
-export class ApiManagementDialogComponent implements OnInit {
+export class WalletDialogComponent implements OnInit {
   label: string;
   apiKey: string;
   secretKey: string;
@@ -20,7 +20,7 @@ export class ApiManagementDialogComponent implements OnInit {
   @Input() display: boolean;
   @Output() closeDialog = new EventEmitter<ApiKeyCreateEvent>();
 
-  constructor(private readonly apiManagementService: ApiManagementService) {
+  constructor(private readonly apiManagementService: WalletService) {
     //
   }
 
@@ -39,7 +39,7 @@ export class ApiManagementDialogComponent implements OnInit {
   }
 
   onApiKeyCreate() {
-    let apiKey = new ApiKeyDto(
+    let apiKey = new WalletDto(
       this.label,
       this.apiKey,
       this.secretKey,
