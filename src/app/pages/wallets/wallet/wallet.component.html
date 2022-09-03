@@ -1,5 +1,5 @@
 <p-card styleClass="shadow-1">
-  <p-table [value]="assetBalances" [scrollable]="true" class="z-5" responsiveLayout="scroll" scrollHeight="100%">
+  <p-table [value]="walletBalances" [scrollable]="true" class="z-5" responsiveLayout="scroll" scrollHeight="100%">
     <ng-template pTemplate="header">
       <tr>
         <th>Name</th>
@@ -8,26 +8,26 @@
         <th>Used in any outstanding orders</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-assetBalance let-rowIndex="rowIndex">
+    <ng-template pTemplate="body" let-walletBalance let-rowIndex="rowIndex">
       <tr>
         <td>
           <div class="mt-2 md:mt-0 flex flex-nowrap">
             <a href="#" class="flex align-items-center justify-content-center">
               <img src="https://s2.coinmarketcap.com/static/img/coins/32x32/{{1831}}.png" class="mr-2" loading="lazy"
                    alt="BTC logo">
-              <span class="font-bold mr-2">{{assetBalance.fullName}}</span>
-              <span class="font-light">{{assetBalance.name}}</span>
+              <span class="font-bold mr-2">{{walletBalance.fullName}}</span>
+              <span class="font-light">{{walletBalance.name}}</span>
             </a>
           </div>
         </td>
         <td>
-          {{assetBalance.totalFunds.toFixed(8)}}
+          {{walletBalance.totalFunds.toFixed(8)}}
         </td>
         <td>
-          {{assetBalance.fundsAvailable.toFixed(8)}}
+          {{walletBalance.fundsAvailable.toFixed(8)}}
         </td>
         <td>
-          {{assetBalance.usedInAnyOutstandingOrders.toFixed(8)}}
+          {{walletBalance.usedInAnyOutstandingOrders.toFixed(8)}}
         </td>
       </tr>
     </ng-template>

@@ -3,15 +3,15 @@ import {ConfirmationService} from "primeng/api";
 import {WalletService} from "../../services/wallet.service";
 import {Router} from "@angular/router";
 import {WalletDto} from "../../shared/dto/wallet-dto";
-import {ApiKeyCreateEvent} from "../../shared/domain/api-key-create-event";
+import {WalletCreateEvent} from "../../shared/domain/wallet-create-event";
 
 @Component({
   selector: 'home',
-  templateUrl: './wallets-overview.component.html',
-  styleUrls: ['./wallets-overview.component.scss'],
+  templateUrl: './wallets.component.html',
+  styleUrls: ['./wallets.component.scss'],
   providers: [ConfirmationService]
 })
-export class WalletsOverviewComponent implements OnInit {
+export class WalletsComponent implements OnInit {
   wallets: WalletDto[] = [];
   isOpened: boolean;
 

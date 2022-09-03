@@ -4,7 +4,7 @@ import {OrderService} from "../../../services/order.service";
 import {FormControl} from "@angular/forms";
 import {Observable} from "rxjs";
 import {COMMA, ENTER} from "@angular/cdk/keycodes";
-import {WalletsOverviewService} from "../../../services/wallets-overview.service";
+import {WalletsService} from "../../../services/wallets.service";
 import {OrderComponent} from "../order-component";
 
 @Component({
@@ -26,7 +26,7 @@ export class OrderHistoryComponent extends OrderComponent {
   constructor(
     private route: ActivatedRoute,
     private orderService: OrderService,
-    private assetService: WalletsOverviewService,
+    private assetService: WalletsService,
   ) {
     super();
   }

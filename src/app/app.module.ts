@@ -9,7 +9,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {RouterModule, Routes} from "@angular/router";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {NumberFormatPipe} from './shared/pipes/number-format.pipe';
-import {WalletsOverviewComponent} from './pages/wallets/wallets-overview.component';
+import {WalletsComponent} from './pages/wallets/wallets.component';
 import {SigninComponent} from './pages/signin/signin.component';
 import {SignupComponent} from './pages/signup/signup.component';
 import {OAuth2TokenHttpInterceptor} from "./shared/interceptors/o-auth2-token-http-interceptor";
@@ -65,7 +65,7 @@ import { WalletComponent } from './pages/wallets/wallet/wallet.component';
 const routes: Routes = [
   {
     path: '',
-    component: WalletsOverviewComponent,
+    component: WalletsComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -111,7 +111,7 @@ const routes: Routes = [
     SigninComponent,
     SignupComponent,
     NumberFormatPipe,
-    WalletsOverviewComponent,
+    WalletsComponent,
     NotificationsComponent,
     LogoutComponent,
     NotFoundComponent,

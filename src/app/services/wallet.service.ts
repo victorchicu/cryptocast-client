@@ -8,7 +8,7 @@ import {WalletDto} from "../shared/dto/wallet-dto";
   providedIn: 'root'
 })
 export class WalletService extends BaseService {
-  static readonly API_PATH: string = "/api/management"
+  static readonly API_PATH: string = "/api/wallets"
 
   constructor(protected httpClient: HttpClient) {
     super(WalletService.API_PATH, httpClient);
@@ -19,9 +19,9 @@ export class WalletService extends BaseService {
     return this.httpClient.get<WalletDto[]>(url, this.httpOptions);
   }
 
-  public create(apiKey: WalletDto): Observable<void> {
+  public create(wallet: WalletDto): Observable<void> {
     const url: string = `${WalletService.API_PATH}`;
-    return this.httpClient.post<void>(url, apiKey, this.httpOptions);
+    return this.httpClient.post<void>(url, wallet, this.httpOptions);
   }
 
   public delete(label: string): Observable<void> {

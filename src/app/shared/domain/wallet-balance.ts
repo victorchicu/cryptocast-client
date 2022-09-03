@@ -1,6 +1,6 @@
 import {ExchangeType} from "../enums/exchangeType";
 
-export class AssetBalance {
+export class WalletBalance {
   private _name: string;
   private _fullName: string;
   private _exchange: ExchangeType;

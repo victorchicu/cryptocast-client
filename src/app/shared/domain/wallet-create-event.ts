@@ -1,11 +1,11 @@
 import {ApiKey} from "./api-key";
 
-export class ApiKeyCreateEvent {
+export class WalletCreateEvent {
   public apiKey: ApiKey
   public isOpened: boolean;
 
-  public static create(apiKey: ApiKey, isOpened: boolean): ApiKeyCreateEvent {
-    return new ApiKeyCreateEvent(apiKey, isOpened);
+  public static create(apiKey: ApiKey, isOpened: boolean): WalletCreateEvent {
+    return new WalletCreateEvent(apiKey, isOpened);
   }
 
   constructor(apiKey: ApiKey, isOpened: boolean) {

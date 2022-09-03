@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {AssetBalance} from "../../../shared/domain/asset-balance";
+import {WalletBalance} from "../../../shared/domain/wallet-balance";
 import {HttpParams} from "@angular/common/http";
-import {WalletsOverviewService} from "../../../services/wallets-overview.service";
-import {AssetBalanceDto} from "../../../shared/dto/asset-balance-dto";
+import {WalletsService} from "../../../services/wallets.service";
+import {WalletBalanceDto} from "../../../shared/dto/wallet-balance-dto";
 import {ExchangeType} from "../../../shared/enums/exchangeType";
 import {ActivatedRoute} from "@angular/router";
 
@@ -12,11 +12,11 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./wallet.component.scss']
 })
 export class WalletComponent implements OnInit {
-  assetBalances: AssetBalance[] = []
+  walletBalances: WalletBalance[] = []
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
-    private readonly walletsOverviewService: WalletsOverviewService
+    private readonly walletsOverviewService: WalletsService
   ) {
     //
   }
@@ -30,13 +30,13 @@ export class WalletComponent implements OnInit {
 
   private fetchWallet(label: string, httpParams: HttpParams) {
     this.walletsOverviewService.list(label, httpParams)
-      .subscribe((source: AssetBalanceDto[]) => {
-        this.assetBalances = source.map((value: AssetBalanceDto): AssetBalance => this.toAsset(value));
+      .subscribe((source: WalletBalanceDto[]) => {
+        this.walletBalances = source.map((value: WalletBalanceDto): WalletBalance => this.toAsset(value));
       })
   }
 
-  private toAsset(assetDto: AssetBalanceDto): AssetBalance {
-    let asset: AssetBalance = new AssetBalance();
+  private toAsset(assetDto: WalletBalanceDto): WalletBalance {
+    let asset: WalletBalance = new WalletBalance();
     asset.name = assetDto.name;
     asset.fullName = assetDto.fullName;
     asset.exchange = assetDto.exchange as ExchangeType;
