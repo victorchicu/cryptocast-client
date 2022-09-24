@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {WalletService} from "../../../services/wallet.service";
 import {WalletDto} from "../../../shared/dto/wallet-dto";
-import {ExchangeType} from "../../../shared/enums/exchangeType";
+import {Exchange} from "../../../shared/enums/exchange";
 import {HttpErrorResponse} from "@angular/common/http";
 import {WalletCreateEvent} from "../../../shared/domain/wallet-create-event";
 import { ApiKey } from 'src/app/shared/domain/api-key';
@@ -15,7 +15,7 @@ export class WalletDialogComponent implements OnInit {
   label: string;
   apiKey: string;
   secretKey: string;
-  exchanges: any[] = [{name: ExchangeType.BINANCE}, {name: ExchangeType.GATE}];
+  exchanges: any[] = [{name: Exchange.BINANCE}, {name: Exchange.GATE}];
   selectedExchange: any;
   @Input() display: boolean;
   @Output() closeDialog = new EventEmitter<WalletCreateEvent>();
@@ -43,7 +43,7 @@ export class WalletDialogComponent implements OnInit {
       this.label,
       this.apiKey,
       this.secretKey,
-      this.selectedExchange.name as ExchangeType
+      this.selectedExchange.name as Exchange
     );
     this.apiManagementService.create(apiKey)
       .subscribe(

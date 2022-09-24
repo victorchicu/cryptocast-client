@@ -3,7 +3,7 @@ import {WalletBalance} from "../../../shared/domain/wallet-balance";
 import {HttpParams} from "@angular/common/http";
 import {WalletsService} from "../../../services/wallets.service";
 import {WalletBalanceDto} from "../../../shared/dto/wallet-balance-dto";
-import {ExchangeType} from "../../../shared/enums/exchangeType";
+import {Exchange} from "../../../shared/enums/exchange";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -39,7 +39,7 @@ export class WalletComponent implements OnInit {
     let asset: WalletBalance = new WalletBalance();
     asset.name = assetDto.name;
     asset.fullName = assetDto.fullName;
-    asset.exchange = assetDto.exchange as ExchangeType;
+    asset.exchange = assetDto.exchange as Exchange;
     asset.totalFunds = assetDto.totalFunds;
     asset.fundsAvailable = assetDto.fundsAvailable;
     asset.usedInAnyOutstandingOrders = assetDto.usedInAnyOutstandingOrders;

@@ -1,9 +1,9 @@
-import {ExchangeType} from "../enums/exchangeType";
+import {Exchange} from "../enums/exchange";
 
 export class WalletBalance {
   private _name: string;
   private _fullName: string;
-  private _exchange: ExchangeType;
+  private _exchange: Exchange;
   private _totalFunds: number;
   private _fundsAvailable: number;
   private _usedInAnyOutstandingOrders: number;
@@ -24,11 +24,11 @@ export class WalletBalance {
     this._fullName = value;
   }
 
-  get exchange(): ExchangeType {
+  get exchange(): Exchange {
     return this._exchange;
   }
 
-  set exchange(value: ExchangeType) {
+  set exchange(value: Exchange) {
     this._exchange = value;
   }
 
